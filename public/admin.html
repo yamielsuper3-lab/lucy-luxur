@@ -221,6 +221,46 @@
             height: 120px;
         }
 
+        /* Dropzone de Carga de Imagen */
+        .image-dropzone {
+            border: 2px dashed rgba(197, 160, 89, 0.25);
+            background: rgba(0, 0, 0, 0.4);
+            padding: 1.5rem;
+            border-radius: 4px;
+            text-align: center;
+            transition: var(--transition-fast);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+            cursor: pointer;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .image-dropzone.dragover {
+            border-color: var(--brushed-gold);
+            background: rgba(197, 160, 89, 0.08);
+            box-shadow: 0 0 15px rgba(197, 160, 89, 0.2);
+        }
+
+        .dropzone-text {
+            font-size: 0.85rem;
+            color: var(--brushed-gold-light);
+            font-weight: 600;
+            pointer-events: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .image-dropzone .admin-input {
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            font-size: 0.85rem;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
         /* Sección de Pasos Dinámicos */
         .steps-editor-container {
             border-top: 1px solid rgba(255,255,255,0.08);
@@ -519,8 +559,12 @@
                                 </div>
 
                                 <div class="input-group">
-                                    <label for="edit-image">Ruta de la Imagen (Opcional)</label>
-                                    <input type="text" id="edit-image" class="admin-input" value="${data.image || ''}" placeholder="Ej: unas_esculturales.png (o en blanco para colapsar y centrar)">
+                                    <label>Imagen del Servicio (Opcional - Arrastra un archivo aquí o escribe su nombre)</label>
+                                    <div class="image-dropzone" id="image-dropzone">
+                                        <div class="dropzone-text" id="dropzone-text">Arrastra una imagen aquí o haz clic para subir 📷</div>
+                                        <input type="text" id="edit-image" class="admin-input" value="${data.image || ''}" placeholder="Ruta o nombre del archivo (ej: unas_esculturales.png)">
+                                        <input type="file" id="edit-image-file" style="display:none;" accept="image/*">
+                                    </div>
                                 </div>
 
                                 <div class="input-group">
@@ -588,6 +632,54 @@
                 document.getElementById('edit-service-form').addEventListener('submit', async (e) => {
                     e.preventDefault();
                     await saveServiceChanges(id);
+                });
+
+                // Configurar drag and drop de imágenes
+                const dropzone = document.getElementById('image-dropzone');
+                const fileInput = document.getElementById('edit-image-file');
+                const textInput = document.getElementById('edit-image');
+                const dzText = document.getElementById('dropzone-text');
+
+                // Abrir selector al hacer clic en el dropzone (pero no en el input de texto)
+                dropzone.addEventListener('click', (e) => {
+                    if (e.target !== textInput) {
+                        fileInput.click();
+                    }
+                });
+
+                // Eventos de drag/drop
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    dropzone.addEventListener(eventName, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }, false);
+                });
+
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    dropzone.addEventListener(eventName, () => {
+                        dropzone.classList.add('dragover');
+                    }, false);
+                });
+
+                ['dragleave', 'drop'].forEach(eventName => {
+                    dropzone.addEventListener(eventName, () => {
+                        dropzone.classList.remove('dragover');
+                    }, false);
+                });
+
+                dropzone.addEventListener('drop', (e) => {
+                    const dt = e.dataTransfer;
+                    const files = dt.files;
+                    if (files && files.length > 0) {
+                        handleImageUpload(files[0], textInput, dzText);
+                    }
+                });
+
+                fileInput.addEventListener('change', (e) => {
+                    const files = e.target.files;
+                    if (files && files.length > 0) {
+                        handleImageUpload(files[0], textInput, dzText);
+                    }
                 });
 
             } catch (error) {
@@ -686,6 +778,46 @@
             } finally {
                 saveBtn.innerHTML = '<span>Guardar Catálogo</span> ✦';
                 saveBtn.disabled = false;
+            }
+        }
+
+        // 2.7. Función para subir archivo de imagen al servidor
+        async function handleImageUpload(file, inputTarget, textTarget) {
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('❌ El archivo supera el límite de 5MB.', true);
+                return;
+            }
+
+            textTarget.textContent = 'Subiendo imagen... ⏳';
+            
+            const formData = new FormData();
+            formData.append('image', file);
+
+            try {
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const resData = await response.json();
+                if (!response.ok) {
+                     throw new Error(resData.error || 'Fallo en la subida');
+                }
+
+                inputTarget.value = resData.filepath;
+                textTarget.textContent = '¡Imagen subida con éxito! ✅';
+                showToast('✅ Imagen cargada y asociada al servicio.');
+                
+                setTimeout(() => {
+                    textTarget.textContent = 'Arrastra una imagen aquí o haz clic para subir 📷';
+                }, 3000);
+            } catch (error) {
+                console.error('[Upload Error]', error);
+                textTarget.textContent = 'Fallo al subir archivo ❌';
+                showToast(`❌ Error al subir imagen: ${error.message}`, true);
+                setTimeout(() => {
+                    textTarget.textContent = 'Arrastra una imagen aquí o haz clic para subir 📷';
+                }, 3000);
             }
         }
 

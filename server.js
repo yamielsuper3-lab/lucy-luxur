@@ -1,7 +1,44 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
+const multer = require('multer');
 const { initDatabase, getDatabase } = require('./database.js');
+
+// Configuración de Multer para carga de imágenes en 'public'
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const uploadDir = path.join(__dirname, 'public');
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir, { recursive: true });
+        }
+        cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+        const ext = path.extname(file.originalname).toLowerCase();
+        const cleanName = file.originalname
+            .replace(ext, '')
+            .toLowerCase()
+            .replace(/[^a-z0-9]/g, '_')
+            .replace(/_+/g, '_');
+        cb(null, `uploaded_${Date.now()}_${cleanName}${ext}`);
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/jfif'];
+    if (allowedTypes.includes(file.mimetype)) {
+        cb(null, true);
+    } else {
+        cb(new Error('Formato de archivo no válido. Solo se admiten imágenes (JPG, PNG, GIF, WEBP).'));
+    }
+};
+
+const upload = multer({ 
+    storage, 
+    fileFilter,
+    limits: { fileSize: 5 * 1024 * 1024 } // Límite de 5MB
+});
 
 // Configuración de Stripe
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY || 'sk_test_51PMkLpRp87eWf768xyz');
@@ -153,6 +190,31 @@ app.put('/api/services/:id', async (req, res) => {
         console.error('[API Error] Error al actualizar servicio:', error);
         res.status(500).json({ error: 'Error al actualizar el servicio.', details: error.message });
     }
+});
+
+// 2.6. Subir imagen de servicio (Editor Admin - Drag and Drop / File Input)
+app.post('/api/upload', (req, res) => {
+    upload.single('image')(req, res, function (err) {
+        if (err instanceof multer.MulterError) {
+            return res.status(400).json({ error: `Error de subida: Archivo demasiado grande (máx 5MB).` });
+        } else if (err) {
+            return res.status(400).json({ error: err.message });
+        }
+        
+        try {
+            if (!req.file) {
+                return res.status(400).json({ error: 'No se ha seleccionado ningún archivo.' });
+            }
+            res.json({ 
+                success: true, 
+                filename: req.file.filename,
+                filepath: `${req.file.filename}` 
+            });
+        } catch (error) {
+            console.error('[API Error] Error al retornar subida:', error);
+            res.status(500).json({ error: 'Fallo al procesar la subida del archivo.' });
+        }
+    });
 });
 
 // 3. Crear sesión de pago en Stripe (Checkout)
