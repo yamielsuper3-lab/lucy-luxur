@@ -527,10 +527,10 @@
             
             if (data.title.includes('Facial')) {
                 preTitleText = "Facial";
-                mainTitleText = data.title.replace('Facial', '').trim();
+                mainTitleText = data.title.replace(/faciales?/i, '').replace(/facial/i, '').trim();
             } else if (data.title.includes('Ceja') || data.title.includes('Mirada')) {
                 preTitleText = "Mirada";
-                mainTitleText = data.title.replace('Ceja', '').replace('Mirada', '').trim();
+                mainTitleText = data.title.replace(/de cejas?/i, '').replace(/cejas?/i, '').replace(/miradas?/i, '').trim();
             } else if (data.title.includes('Uñas') || data.title.includes('Poligel') || data.title.includes('Soft Gel') || data.title.includes('Ruber')) {
                 preTitleText = "Uñas Élite";
                 mainTitleText = data.title;

@@ -144,7 +144,22 @@ async function initDatabase() {
             console.error('[Database] Error al sembrar la base de datos:', error);
         }
     } else {
-        console.log('[Database] La base de datos ya contiene registros. Saltando siembra.');
+        console.log('[Database] La base de datos ya contiene registros. Sincronizando campos de imagen vacíos con servicios predeterminados...');
+        try {
+            const SERVICES_DATA = require('./services-data.js');
+            for (const [id, data] of Object.entries(SERVICES_DATA)) {
+                if (data.image) {
+                    await database.run(`
+                        UPDATE services 
+                        SET image = ? 
+                        WHERE id = ? AND (image IS NULL OR image = '')
+                    `, [data.image, id]);
+                }
+            }
+            console.log('[Database] Sincronización de imágenes vacías completada con éxito.');
+        } catch (error) {
+            console.error('[Database] Error al sincronizar imágenes vacías en la base de datos:', error);
+        }
     }
 }
 
