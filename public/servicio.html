@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del Servicio | Delinearte by Lucy González</title>
+    
+    <!-- Hojas de Estilo -->
+    <link rel="stylesheet" href="style.css?v=2.3">
+    
+    <!-- Fuentes Tipográficas Premium -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Estilos Exclusivos para la Página de Detalles del Servicio */
+        body {
+            background-color: var(--oled-black);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            padding: 0;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* Fondo Decorativo de Autor */
+        .service-page-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            background: linear-gradient(135deg, #050505 0%, #000000 100%);
+        }
+
+        /* Flores de Magnolia Decorativas en el Fondo */
+        .decor-magnolia {
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 250px;
+            opacity: 0.15;
+            z-index: -1;
+            pointer-events: none;
+            filter: grayscale(30%);
+            animation: float-slow 8s infinite alternate ease-in-out;
+        }
+
+        @keyframes float-slow {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(15px) rotate(3deg); }
+        }
+
+        /* Botón de Regresar Flotante */
+        .back-nav-btn {
+            position: fixed;
+            top: 2rem;
+            left: 3rem;
+            background: rgba(10, 10, 10, 0.7);
+            border: var(--hairline-border);
+            padding: 0.8rem 1.4rem;
+            border-radius: 30px;
+            color: var(--brushed-gold);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: var(--transition-fast);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .back-nav-btn:hover {
+            background: var(--brushed-gold);
+            color: var(--oled-black);
+            transform: translateX(-5px);
+            box-shadow: 0 4px 15px var(--glow-color);
+        }
+
+        /* Contenedor Editorial Split-Screen (50/50) */
+        .service-detail-container {
+            display: flex;
+            width: 100vw;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Columna Izquierda (Imagen Fija de Alta Costura) */
+        .service-image-block {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100vh;
+            padding: 0;
+            margin: 0;
+            border: none;
+            box-shadow: none;
+            z-index: 10;
+            background: #000;
+        }
+
+        .service-detail-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0;
+            display: block;
+            border-right: 1px solid rgba(197, 160, 89, 0.25);
+        }
+
+        /* Columna Derecha (Contenido Desplazable) */
+        .service-info-block {
+            width: 50%;
+            margin-left: 50%;
+            padding: 6rem 6% 6rem 6%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            background-color: var(--oled-black);
+            z-index: 5;
+        }
+
+        .service-pre-title {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: var(--brushed-gold);
+            line-height: 1.2;
+            margin-bottom: 0.4rem;
+            letter-spacing: 0.05em;
+            font-style: italic;
+        }
+
+        .service-main-title {
+            font-family: var(--font-serif);
+            font-size: 4rem;
+            font-weight: 400; /* Delicado y elegante */
+            color: var(--text-primary);
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            letter-spacing: -0.01em;
+            text-transform: capitalize;
+        }
+
+        /* Tarjeta de Especificaciones de Canva */
+        .canva-spec-card {
+            padding: 2.2rem;
+            border-radius: 8px;
+            margin-bottom: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+        }
+
+        .canva-spec-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background-color: var(--brushed-gold);
+        }
+
+        .service-desc-text {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-bottom: 1.8rem;
+        }
+
+        .meta-spec-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid rgba(197, 160, 89, 0.15);
+        }
+
+        .meta-spec-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            font-weight: 400;
+        }
+
+        .meta-spec-icon {
+            color: var(--brushed-gold);
+            font-size: 1.2rem;
+        }
+
+        /* Insignia de Precio */
+        .canva-price-badge {
+            align-self: flex-start;
+            background: linear-gradient(135deg, var(--brushed-gold) 0%, #a27c39 100%);
+            color: var(--oled-black);
+            padding: 0.9rem 2.2rem;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.05em;
+            box-shadow: 0 8px 25px rgba(197, 160, 89, 0.35);
+            margin-bottom: 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: var(--transition-fast);
+        }
+
+        .canva-price-badge:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 30px rgba(197, 160, 89, 0.5);
+        }
+
+        .price-badge-label {
+            font-weight: 300;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.8;
+            border-left: 1px solid rgba(0, 0, 0, 0.25);
+            padding-left: 1rem;
+        }
+
+        /* Sección de Pasos Estilo Editorial (Con líneas finas y números elegantes) */
+        .process-steps-section {
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 2.5rem;
+        }
+
+        .section-header-small {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            color: var(--brushed-gold);
+            margin-bottom: 1.8rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+
+        .detail-steps-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .detail-step-card {
+            display: flex;
+            gap: 1.8rem;
+            align-items: flex-start;
+            padding: 1.8rem 0;
+            background: transparent;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            transition: var(--transition-fast);
+        }
+
+        .detail-step-card:hover {
+            border-bottom-color: var(--brushed-gold);
+        }
+
+        .detail-step-num {
+            font-family: var(--font-serif);
+            font-size: 2.2rem;
+            color: var(--brushed-gold);
+            font-weight: 300;
+            line-height: 1;
+            opacity: 0.85;
+            flex-shrink: 0;
+        }
+
+        .detail-step-content h4 {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+        }
+
+        .detail-step-content p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        /* Sección de Beneficios y Cuidados */
+        .benefits-care-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 3.5rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 3rem;
+        }
+
+        .block-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .block-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .block-list li::before {
+            content: '▪';
+            position: absolute;
+            left: 0;
+            color: var(--brushed-gold);
+            font-size: 1.2rem;
+            line-height: 1;
+            top: -2px;
+        }
+
+        /* Fila de Acción CTA */
+        .cta-action-row {
+            margin-top: 4rem;
+            display: flex;
+            justify-content: flex-start;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 3rem;
+        }
+
+        .cta-large-btn {
+            padding: 1.2rem 4rem;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--brushed-gold);
+            color: var(--oled-black);
+            box-shadow: 0 6px 20px rgba(197, 160, 89, 0.3);
+        }
+
+        .cta-large-btn:hover {
+            background: var(--brushed-gold-light);
+            box-shadow: 0 8px 30px rgba(197, 160, 89, 0.6);
+            transform: translateY(-3px);
+        }
+
+        /* Responsividad */
+        @media (max-width: 992px) {
+            .service-detail-container {
+                flex-direction: column;
+                width: 100%;
+            }
+            .service-image-block {
+                position: relative;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 45vh;
+                z-index: 10;
+            }
+            .service-detail-img {
+                border-right: none;
+                border-bottom: 1px solid rgba(197, 160, 89, 0.25);
+            }
+            .service-info-block {
+                width: 100%;
+                margin-left: 0;
+                padding: 3rem 1.5rem 4rem 1.5rem;
+                min-height: auto;
+            }
+            .back-nav-btn {
+                top: 1.5rem;
+                left: 1.5rem;
+                padding: 0.6rem 1.2rem;
+                font-size: 0.75rem;
+            }
+            .benefits-care-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Fondo de Autor -->
+    <div class="service-page-bg">
+        <!-- SVG Magnolia Decal o PNG de Respaldo -->
+        <img src="Imagen.png" class="decor-magnolia" alt="Magnolia Decal">
+    </div>
+
+    <!-- Regresar a la Boutique -->
+    <a href="/" class="back-nav-btn">
+        <span>← Volver al Catálogo</span>
+    </a>
+
+    <!-- Contenedor de Detalle Principal -->
+    <div class="service-detail-container">
+        
+        <!-- Bloque de Imagen Izquierdo -->
+        <div class="service-image-block">
+            <img id="detail-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Servicio Premium" class="service-detail-img">
+        </div>
+        
+        <!-- Bloque de Información Derecho -->
+        <div class="service-info-block">
+            
+            <span id="detail-pre-title" class="service-pre-title">Facial</span>
+            <h1 id="detail-main-title" class="service-main-title">Cargando Servicio...</h1>
+            
+            <!-- Insignia de Precio -->
+            <div class="canva-price-badge">
+                <span id="detail-price">$0</span>
+                <span class="price-badge-label">Aplicación</span>
+            </div>
+
+            <!-- Tarjeta Canva de Descripción -->
+            <div class="canva-spec-card glass-panel">
+                <p id="detail-description" class="service-desc-text">
+                    Cargando descripción detallada del tratamiento de autor de la boutique...
+                </p>
+                
+                <div class="meta-spec-list">
+                    <div class="meta-spec-item">
+                        <span class="meta-spec-icon">🗓</span>
+                        <span>Durabilidad: <strong id="detail-frequency">-</strong></span>
+                    </div>
+                    <div class="meta-spec-item">
+                        <span class="meta-spec-icon">⏱</span>
+                        <span>Tiempo de servicio: <strong id="detail-duration">-</strong></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Línea de Proceso Paso a Paso -->
+            <div class="process-steps-section">
+                <h3 class="section-header-small">El Proceso de Autor</h3>
+                <div id="detail-steps-list" class="detail-steps-grid">
+                    <!-- Dinámico -->
+                </div>
+            </div>
+
+            <!-- Beneficios y Cuidados Grid -->
+            <div class="benefits-care-grid">
+                
+                <!-- Beneficios -->
+                <div>
+                    <h3 class="section-header-small">Beneficios Élite</h3>
+                    <ul id="detail-benefits-list" class="block-list">
+                        <!-- Dinámico -->
+                    </ul>
+                </div>
+                
+                <!-- Cuidados -->
+                <div>
+                    <h3 class="section-header-small">Cuidados Posteriores</h3>
+                    <ul id="detail-care-list" class="block-list">
+                        <!-- Dinámico -->
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Fila CTA para Reservar -->
+            <div class="cta-action-row">
+                <a id="detail-cta-btn" href="/#reservas" class="cta-large-btn">
+                    <span>Agendar Cita Ahora</span> 👑
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Extraer el identificador del servicio de la URL
+            const params = new URLSearchParams(window.location.search);
+            const serviceId = params.get('id');
+
+            // Si no se proporciona ID, redirigir al catálogo
+            if (!serviceId) {
+                window.location.href = '/';
+                return;
+            }
+
+            let data;
+            try {
+                const response = await fetch(`/api/services/${serviceId}`);
+                if (!response.ok) {
+                    window.location.href = '/';
+                    return;
+                }
+                data = await response.json();
+            } catch (error) {
+                console.error('Error fetching service:', error);
+                window.location.href = '/';
+                return;
+            }
+
+            // Rellenar datos principales
+            document.title = `${data.title} | Delinearte by Lucy González`;
+            
+            // Separar el pre-título (categoría) del título principal para el efecto Canva
+            let preTitleText = "Servicio";
+            let mainTitleText = data.title;
+            
+            if (data.title.includes('Facial')) {
+                preTitleText = "Facial";
+                mainTitleText = data.title.replace('Facial', '').trim();
+            } else if (data.title.includes('Ceja') || data.title.includes('Mirada')) {
+                preTitleText = "Mirada";
+                mainTitleText = data.title.replace('Ceja', '').replace('Mirada', '').trim();
+            } else if (data.title.includes('Uñas') || data.title.includes('Poligel') || data.title.includes('Soft Gel') || data.title.includes('Ruber')) {
+                preTitleText = "Uñas Élite";
+                mainTitleText = data.title;
+            }
+
+            document.getElementById('detail-pre-title').textContent = preTitleText;
+            document.getElementById('detail-main-title').textContent = mainTitleText;
+            
+            // Asignar imagen (ocultar el bloque izquierdo y centrar si está vacío)
+            const imgEl = document.getElementById('detail-img');
+            const imgBlock = document.querySelector('.service-image-block');
+            const infoBlock = document.querySelector('.service-info-block');
+            
+            if (data.image && data.image !== "") {
+                imgEl.src = data.image;
+                imgEl.alt = data.title;
+            } else {
+                if (imgBlock) imgBlock.style.display = 'none';
+                if (infoBlock) {
+                    infoBlock.style.width = '100%';
+                    infoBlock.style.marginLeft = '0';
+                    infoBlock.style.maxWidth = '800px';
+                    infoBlock.style.margin = '0 auto';
+                    infoBlock.style.paddingLeft = '5%';
+                    infoBlock.style.paddingRight = '5%';
+                }
+            }
+
+            // Precio y meta info
+            document.getElementById('detail-price').textContent = data.price;
+            document.getElementById('detail-description').textContent = data.description;
+            document.getElementById('detail-frequency').textContent = data.frequency;
+            document.getElementById('detail-duration').textContent = data.duration;
+
+            // Renderizar pasos del proceso
+            const stepsContainer = document.getElementById('detail-steps-list');
+            stepsContainer.innerHTML = '';
+            data.steps.forEach((step, idx) => {
+                const card = document.createElement('div');
+                card.className = 'detail-step-card';
+                card.innerHTML = `
+                    <div class="detail-step-num">${idx + 1}</div>
+                    <div class="detail-step-content">
+                        <h4>${step.title}</h4>
+                        <p>${step.desc}</p>
+                    </div>
+                `;
+                stepsContainer.appendChild(card);
+            });
+
+            // Renderizar lista de beneficios
+            const benefitsContainer = document.getElementById('detail-benefits-list');
+            benefitsContainer.innerHTML = '';
+            data.benefits.forEach(benefit => {
+                const li = document.createElement('li');
+                li.textContent = benefit;
+                benefitsContainer.appendChild(li);
+            });
+
+            // Renderizar lista de cuidados
+            const careContainer = document.getElementById('detail-care-list');
+            careContainer.innerHTML = '';
+            data.aftercare.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                careContainer.appendChild(li);
+            });
+
+            // Configurar botón CTA de Reserva
+            const ctaBtn = document.getElementById('detail-cta-btn');
+            if (ctaBtn) {
+                // Redirigir al formulario principal y pre-seleccionar este servicio específico
+                ctaBtn.href = `/?select=${encodeURIComponent(data.stripe_service_id)}#reservas`;
+            }
+        });
+    </script>
+</body>
+</html>

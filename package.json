@@ -1,0 +1,16 @@
+{
+  "name": "delinearte-lucy-luxury",
+  "version": "1.1.0",
+  "description": "Delinearte by Lucy González - Premium Beauty Boutique & Academy Platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7",
+    "stripe": "^14.22.0"
+  }
+}

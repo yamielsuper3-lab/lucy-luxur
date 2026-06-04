@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delinearte by Lucy González | Beauty Boutique</title>
+    <meta name="description" content="Alta peluquería y estética de lujo desde 2002. Especialistas en Uñas Esculturales, Tratamientos Faciales Avanzados y Micropigmentación de Cejas.">
+    
+    <!-- Hojas de Estilo -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Fuentes Tipográficas Premium -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Encabezado & Barra de Navegación Crystal (Glassmorphism) -->
+    <header class="header">
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li class="nav-item has-mega-menu">
+                    <a href="#servicios" class="nav-link">Servicios</a>
+                    
+                    <!-- Mega Menú de Lujo -->
+                    <div class="mega-menu glass-panel">
+                        <div class="mega-category">
+                            <h3>Uñas Élite</h3>
+                            <ul>
+                                <li><a href="#servicios">Uñas Esculturales</a></li>
+                                <li><a href="#servicios">Poligel Premium</a></li>
+                                <li><a href="#servicios">Soft Gel & Ruber Base</a></li>
+                                <li><a href="#servicios">Gel Semipermanente</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-category">
+                            <h3>Faciales</h3>
+                            <ul>
+                                <li><a href="#servicios">Limpieza Profunda</a></li>
+                                <li><a href="#servicios">Facial Hidratante</a></li>
+                                <li><a href="#servicios">Despigmentante Avanzado</a></li>
+                                <li><a href="#servicios">Anti-Edad Colágeno</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-category">
+                            <h3>Mirada</h3>
+                            <ul>
+                                <li><a href="#servicios">Micropigmentación</a></li>
+                                <li><a href="#servicios">Diseño de Cejas</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item"><a href="#nosotros" class="nav-link">Nosotros</a></li>
+                <li class="nav-item"><a href="#politicas" class="nav-link">Políticas</a></li>
+                <li class="nav-item"><a href="#reservas" class="nav-link">Contacto</a></li>
+            </ul>
+        </div>
+        
+        <div class="logo-container">
+            <div class="company-name">DELINEARTE</div>
+            <div class="logo-circle">
+                <span>EST. 2002</span>
+            </div>
+        </div>
+        
+        <div class="header-right">
+            <a href="#reservas" class="cta-button-nav">Reservar Cita</a>
+        </div>
+    </header>
+
+    <!-- Main Hero Slideshow (Estilo Jo Hansford) -->
+    <main class="hero-slideshow-wrapper">
+        <div class="slides-container">
+            <!-- Slide 1: Uñas Élite -->
+            <div class="hero-slide active" style="background-image: url('nails_luxury.png');">
+                <div class="slide-overlay-shade"></div>
+                <div class="slide-content">
+                    <span class="slide-subtitle">Boutique de Ultra Alta Gama</span>
+                    <h1 class="slide-title">Uñas Élite</h1>
+                    <p class="slide-text">
+                        Esculpido fino de autor y extensiones premium diseñadas a medida con materiales de máxima calidad que respetan tu salud natural.
+                    </p>
+                    <a href="#servicios" class="more-info-link">
+                        <div class="arrow-line"></div>
+                        <div class="arrow-head"></div>
+                        <span class="more-info-text">Ver Carta de Uñas</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Slide 2: Faciales Clínicos -->
+            <div class="hero-slide" style="background-image: url('skincare_luxury.png');">
+                <div class="slide-overlay-shade"></div>
+                <div class="slide-content">
+                    <span class="slide-subtitle">Tratamientos de Autor</span>
+                    <h1 class="slide-title">Faciales Clínicos</h1>
+                    <p class="slide-text">
+                        Nutrición científica celular y aparatología avanzada de vanguardia para revelar la luminosidad real y juventud de tu piel.
+                    </p>
+                    <a href="#servicios" class="more-info-link">
+                        <div class="arrow-line"></div>
+                        <div class="arrow-head"></div>
+                        <span class="more-info-text">Explorar Faciales</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Slide 3: Micropigmentación -->
+            <div class="hero-slide" style="background-image: url('brows_luxury.png');">
+                <div class="slide-overlay-shade"></div>
+                <div class="slide-content">
+                    <span class="slide-subtitle">El Arte de la Mirada</span>
+                    <h1 class="slide-title">Ceja Hiperrealista</h1>
+                    <p class="slide-text">
+                        Diseño y micropigmentación orgánica de cejas y labios adaptada a la simetría y armonía única de tu rostro.
+                    </p>
+                    <a href="#servicios" class="more-info-link">
+                        <div class="arrow-line"></div>
+                        <div class="arrow-head"></div>
+                        <span class="more-info-text">Agendar Valoración</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botones de Paginación Manual -->
+        <div class="slideshow-pagination">
+            <span class="pagination-dot active" data-slide="0"></span>
+            <span class="pagination-dot" data-slide="1"></span>
+            <span class="pagination-dot" data-slide="2"></span>
+        </div>
+    </main>
+
+    <!-- Carrusel Horizontal de Retratos Verticales (Estilo de Autor) -->
+    <section class="portrait-carousel-section">
+        <div class="carousel-section-container">
+            <div class="portrait-carousel-wrapper">
+                <!-- Tarjeta 1: The Telegraph (Prensa) -->
+                <div class="portrait-card glass-panel">
+                    <div class="card-image-container">
+                        <img src="Captura de pantalla 2026-05-29 211828.png" alt="Prensa The Telegraph" class="carousel-card-img">
+                    </div>
+                    <div class="card-content-overlay">
+                        <span class="card-tag">Prensa</span>
+                        <h4 class="card-name">The Telegraph</h4>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 2: Masaje Facial Real (Retrato Real de la Boutique) -->
+                <div class="portrait-card glass-panel">
+                    <div class="card-image-container">
+                        <img src="Captura de pantalla 2026-05-29 212043.png" alt="Tratamiento Facial de Lujo" class="carousel-card-img">
+                    </div>
+                    <div class="card-content-overlay">
+                        <span class="card-tag">Facial</span>
+                        <h4 class="card-name">Masaje de Autor</h4>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 3: Uñas Esculturales (Video Demostración) -->
+                <div class="portrait-card glass-panel">
+                    <div class="card-image-container">
+                        <video src="https://assets.mixkit.co/videos/preview/mixkit-woman-showing-her-beautifully-manicured-nails-43018-large.mp4" poster="nails_luxury.png" autoplay loop muted playsinline class="carousel-card-video"></video>
+                    </div>
+                    <div class="card-content-overlay">
+                        <span class="card-tag">Uñas</span>
+                        <h4 class="card-name">Diseño Élite</h4>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 4: Cejas Hiperrealistas (Video Close-up) -->
+                <div class="portrait-card glass-panel">
+                    <div class="card-image-container">
+                        <video src="https://assets.mixkit.co/videos/preview/mixkit-skin-care-massage-on-a-woman-face-41711-large.mp4" poster="brows_luxury.png" autoplay loop muted playsinline class="carousel-card-video"></video>
+                    </div>
+                    <div class="card-content-overlay">
+                        <span class="card-tag">Mirada</span>
+                        <h4 class="card-name">Cejas de Autor</h4>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 5: Micropigmentación Orgánica (Video Estética) -->
+                <div class="portrait-card glass-panel">
+                    <div class="card-image-container">
+                        <video src="https://assets.mixkit.co/videos/preview/mixkit-young-woman-touching-her-soft-skin-face-41714-large.mp4" poster="hotspots_bg.png" autoplay loop muted playsinline class="carousel-card-video"></video>
+                    </div>
+                    <div class="card-content-overlay">
+                        <span class="card-tag">Estética</span>
+                        <h4 class="card-name">Micropigmentación</h4>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 6: Spa y Relajación (Video Bienestar) -->
+                <div class="portrait-card glass-panel">
+                    <div class="card-image-container">
+                        <video src="https://assets.mixkit.co/videos/preview/mixkit-close-up-of-a-woman-getting-a-massage-on-her-shoulder-and-neck-41709-large.mp4" poster="skincare_luxury.png" autoplay loop muted playsinline class="carousel-card-video"></video>
+                    </div>
+                    <div class="card-content-overlay">
+                        <span class="card-tag">Bienestar</span>
+                        <h4 class="card-name">Spa Corporal</h4>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 7: Lucy Luxury Boutique (Video Productos Premium) -->
+                <div class="portrait-card glass-panel">
+                    <div class="card-image-container">
+                        <video src="https://assets.mixkit.co/videos/preview/mixkit-cosmetic-oil-dropper-bottle-on-stone-surface-43026-large.mp4" poster="lucy_profile.png" autoplay loop muted playsinline class="carousel-card-video"></video>
+                    </div>
+                    <div class="card-content-overlay">
+                        <span class="card-tag">Cosmética</span>
+                        <h4 class="card-name">Lucy Luxury</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fila de Videos de los Servicios (Slots Rectangulares) -->
+    <section class="services-video-row-section">
+        <div class="services-video-row-container">
+            <!-- Slot 1: Uñas -->
+            <div class="video-slot-card glass-panel">
+                <div class="video-slot-thumbnail" style="background-image: url('nails_luxury.png');">
+                    <div class="video-slot-overlay">
+                        <div class="play-button-circle">
+                            <span class="play-arrow">▶</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-slot-info">
+                    <span class="video-slot-tag">Showcase Uñas</span>
+                    <h4 class="video-slot-title">Esculpido Élite</h4>
+                    <p class="video-slot-desc">Ver demostración de aplicación y acabados con hoja de oro.</p>
+                </div>
+            </div>
+
+            <!-- Slot 2: Faciales -->
+            <div class="video-slot-card glass-panel">
+                <div class="video-slot-thumbnail" style="background-image: url('skincare_luxury.png');">
+                    <div class="video-slot-overlay">
+                        <div class="play-button-circle">
+                            <span class="play-arrow">▶</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-slot-info">
+                    <span class="video-slot-tag">Tratamiento</span>
+                    <h4 class="video-slot-title">Higiene Clínica</h4>
+                    <p class="video-slot-desc">Demostración de hidratación profunda y aparatología celular.</p>
+                </div>
+            </div>
+
+            <!-- Slot 3: Cejas -->
+            <div class="video-slot-card glass-panel">
+                <div class="video-slot-thumbnail" style="background-image: url('brows_luxury.png');">
+                    <div class="video-slot-overlay">
+                        <div class="play-button-circle">
+                            <span class="play-arrow">▶</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-slot-info">
+                    <span class="video-slot-tag">Micropigmentación</span>
+                    <h4 class="video-slot-title">Técnica Orgánica</h4>
+                    <p class="video-slot-desc">Proceso de diseño hiperrealista pelo a pelo en directo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Sobre Lucy: Fusión Hiroshi -->
+    <section class="about-lucy-section" id="nosotros">
+        <div class="about-lucy-container">
+            <div class="about-lucy-content">
+                <span class="section-subtitle">El Legado</span>
+                <h2 class="about-lucy-title">Sobre LUCY</h2>
+                <div class="about-lucy-divider"></div>
+                <p class="about-lucy-text">
+                    En el año 2002, Lucy González emprendió un viaje extraordinario al abrir las puertas de Delinearte, un concepto boutique de ultra-alta gama consagrado a perfeccionar el esculpido fino de uñas y el cuidado clínico de la piel.<br><br>
+                    Con más de dos décadas de maestría constante en el segmento premium de la estética, Lucy combina una precisión técnica impecable con un profundo respeto por la salud natural. Su reputación se ha construido detalle a detalle, ofreciendo a su selecta clientela una experiencia donde la sofisticación se encuentra con la durabilidad real.
+                </p>
+                <a href="#legacy-timeline" class="more-info-link">
+                    <div class="arrow-line"></div>
+                    <div class="arrow-head"></div>
+                    <span class="more-info-text">Descubre su historia</span>
+                </a>
+            </div>
+            <div class="about-lucy-image-wrapper">
+                <div class="about-lucy-frame"></div>
+                <div class="about-lucy-photo" style="background-image: url('lucy_real_photo.jpg');"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Línea del Tiempo: El Legado de Lucy -->
+    <section class="timeline-section" id="legacy-timeline">
+        <div class="section-header">
+            <span class="section-subtitle">Nuestra Trayectoria</span>
+            <h2 class="section-title">El Sendero de la Maestría</h2>
+        </div>
+        
+        <div class="timeline-container">
+            <!-- La Curva SVG Serpenteante que se dibuja al scroll -->
+            <svg class="timeline-svg" viewBox="0 0 100 800" preserveAspectRatio="none">
+                <path class="timeline-path-bg" d="M 50 0 Q 20 200 50 400 T 50 800" fill="none" stroke="rgba(197, 160, 89, 0.15)" stroke-width="2" />
+                <path class="timeline-path-active" d="M 50 0 Q 20 200 50 400 T 50 800" fill="none" stroke="var(--brushed-gold)" stroke-width="2" />
+            </svg>
+            
+            <!-- Hito 1: 2002 -->
+            <div class="timeline-item left">
+                <div class="timeline-card glass-panel">
+                    <span class="timeline-year">2002</span>
+                    <h3 class="timeline-card-title">La Semilla del Arte</h3>
+                    <p class="timeline-card-text">
+                        Lucy González funda Delinearte. Nace el concepto boutique consagrado a elevar la aplicación de uñas a una categoría artística, desmarcándose por completo de los servicios industriales masivos.
+                    </p>
+                </div>
+                <div class="timeline-image" style="background-image: url('nails_luxury.png');"></div>
+                <div class="timeline-node" style="top: 10%;"></div>
+            </div>
+            
+            <!-- Hito 2: 2010 -->
+            <div class="timeline-item right">
+                <div class="timeline-image" style="background-image: url('skincare_luxury.png');"></div>
+                <div class="timeline-card glass-panel">
+                    <span class="timeline-year">2010</span>
+                    <h3 class="timeline-card-title">Cuidado Clínico de Autor</h3>
+                    <p class="timeline-card-text">
+                        Suma al menú la división de faciales clínicos. Lucy establece su filosofía de oro: la constancia y la nutrición científica celular como los únicos caminos hacia una piel saludable.
+                    </p>
+                </div>
+                <div class="timeline-node" style="top: 35%;"></div>
+            </div>
+            
+            <!-- Hito 3: 2018 -->
+            <div class="timeline-item left">
+                <div class="timeline-card glass-panel">
+                    <span class="timeline-year">2018</span>
+                    <h3 class="timeline-card-title">El Arte de la Mirada</h3>
+                    <p class="timeline-card-text">
+                        Especialización en Micropigmentación hiperrealista. Lucy introduce técnicas orgánicas avanzadas para cejas y labios, atrayendo a clientes selectos que valoran la naturalidad absoluta.
+                    </p>
+                </div>
+                <div class="timeline-image" style="background-image: url('brows_luxury.png');"></div>
+                <div class="timeline-node" style="top: 62%;"></div>
+            </div>
+            
+            <!-- Hito 4: 2026 -->
+            <div class="timeline-item right">
+                <div class="timeline-image" style="background-image: url('hotspots_bg.png');"></div>
+                <div class="timeline-card glass-panel">
+                    <span class="timeline-year">2026</span>
+                    <h3 class="timeline-card-title">La Deep Dark Boutique</h3>
+                    <p class="timeline-card-text">
+                        Consolidación y reubicación en su nueva suite premium. Lucy diseña bajo cita privada una experiencia de ultra lujo donde cada detalle se personaliza al máximo nivel.
+                    </p>
+                </div>
+                <div class="timeline-node" style="top: 88%;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Servicios Élite: Menú Estilo Michelin -->
+    <section class="services-section" id="servicios">
+        <div class="section-header">
+            <span class="section-subtitle">Carta de Servicios</span>
+            <h2 class="section-title">Menú de Exclusividad</h2>
+        </div>
+        
+        <div class="services-container">
+            
+            <!-- Categoria Uñas -->
+            <div class="services-category-block glass-panel">
+                <h3 class="category-title">Aplicaciones de Uñas de Lujo</h3>
+                <div class="services-list">
+                    
+                    <div class="service-item">
+                        <div class="service-main-row">
+                            <h4 class="service-item-name">Uñas Esculturales</h4>
+                            <div class="service-dots"></div>
+                            <div class="service-prices">
+                                <div class="price-tag">
+                                    <span class="price-label">Aplicación</span>
+                                    <span>$650</span>
+                                </div>
+                                <div class="price-tag">
+                                    <span class="price-label">Mantenimiento</span>
+                                    <span>$450</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-details">
+                            <p class="service-description">Extensiones premium creadas desde cero diseñando la forma y largo deseado para un acabado natural y altamente duradero.</p>
+                            <div class="service-meta-info">
+                                <span class="meta-pill">⏱ 2 - 3 Hrs</span>
+                                <span class="meta-pill">🗓 4 Semanas</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <div class="service-main-row">
+                            <h4 class="service-item-name">Poligel Premium</h4>
+                            <div class="service-dots"></div>
+                            <div class="service-prices">
+                                <div class="price-tag">
+                                    <span class="price-label">Aplicación</span>
+                                    <span>$650</span>
+                                </div>
+                                <div class="price-tag">
+                                    <span class="price-label">Mantenimiento</span>
+                                    <span>$450</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-details">
+                            <p class="service-description">Más ligero que el acrílico convencional, flexible, inodoro. Moldeado fino con secado en tecnología lámpara UV/LED.</p>
+                            <div class="service-meta-info">
+                                <span class="meta-pill">⏱ 1 - 2 Hrs</span>
+                                <span class="meta-pill">🗓 4 Semanas</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <div class="service-main-row">
+                            <h4 class="service-item-name">Soft Gel</h4>
+                            <div class="service-dots"></div>
+                            <div class="service-prices">
+                                <div class="price-tag">
+                                    <span class="price-label">Aplicación</span>
+                                    <span>$650</span>
+                                </div>
+                                <div class="price-tag">
+                                    <span class="price-label">Mantenimiento</span>
+                                    <span>$450</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-details">
+                            <p class="service-description">Tips flexibles de gel aplicados sobre uña natural para alargar y dar forma de manera extremadamente suave y ligera.</p>
+                            <div class="service-meta-info">
+                                <span class="meta-pill">⏱ 2 - 3 Hrs</span>
+                                <span class="meta-pill">🗓 2-3 Semanas</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <div class="service-main-row">
+                            <h4 class="service-item-name">Ruber Base</h4>
+                            <div class="service-dots"></div>
+                            <div class="service-prices">
+                                <div class="price-tag">
+                                    <span class="price-label">Aplicación</span>
+                                    <span>$350</span>
+                                </div>
+                                <div class="price-tag">
+                                    <span class="price-label">Mantenimiento</span>
+                                    <span>$250</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-details">
+                            <p class="service-description">Gel nivelador de última generación que aporta dureza y corrige imperfecciones en la uña natural.</p>
+                            <div class="service-meta-info">
+                                <span class="meta-pill">⏱ 1 - 2 Hrs</span>
+                                <span class="meta-pill">🗓 3-4 Semanas</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <div class="service-main-row">
+                            <h4 class="service-item-name">Gel Semipermanente</h4>
+                            <div class="service-dots"></div>
+                            <div class="service-prices">
+                                <div class="price-tag">
+                                    <span class="price-label">Aplicación</span>
+                                    <span>$250</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-details">
+                            <p class="service-description">Esmalte en gel de alto brillo protector sobre uña natural fuerte para un acabado sofisticado.</p>
+                            <div class="service-meta-info">
+                                <span class="meta-pill">⏱ 1 Hr</span>
+                                <span class="meta-pill">🗓 3-4 Semanas</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <div class="service-main-row">
+                            <h4 class="service-item-name">Tratamiento Vitamina E</h4>
+                            <div class="service-dots"></div>
+                            <div class="service-prices">
+                                <div class="price-tag">
+                                    <span class="price-label">Aplicación</span>
+                                    <span>$150</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-details">
+                            <p class="service-description">Fortalecedor enriquecido con vitamina E para restaurar la salud de uñas frágiles o delgadas.</p>
+                            <div class="service-meta-info">
+                                <span class="meta-pill">⏱ 1 Hr</span>
+                                <span class="meta-pill">🗓 4 Semanas</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Categoria Faciales & Cejas -->
+            <div class="services-category-block glass-panel">
+                <h3 class="category-title">Faciales Clínicos & Micropigmentación</h3>
+                <div class="services-list">
+                    
+                    <div class="service-item">
+                        <div class="service-main-row">
+                            <h4 class="service-item-name">Facial Limpieza Profunda</h4>
+                            <div class="service-dots"></div>
+                            <div class="service-prices">
+                                <div class="price-tag">
+                                    <span class="price-label">Sesión</span>
+                                    <span>$800</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-details">
+                            <p class="service-description">Eliminación minuciosa de impurezas clínicas, estimulación de circulación sanguínea y afinamiento de textura de la piel.</p>
+                            <div class="service-meta-info">
+                                <span class="meta-pill">⏱ 2 Hrs</span>
+                                <span class="meta-pill">🗓 1 Mes</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <div class="service-main-row">
+                            <h4 class="service-item-name">Facial Hidratante</h4>
+                            <div class="service-dots"></div>
+                            <div class="service-prices">
+                                <div class="price-tag">
+                                    <span class="price-label">Sesión</span>
+                                    <span>$1,200</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-details">
+                            <p class="service-description">Aparatología avanzada combinada con mascarillas hidratantes exclusivas que nutren e iluminan profundamente el cutis.</p>
+                            <div class="service-meta-info">
+                                <span class="meta-pill">⏱ 2 Hrs</span>
+                                <span class="meta-pill">🗓 1-2 Meses</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <div class="service-main-row">
+                            <h4 class="service-item-name">Facial Despigmentante</h4>
+                            <div class="service-dots"></div>
+                            <div class="service-prices">
+                                <div class="price-tag">
+                                    <span class="price-label">Sesión</span>
+                                    <span>$1,200</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-details">
+                            <p class="service-description">Tratamiento estético de alta gama diseñado para reducir manchas solares, secuelas de acné y unificar el tono.</p>
+                            <div class="service-meta-info">
+                                <span class="meta-pill">⏱ Avanzado</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <div class="service-main-row">
+                            <h4 class="service-item-name">Facial Anti-Edad Premium</h4>
+                            <div class="service-dots"></div>
+                            <div class="service-prices">
+                                <div class="price-tag">
+                                    <span class="price-label">Sesión</span>
+                                    <span>$1,300</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-details">
+                            <p class="service-description">Limpieza, hidratación profunda y terapia de colágeno activo para combatir arrugas, manchas y flacidez.</p>
+                            <div class="service-meta-info">
+                                <span class="meta-pill">⏱ Colágeno</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <div class="service-main-row">
+                            <h4 class="service-item-name">Micropigmentación de Cejas</h4>
+                            <div class="service-dots"></div>
+                            <div class="service-prices">
+                                <div class="price-tag">
+                                    <span class="price-label">Valoración</span>
+                                    <span>Gratis</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-details">
+                            <p class="service-description">Diseño y corrección hiperrealista de cejas respetando la naturalidad y simetría única de tu rostro.</p>
+                            <div class="service-meta-info">
+                                <span class="meta-pill">✦ Técnica Natural</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Galería con Video Hotspots -->
+    <section class="gallery-section" id="galeria">
+        <div class="section-header">
+            <span class="section-subtitle">Portafolio Interactivo</span>
+            <h2 class="section-title">Nuestras Creaciones</h2>
+        </div>
+        
+        <div class="gallery-section-container">
+            
+            <!-- Video/Image Hotspots Panel -->
+            <div class="hotspots-interactive-block">
+                <div class="hotspot-main-image" style="background-image: url('hotspots_bg.png');"></div>
+                
+                <!-- Hotspot 1: Nails -->
+                <div class="hotspot hotspot-nails">
+                    <div class="hotspot-tooltip glass-panel">
+                        <h4 class="tooltip-title">Uñas Esculturales Elite</h4>
+                        <p class="tooltip-text">Aplicadas con esculpido fino personalizado y decoraciones premium con laminillas de oro.</p>
+                        <span class="tooltip-price">Desde $650 MXN</span>
+                    </div>
+                </div>
+                
+                <!-- Hotspot 2: Facial -->
+                <div class="hotspot hotspot-facial">
+                    <div class="hotspot-tooltip glass-panel">
+                        <h4 class="tooltip-title">Tratamientos Faciales</h4>
+                        <p class="tooltip-text">Aparatología clínica avanzada para una piel libre de impurezas y nutrición al 100%.</p>
+                        <span class="tooltip-price">Desde $800 MXN</span>
+                    </div>
+                </div>
+                
+                <!-- Hotspot 3: Brows -->
+                <div class="hotspot hotspot-brows">
+                    <div class="hotspot-tooltip glass-panel">
+                        <h4 class="tooltip-title">Ceja Hiperrealista</h4>
+                        <p class="tooltip-text">Diseño de cejas personalizado para enmarcar tu mirada de forma natural y elegante.</p>
+                        <span class="tooltip-price">Consulta Gratuita</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Masonry Portfolio -->
+            <div class="masonry-gallery">
+                <div class="gallery-item gallery-item-wide">
+                    <img class="gallery-img" src="nails_luxury.png" alt="Diseño de Uñas">
+                </div>
+                <div class="gallery-item gallery-item-tall">
+                    <img class="gallery-img" src="skincare_luxury.png" alt="Tratamiento Facial">
+                </div>
+                <div class="gallery-item">
+                    <img class="gallery-img" src="brows_luxury.png" alt="Micropigmentación">
+                </div>
+                <div class="gallery-item">
+                    <img class="gallery-img" src="hotspots_bg.png" alt="Uñas de Gala">
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Sección de Políticas y Cuidados Posteriores -->
+    <section class="policies-section" id="politicas">
+        <div class="section-header">
+            <span class="section-subtitle">Tu Bienestar & Garantía</span>
+            <h2 class="section-title">Normas de la Boutique</h2>
+        </div>
+        
+        <div class="policies-grid">
+            
+            <!-- Cuidados Posteriores -->
+            <div class="policy-block">
+                <h3 class="policy-block-title">Cuidados Posteriores (Uñas)</h3>
+                <ul class="policy-list">
+                    <li>No remover la aplicación en casa por cuenta propia para evitar dañar la queratina natural.</li>
+                    <li>Evitar largos periodos sin mantenimiento (máximo de 3 semanas para retoque).</li>
+                    <li>No utilizar ningún tipo de material abrasivo o químicos fuertes sobre la aplicación.</li>
+                    <li>Evitar practicar deportes extremos o de contacto que puedan fracturar la uña.</li>
+                    <li>No morderlas, comerlas o usarlas como herramientas mecánicas de apertura.</li>
+                    <li>Lavarlas diariamente con un cepillo dental suave para mantener la asepsia de la base.</li>
+                </ul>
+            </div>
+            
+            <!-- Políticas de Cita -->
+            <div class="policy-block">
+                <h3 class="policy-block-title">Políticas de Cita</h3>
+                <ul class="policy-list">
+                    <li>Todas nuestras citas se agendan estrictamente mediante un anticipo monetario previo.</li>
+                    <li>Tolerancia máxima de 10 minutos. Pasado ese lapso la cita se cancelará sin devolución del anticipo.</li>
+                    <li>Asistir puntualmente y de forma individual (sin acompañantes ni menores de edad).</li>
+                    <li>Agradecemos preferentemente el pago final en efectivo para agilizar el proceso.</li>
+                    <li>No hay devoluciones de anticipos. Cancelaciones previas a 24 horas permiten reprogramar la fecha una sola vez.</li>
+                    <li>Si no se asiste sin previo aviso, la próxima cita requiere cubrir el 30% del valor completo.</li>
+                </ul>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Sección de Contacto & Reservas con Formulario Glowing -->
+    <section class="contact-section" id="reservas">
+        <div class="section-header">
+            <span class="section-subtitle">Reservas Directas</span>
+            <h2 class="section-title">Agenda Tu Momento</h2>
+        </div>
+        
+        <div class="contact-container">
+            
+            <!-- Información de Contacto -->
+            <div class="contact-info-block">
+                <h3 class="contact-motto">La belleza aquí, se lleva desde <span class="motto-gold">tus manos</span>.</h3>
+                
+                <div class="contact-details-list">
+                    <div class="contact-detail-item">
+                        <div class="detail-icon">📍</div>
+                        <div class="detail-text">Avenida Brasil, Nº 312, Centro</div>
+                    </div>
+                    <div class="contact-detail-item">
+                        <div class="detail-icon">📞</div>
+                        <div class="detail-text">+52 56 18 78 86 14</div>
+                    </div>
+                    <div class="contact-detail-item">
+                        <div class="detail-icon">✉</div>
+                        <div class="detail-text">contacto@delinearte.luxury</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Formulario de Reservas -->
+            <div class="booking-form-wrapper glass-panel">
+                <form id="luxury-booking-form">
+                    <div class="form-group-grid">
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="booking-name">Nombre Completo *</label>
+                            <input class="form-input" type="text" id="booking-name" required placeholder="Ej. Alejandra Silva">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="booking-phone">WhatsApp / Teléfono *</label>
+                            <input class="form-input" type="tel" id="booking-phone" required placeholder="Ej. 5512345678">
+                        </div>
+                        
+                        <div class="form-group form-group-full">
+                            <label class="form-label" for="booking-service">Servicio Deseado *</label>
+                            <select class="form-select" id="booking-service" required>
+                                <option value="" disabled selected>Seleccione una Experiencia Elite</option>
+                                <optgroup label="Uñas Premium">
+                                    <option value="Uñas Esculturales (Aplicación)">Uñas Esculturales - Aplicación ($650)</option>
+                                    <option value="Uñas Esculturales (Mantenimiento)">Uñas Esculturales - Mantenimiento ($450)</option>
+                                    <option value="Poligel Premium (Aplicación)">Poligel Premium - Aplicación ($650)</option>
+                                    <option value="Soft Gel (Aplicación)">Soft Gel - Aplicación ($650)</option>
+                                    <option value="Ruber Base (Aplicación)">Ruber Base - Aplicación ($350)</option>
+                                    <option value="Gel Semipermanente">Gel Semipermanente ($250)</option>
+                                    <option value="Tratamiento Vitamina E">Tratamiento Vitamina E ($150)</option>
+                                </optgroup>
+                                <optgroup label="Faciales Clínicos">
+                                    <option value="Facial Limpieza Profunda">Facial Limpieza Profunda ($800)</option>
+                                    <option value="Facial Hidratante">Facial Hidratante ($1,200)</option>
+                                    <option value="Facial Despigmentante">Facial Despigmentante ($1,200)</option>
+                                    <option value="Facial Anti-Edad Premium">Facial Anti-Edad Premium ($1,300)</option>
+                                </optgroup>
+                                <optgroup label="Mirada">
+                                    <option value="Micropigmentación de Cejas">Valoración Micropigmentación (Gratis)</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="booking-date">Fecha Solicitada *</label>
+                            <input class="form-input" type="date" id="booking-date" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="booking-time">Hora Solicitada *</label>
+                            <input class="form-input" type="time" id="booking-time" required>
+                        </div>
+                        
+                        <div class="form-group form-group-full">
+                            <label class="form-label" for="booking-notes">Notas Especiales / Preferencias</label>
+                            <textarea class="form-textarea" id="booking-notes" placeholder="Cuéntanos algún detalle o preferencia especial para tu sesión..."></textarea>
+                        </div>
+                        
+                    </div>
+                    
+                    <button class="submit-btn" type="submit">
+                        <span>Reservar por WhatsApp</span> 👑
+                    </button>
+                </form>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Delinearte by Lucy González | Todos los derechos reservados. Diseñado bajo Estética Elite.</p>
+    </footer>
+
+    <!-- Modal de Biografía / Detalles Técnicos -->
+    <div id="luxury-modal" class="luxury-modal">
+        <div class="modal-content-panel glass-panel">
+            <button class="modal-close">&times;</button>
+            <h2 id="modal-title" class="modal-title-h2">Título del Modal</h2>
+            <div id="modal-body" class="modal-body-content">
+                Contenido del modal...
+            </div>
+        </div>
+    </div>
+
+    <!-- Carga del Script Lógico -->
+    <script src="script.js"></script>
+</body>
+</html>

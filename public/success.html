@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago Confirmado | Delinearte by Lucy González</title>
+    
+    <!-- Hojas de Estilo -->
+    <link rel="stylesheet" href="style.css?v=2.2">
+    
+    <!-- Fuentes Tipográficas Premium -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+        .success-wrapper {
+            max-width: 550px;
+            width: 100%;
+            margin-top: 4rem;
+            text-align: center;
+        }
+        .success-icon-wrapper {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(197, 160, 89, 0.1);
+            border: 1px solid var(--brushed-gold);
+            box-shadow: 0 0 20px rgba(197, 160, 89, 0.2);
+            font-size: 2.2rem;
+            animation: pulse-gold 2s infinite alternate;
+        }
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 15px rgba(197, 160, 89, 0.2); transform: scale(1); }
+            100% { box-shadow: 0 0 30px rgba(197, 160, 89, 0.5); transform: scale(1.05); }
+        }
+        .success-title {
+            font-family: var(--font-serif);
+            font-size: 2.4rem;
+            color: var(--brushed-gold);
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+        }
+        .success-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+        .receipt-card {
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: left;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.9rem 0;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+        }
+        .receipt-row:last-child {
+            border-bottom: none;
+        }
+        .receipt-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .receipt-value {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .whatsapp-notice {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            font-style: italic;
+        }
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .btn-success {
+            padding: 1.1rem 2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            display: inline-block;
+        }
+        .btn-primary-gold {
+            background: var(--brushed-gold);
+            color: var(--oled-black);
+            border: 1px solid var(--brushed-gold);
+            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
+        }
+        .btn-primary-gold:hover {
+            background: var(--brushed-gold-light);
+            border-color: var(--brushed-gold-light);
+            box-shadow: 0 6px 20px rgba(197, 160, 89, 0.5);
+            transform: translateY(-2px);
+        }
+        .btn-outline-gold {
+            background: transparent;
+            color: var(--brushed-gold);
+            border: 1px solid var(--glass-border);
+        }
+        .btn-outline-gold:hover {
+            border-color: var(--brushed-gold);
+            background: rgba(197, 160, 89, 0.05);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="success-wrapper">
+        <div class="success-icon-wrapper">✨</div>
+        <h1 class="success-title">Pago Autorizado</h1>
+        <p class="success-subtitle">Hemos recibido tu transacción de forma segura. Tu espacio exclusivo en Delinearte ha sido reservado.</p>
+        
+        <!-- Recibo Detallado -->
+        <div class="receipt-card glass-panel">
+            <div class="receipt-row">
+                <span class="receipt-label">Cliente</span>
+                <span class="receipt-value" id="val-name">-</span>
+            </div>
+            <div class="receipt-row">
+                <span class="receipt-label">Experiencia</span>
+                <span class="receipt-value" id="val-service">-</span>
+            </div>
+            <div class="receipt-row">
+                <span class="receipt-label">Fecha</span>
+                <span class="receipt-value" id="val-date">-</span>
+            </div>
+            <div class="receipt-row">
+                <span class="receipt-label">Hora</span>
+                <span class="receipt-value" id="val-time">-</span>
+            </div>
+            <div class="receipt-row">
+                <span class="receipt-label">ID Transacción</span>
+                <span class="receipt-value" id="val-transaction" style="font-family: monospace; font-size: 0.8rem; color: var(--brushed-gold);">-</span>
+            </div>
+        </div>
+        
+        <!-- Botones de Acción -->
+        <div class="action-buttons">
+            <button class="btn-success btn-primary-gold" id="btn-whatsapp-confirm">
+                Notificar por WhatsApp 💬
+            </button>
+            <a href="/" class="btn-success btn-outline-gold">
+                Volver a la Página Principal
+            </a>
+        </div>
+        
+        <p class="whatsapp-notice">Recomendamos enviar la notificación de WhatsApp para agilizar el registro en nuestra agenda.</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const name = params.get('name') || 'Cliente Delinearte';
+            const phone = params.get('phone') || '';
+            const service = params.get('service') || 'Servicio Premium';
+            const date = params.get('date') || '';
+            const time = params.get('time') || '';
+            const notes = params.get('notes') || 'Sin notas';
+            const sessionId = params.get('session_id') || 'ST-CHECKOUT';
+            
+            // Recortar ID de sesión para legibilidad
+            const shortSessionId = sessionId.length > 25 ? sessionId.substring(0, 15) + '...' + sessionId.substring(sessionId.length - 8) : sessionId;
+
+            // Rellenar recibo en pantalla
+            document.getElementById('val-name').textContent = name;
+            document.getElementById('val-service').textContent = service;
+            document.getElementById('val-date').textContent = date;
+            document.getElementById('val-time').textContent = time;
+            document.getElementById('val-transaction').textContent = shortSessionId;
+
+            // Configurar botón de confirmación de WhatsApp
+            const confirmBtn = document.getElementById('btn-whatsapp-confirm');
+            if (confirmBtn) {
+                confirmBtn.addEventListener('click', () => {
+                    const message = `✨ *DELINEARTE - PAGO CONFIRMADO* ✨\n\n` +
+                                    `👑 *Cliente:* ${name}\n` +
+                                    `💅 *Servicio:* ${service}\n` +
+                                    `📅 *Fecha:* ${date}\n` +
+                                    `⏰ *Hora:* ${time}\n` +
+                                    `📝 *Notas:* ${notes}\n\n` +
+                                    `---------------------------------\n` +
+                                    `💳 *ID Pago Stripe:* ${sessionId}\n` +
+                                    `✨ _Reserva pagada con tarjeta en línea_`;
+
+                    const encodedText = encodeURIComponent(message);
+                    // Usar el número de la boutique configurado
+                    const whatsappUrl = `https://wa.me/525618788614?text=${encodedText}`;
+                    window.open(whatsappUrl, '_blank');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
