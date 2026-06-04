@@ -82,6 +82,79 @@ app.get('/api/services/:id', async (req, res) => {
     }
 });
 
+// 2.5. Actualizar un servicio específico (Editor Admin)
+app.put('/api/services/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { title, subtitle, price, duration, frequency, description, image, stripe_service_id, benefits, steps, aftercare } = req.body;
+        
+        const db = await getDatabase();
+        
+        // Verificar si el servicio existe
+        const service = await db.get('SELECT id FROM services WHERE id = ?', [id]);
+        if (!service) {
+            return res.status(404).json({ error: 'Servicio no encontrado.' });
+        }
+        
+        // Iniciar transacción para asegurar atomicidad
+        await db.run('BEGIN TRANSACTION');
+        
+        // 1. Actualizar tabla principal
+        await db.run(`
+            UPDATE services 
+            SET title = ?, subtitle = ?, price = ?, duration = ?, frequency = ?, description = ?, image = ?, stripe_service_id = ?
+            WHERE id = ?
+        `, [title, subtitle, price, duration, frequency, description, image, stripe_service_id, id]);
+        
+        // 2. Actualizar beneficios
+        if (benefits && Array.isArray(benefits)) {
+            await db.run('DELETE FROM service_benefits WHERE service_id = ?', [id]);
+            for (const benefit of benefits) {
+                if (benefit.trim()) {
+                    await db.run('INSERT INTO service_benefits (service_id, benefit) VALUES (?, ?)', [id, benefit.trim()]);
+                }
+            }
+        }
+        
+        // 3. Actualizar pasos
+        if (steps && Array.isArray(steps)) {
+            await db.run('DELETE FROM service_steps WHERE service_id = ?', [id]);
+            for (let i = 0; i < steps.length; i++) {
+                const step = steps[i];
+                if (step.title && step.title.trim()) {
+                    await db.run('INSERT INTO service_steps (service_id, step_num, title, desc) VALUES (?, ?, ?, ?)', [
+                        id,
+                        i + 1,
+                        step.title.trim(),
+                        step.desc ? step.desc.trim() : ''
+                    ]);
+                }
+            }
+        }
+        
+        // 4. Actualizar cuidados posteriores
+        if (aftercare && Array.isArray(aftercare)) {
+            await db.run('DELETE FROM service_aftercare WHERE service_id = ?', [id]);
+            for (const care of aftercare) {
+                if (care.trim()) {
+                    await db.run('INSERT INTO service_aftercare (service_id, care_instruction) VALUES (?, ?)', [id, care.trim()]);
+                }
+            }
+        }
+        
+        await db.run('COMMIT');
+        res.json({ success: true, message: 'Servicio actualizado correctamente.' });
+    } catch (error) {
+        // Revertir en caso de fallo
+        try {
+            const db = await getDatabase();
+            await db.run('ROLLBACK');
+        } catch (_) {}
+        console.error('[API Error] Error al actualizar servicio:', error);
+        res.status(500).json({ error: 'Error al actualizar el servicio.', details: error.message });
+    }
+});
+
 // 3. Crear sesión de pago en Stripe (Checkout)
 app.post('/api/create-checkout-session', async (req, res) => {
     try {

@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración | Delinearte by Lucy González</title>
+    
+    <!-- Fuentes Tipográficas Premium -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Estilos de la Plataforma -->
+    <link rel="stylesheet" href="style.css?v=2.3">
+    
+    <style>
+        body {
+            background-color: var(--oled-black);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Contenedor Principal Split */
+        .admin-layout {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Sidebar de Servicios */
+        .admin-sidebar {
+            width: 320px;
+            background: rgba(10, 10, 10, 0.95);
+            border-right: var(--hairline-border);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            flex-shrink: 0;
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.15);
+            text-align: center;
+        }
+
+        .sidebar-header h2 {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            color: var(--brushed-gold);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .sidebar-header p {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .services-list-scroll {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 1rem 0;
+        }
+
+        .sidebar-cat-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-cat-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--brushed-gold-light);
+            padding: 0.5rem 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .sidebar-service-item {
+            padding: 0.9rem 1.5rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            border-left: 3px solid transparent;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sidebar-service-item:hover {
+            background: rgba(197, 160, 89, 0.05);
+            color: var(--text-primary);
+            padding-left: 1.8rem;
+        }
+
+        .sidebar-service-item.active {
+            background: rgba(197, 160, 89, 0.08);
+            color: var(--brushed-gold-light);
+            border-left-color: var(--brushed-gold);
+            font-weight: 600;
+        }
+
+        /* Panel de Edición Principal */
+        .admin-main {
+            flex-grow: 1;
+            background: linear-gradient(135deg, #050505 0%, #000000 100%);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow-y: auto;
+            padding: 3rem;
+            box-sizing: border-box;
+        }
+
+        .admin-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding-bottom: 1.5rem;
+        }
+
+        .admin-title-row h1 {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .view-site-btn {
+            background: transparent;
+            border: var(--hairline-border);
+            color: var(--brushed-gold);
+            padding: 0.7rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 600;
+            transition: var(--transition-fast);
+        }
+
+        .view-site-btn:hover {
+            background: var(--brushed-gold);
+            color: var(--oled-black);
+            box-shadow: 0 4px 15px var(--glow-color);
+        }
+
+        /* Estilos del Formulario */
+        .editor-card {
+            width: 100%;
+            max-width: 900px;
+            padding: 3rem;
+            border-radius: 6px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            box-sizing: border-box;
+        }
+
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-full-width {
+            grid-column: span 2;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-bottom: 1.8rem;
+        }
+
+        .input-group label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--brushed-gold-light);
+            font-weight: 600;
+        }
+
+        .admin-input,
+        .admin-select,
+        .admin-textarea {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(197, 160, 89, 0.25);
+            color: var(--text-primary);
+            padding: 0.9rem 1.2rem;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            border-radius: 4px;
+            transition: var(--transition-fast);
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .admin-input:focus,
+        .admin-select:focus,
+        .admin-textarea:focus {
+            border-color: var(--brushed-gold);
+            box-shadow: 0 0 10px rgba(197, 160, 89, 0.35);
+            background: rgba(10, 10, 10, 0.9);
+        }
+
+        .admin-textarea {
+            resize: vertical;
+            height: 120px;
+        }
+
+        /* Sección de Pasos Dinámicos */
+        .steps-editor-container {
+            border-top: 1px solid rgba(255,255,255,0.08);
+            margin-top: 2rem;
+            padding-top: 2rem;
+        }
+
+        .step-row {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1.2rem;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .step-num-badge {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(197, 160, 89, 0.15);
+            border: 1px solid var(--brushed-gold);
+            color: var(--brushed-gold-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .step-inputs {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        /* Botones del Formulario */
+        .btn-row {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 2rem;
+        }
+
+        .save-btn {
+            background: var(--brushed-gold);
+            border: 1px solid var(--brushed-gold);
+            color: var(--oled-black);
+            padding: 1.1rem 3rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .save-btn:hover {
+            background: var(--brushed-gold-light);
+            box-shadow: 0 8px 25px rgba(197, 160, 89, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Notificación Toast */
+        .toast-msg {
+            position: fixed;
+            bottom: 2rem;
+            right: -300px;
+            background: rgba(10, 10, 10, 0.95);
+            border: 1px solid #4CAF50;
+            border-left: 5px solid #4CAF50;
+            color: var(--text-primary);
+            padding: 1.2rem 2rem;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            z-index: 10000;
+            transition: right 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .toast-msg.show {
+            right: 2rem;
+        }
+
+        .toast-msg.error {
+            border-color: #f44336;
+            border-left-color: #f44336;
+        }
+
+        /* Placeholder Inicial */
+        .no-selection-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 60%;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            font-family: var(--font-serif);
+            gap: 1.5rem;
+        }
+
+        .placeholder-gold-icon {
+            font-size: 3.5rem;
+            color: var(--brushed-gold);
+            animation: pulse-slow 2s infinite alternate ease-in-out;
+        }
+
+        @keyframes pulse-slow {
+            0% { transform: scale(1); opacity: 0.7; }
+            100% { transform: scale(1.1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="admin-layout">
+        
+        <!-- Sidebar de Servicios -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <h2>DELINEARTE</h2>
+                <p>Editor de Catálogo</p>
+            </div>
+            
+            <div class="services-list-scroll" id="sidebar-list-container">
+                <!-- Se cargará dinámicamente -->
+                <div style="text-align:center; padding: 2rem; color: var(--text-secondary); font-size: 0.9rem;">
+                    Cargando servicios...
+                </div>
+            </div>
+        </aside>
+
+        <!-- Área de Edición Principal -->
+        <main class="admin-main">
+            <div class="admin-title-row">
+                <h1>Administración de Contenido</h1>
+                <a href="/" class="view-site-btn" target="_blank">Ver Sitio Web ↗</a>
+            </div>
+
+            <!-- Contenedor del Formulario de Edición -->
+            <div id="editor-wrapper">
+                <div class="no-selection-placeholder">
+                    <div class="placeholder-gold-icon">👑</div>
+                    <p>Selecciona un servicio de la barra lateral para comenzar a editar.</p>
+                </div>
+            </div>
+        </main>
+        
+    </div>
+
+    <!-- Mensaje de Confirmación -->
+    <div id="toast-notification" class="toast-msg">
+        <span id="toast-icon">✅</span>
+        <span id="toast-text">Catálogo guardado con éxito.</span>
+    </div>
+
+    <script>
+        let servicesData = {};
+        let activeServiceId = null;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await fetchSidebarServices();
+        });
+
+        // 1. Obtener la lista de servicios del sidebar
+        async function fetchSidebarServices() {
+            try {
+                const response = await fetch('/api/services');
+                if (!response.ok) throw new Error('Error al obtener servicios');
+                const categories = await response.json();
+                
+                // Guardar servicios localmente
+                servicesData = {};
+                for (const cat of Object.values(categories)) {
+                    cat.forEach(s => {
+                        servicesData[s.id] = s;
+                    });
+                }
+
+                // Dibujar sidebar por categorías
+                const sidebarContainer = document.getElementById('sidebar-list-container');
+                sidebarContainer.innerHTML = '';
+
+                const categoryTitles = {
+                    mirada: 'Mirada y Cejas',
+                    faciales: 'Faciales Clínicos',
+                    unas: 'Uñas de Lujo'
+                };
+
+                for (const [catKey, services] of Object.entries(categories)) {
+                    if (!services || services.length === 0) continue;
+
+                    const groupDiv = document.createElement('div');
+                    groupDiv.className = 'sidebar-cat-group';
+                    
+                    const title = document.createElement('div');
+                    title.className = 'sidebar-cat-title';
+                    title.textContent = categoryTitles[catKey] || catKey;
+                    groupDiv.appendChild(title);
+
+                    services.forEach(service => {
+                        const item = document.createElement('div');
+                        item.className = 'sidebar-service-item';
+                        if (service.id === activeServiceId) item.classList.add('active');
+                        item.dataset.id = service.id;
+                        item.innerHTML = `
+                            <span>${service.title}</span>
+                            <span style="font-size: 0.8rem; color: var(--brushed-gold);">${service.price.split(' ')[0]}</span>
+                        `;
+                        
+                        item.addEventListener('click', () => {
+                            // Cambiar item activo en sidebar
+                            document.querySelectorAll('.sidebar-service-item').forEach(el => el.classList.remove('active'));
+                            item.classList.add('active');
+                            
+                            // Cargar datos en el formulario
+                            loadServiceIntoEditor(service.id);
+                        });
+                        
+                        groupDiv.appendChild(item);
+                    });
+
+                    sidebarContainer.appendChild(groupDiv);
+                }
+            } catch (error) {
+                console.error('[Sidebar Error]', error);
+            }
+        }
+
+        // 2. Cargar un servicio específico en el panel editor
+        async function loadServiceIntoEditor(id) {
+            activeServiceId = id;
+            const wrapper = document.getElementById('editor-wrapper');
+            wrapper.innerHTML = `
+                <div style="text-align:center; padding: 5rem; color: var(--text-secondary);">
+                    Cargando detalles del servicio...
+                </div>
+            `;
+
+            try {
+                const response = await fetch(`/api/services/${id}`);
+                if (!response.ok) throw new Error('Error al obtener detalles del servicio');
+                const data = await response.json();
+
+                wrapper.innerHTML = `
+                    <div class="editor-card glass-panel">
+                        <form id="edit-service-form">
+                            <div class="form-grid-2">
+                                
+                                <div class="input-group">
+                                    <label for="edit-title">Título del Servicio *</label>
+                                    <input type="text" id="edit-title" class="admin-input" required value="${data.title || ''}">
+                                </div>
+                                
+                                <div class="input-group">
+                                    <label for="edit-subtitle">Subtítulo (Lema de Canva)</label>
+                                    <input type="text" id="edit-subtitle" class="admin-input" value="${data.subtitle || ''}">
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="edit-category">Categoría de Catálogo *</label>
+                                    <select id="edit-category" class="admin-select" required>
+                                        <option value="mirada" ${data.category === 'mirada' ? 'selected' : ''}>Mirada y Micropigmentación</option>
+                                        <option value="faciales" ${data.category === 'faciales' ? 'selected' : ''}>Cuidado Clínico de la Piel</option>
+                                        <option value="unas" ${data.category === 'unas' ? 'selected' : ''}>Aplicación de Uñas de Lujo</option>
+                                    </select>
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="edit-price">Precio de Canva *</label>
+                                    <input type="text" id="edit-price" class="admin-input" required value="${data.price || ''}" placeholder="Ej: $650 (Aplicación) o Valoración Gratis">
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="edit-duration">Tiempo del Servicio *</label>
+                                    <input type="text" id="edit-duration" class="admin-input" required value="${data.duration || ''}" placeholder="Ej: 2.5 Hrs o 45 Min">
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="edit-frequency">Garantía / Frecuencia *</label>
+                                    <input type="text" id="edit-frequency" class="admin-input" required value="${data.frequency || ''}" placeholder="Ej: Cada 3 semanas o Retoque anual">
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="edit-image">Ruta de la Imagen (Opcional)</label>
+                                    <input type="text" id="edit-image" class="admin-input" value="${data.image || ''}" placeholder="Ej: unas_esculturales.png (o en blanco para colapsar y centrar)">
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="edit-stripe-id">Identificador Stripe / Booking *</label>
+                                    <input type="text" id="edit-stripe-id" class="admin-input" required value="${data.stripe_service_id || ''}" placeholder="Debe coincidir con la variable del formulario de pago">
+                                </div>
+
+                                <div class="input-group form-full-width">
+                                    <label for="edit-description">Descripción Detallada *</label>
+                                    <textarea id="edit-description" class="admin-textarea" required>${data.description || ''}</textarea>
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="edit-benefits">Beneficios Élite (Uno por línea)</label>
+                                    <textarea id="edit-benefits" class="admin-textarea" style="height: 180px;">${data.benefits ? data.benefits.join('\n') : ''}</textarea>
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="edit-aftercare">Cuidados Posteriores (Uno por línea)</label>
+                                    <textarea id="edit-aftercare" class="admin-textarea" style="height: 180px;">${data.aftercare ? data.aftercare.join('\n') : ''}</textarea>
+                                </div>
+
+                            </div>
+
+                            <!-- Editor del Proceso Paso a Paso -->
+                            <div class="steps-editor-container">
+                                <h3 style="font-family: var(--font-serif); color: var(--brushed-gold); margin-bottom: 1.5rem;">El Proceso de Autor (3 Pasos)</h3>
+                                <div id="steps-list-inputs">
+                                    <!-- Se rellenará dinámicamente -->
+                                </div>
+                            </div>
+
+                            <!-- Fila de Botones -->
+                            <div class="btn-row">
+                                <button type="submit" class="save-btn" id="save-service-btn">
+                                    <span>Guardar Catálogo</span> ✦
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                `;
+
+                // Cargar los 3 pasos
+                const stepsContainer = document.getElementById('steps-list-inputs');
+                stepsContainer.innerHTML = '';
+                
+                // Asegurar que siempre hay 3 pasos
+                const steps = data.steps || [];
+                for (let i = 0; i < 3; i++) {
+                    const step = steps[i] || { title: '', desc: '' };
+                    
+                    const stepRow = document.createElement('div');
+                    stepRow.className = 'step-row';
+                    stepRow.innerHTML = `
+                        <div class="step-num-badge">${i + 1}</div>
+                        <div class="step-inputs">
+                            <input type="text" class="admin-input step-title-input" placeholder="Título del paso (Ej: Preparación de la Uña)" value="${step.title || ''}" required>
+                            <textarea class="admin-textarea step-desc-input" placeholder="Descripción detallada de la técnica aplicada en este paso..." style="height: 70px;">${step.desc || ''}</textarea>
+                        </div>
+                    `;
+                    stepsContainer.appendChild(stepRow);
+                }
+
+                // Manejador de envío del formulario
+                document.getElementById('edit-service-form').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    await saveServiceChanges(id);
+                });
+
+            } catch (error) {
+                console.error('[Editor Load Error]', error);
+                wrapper.innerHTML = `
+                    <div class="glass-panel" style="padding: 3rem; text-align:center; color: var(--brushed-gold);">
+                        <p>Error al cargar la información de este servicio en el editor.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // 3. Guardar cambios del servicio en la base de datos
+        async function saveServiceChanges(id) {
+            const saveBtn = document.getElementById('save-service-btn');
+            saveBtn.innerHTML = '<span>Guardando...</span>';
+            saveBtn.disabled = true;
+
+            try {
+                // Leer inputs principales
+                const title = document.getElementById('edit-title').value.trim();
+                const subtitle = document.getElementById('edit-subtitle').value.trim();
+                const category = document.getElementById('edit-category').value;
+                const price = document.getElementById('edit-price').value.trim();
+                const duration = document.getElementById('edit-duration').value.trim();
+                const frequency = document.getElementById('edit-frequency').value.trim();
+                const image = document.getElementById('edit-image').value.trim();
+                const stripe_service_id = document.getElementById('edit-stripe-id').value.trim();
+                const description = document.getElementById('edit-description').value.trim();
+
+                // Leer áreas de texto multilinea
+                const benefits = document.getElementById('edit-benefits').value
+                    .split('\n')
+                    .map(b => b.trim())
+                    .filter(b => b.length > 0);
+
+                const aftercare = document.getElementById('edit-aftercare').value
+                    .split('\n')
+                    .map(a => a.trim())
+                    .filter(a => a.length > 0);
+
+                // Leer los 3 pasos
+                const steps = [];
+                const stepRowEls = document.querySelectorAll('.step-row');
+                stepRowEls.forEach(el => {
+                    const stepTitle = el.querySelector('.step-title-input').value.trim();
+                    const stepDesc = el.querySelector('.step-desc-input').value.trim();
+                    if (stepTitle) {
+                        steps.push({
+                            title: stepTitle,
+                            desc: stepDesc
+                        });
+                    }
+                });
+
+                // Enviar petición PUT
+                const response = await fetch(`/api/services/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        title,
+                        subtitle,
+                        category,
+                        price,
+                        duration,
+                        frequency,
+                        image,
+                        stripe_service_id,
+                        description,
+                        benefits,
+                        aftercare,
+                        steps
+                    })
+                });
+
+                const resData = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(resData.error || 'Error al guardar');
+                }
+
+                // Mostrar notificación de éxito
+                showToast('✅ Cambios guardados con éxito en la base de datos.');
+
+                // Recargar sidebar para reflejar cambios (precios, títulos)
+                await fetchSidebarServices();
+                
+                // Recargar el editor
+                await loadServiceIntoEditor(id);
+
+            } catch (error) {
+                console.error('[Save Error]', error);
+                showToast(`❌ Error al guardar: ${error.message}`, true);
+            } finally {
+                saveBtn.innerHTML = '<span>Guardar Catálogo</span> ✦';
+                saveBtn.disabled = false;
+            }
+        }
+
+        // Mostrar Toast flotante
+        function showToast(text, isError = false) {
+            const toast = document.getElementById('toast-notification');
+            const toastIcon = document.getElementById('toast-icon');
+            const toastText = document.getElementById('toast-text');
+
+            toastText.textContent = text;
+            toastIcon.textContent = isError ? '❌' : '✅';
+            
+            if (isError) {
+                toast.classList.add('error');
+            } else {
+                toast.classList.remove('error');
+            }
+
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
