@@ -824,8 +824,12 @@
                                 </div>
 
                                 <div class="input-group form-full-width">
-                                    <label for="edit-video-url">URL del Video (MP4 - Deja vacío si es solo imagen estática)</label>
-                                    <input type="text" id="edit-video-url" class="admin-input" value="${data.url || ''}" placeholder="Ej: https://assets.mixkit.co/... o archivo local">
+                                    <label>Video del Carrusel (MP4 - Deja vacío si es solo imagen estática)</label>
+                                    <div class="image-dropzone" id="video-dropzone">
+                                        <div class="dropzone-text" id="video-dropzone-text">Arrastra un video MP4 aquí o haz clic para subir 🎥</div>
+                                        <input type="text" id="edit-video-url" class="admin-input" value="${data.url || ''}" placeholder="Ej: whatsapp_video_2.mp4">
+                                        <input type="file" id="edit-video-url-file" style="display:none;" accept="video/mp4,video/webm,video/quicktime">
+                                    </div>
                                 </div>
 
                                 <div class="input-group">
@@ -871,6 +875,7 @@
                 });
 
                 // Configurar drag and drop
+                setupDragAndDrop('video-dropzone', 'edit-video-url-file', 'edit-video-url', 'video-dropzone-text', true);
                 setupDragAndDrop('poster-dropzone', 'edit-video-poster-file', 'edit-video-poster', 'poster-dropzone-text');
 
             } catch (error) {
@@ -908,8 +913,12 @@
                             </div>
 
                             <div class="input-group form-full-width">
-                                <label for="create-video-url">URL del Video (MP4 - Deja vacío si es solo imagen estática)</label>
-                                <input type="text" id="create-video-url" class="admin-input" placeholder="Ej: https://assets.mixkit.co/... o archivo local">
+                                <label>Video del Carrusel (MP4 - Deja vacío si es solo imagen estática)</label>
+                                <div class="image-dropzone" id="new-video-dropzone">
+                                    <div class="dropzone-text" id="new-video-dropzone-text">Arrastra un video MP4 aquí o haz clic para subir 🎥</div>
+                                    <input type="text" id="create-video-url" class="admin-input" placeholder="Ej: whatsapp_video_2.mp4">
+                                    <input type="file" id="create-video-url-file" style="display:none;" accept="video/mp4,video/webm,video/quicktime">
+                                </div>
                             </div>
 
                             <div class="input-group">
@@ -943,6 +952,7 @@
                 await saveNewVideo();
             });
 
+            setupDragAndDrop('new-video-dropzone', 'create-video-url-file', 'create-video-url', 'new-video-dropzone-text', true);
             setupDragAndDrop('new-poster-dropzone', 'create-video-poster-file', 'create-video-poster', 'new-poster-dropzone-text');
         }
 
@@ -1097,8 +1107,8 @@
             }
         }
 
-        // Helper para inicializar drag and drop
-        function setupDragAndDrop(dzId, fileInputId, textInputId, textTargetId) {
+        // Helper para inicializar drag and drop (admite imágenes y videos)
+        function setupDragAndDrop(dzId, fileInputId, textInputId, textTargetId, isVideo = false) {
             const dropzone = document.getElementById(dzId);
             const fileInput = document.getElementById(fileInputId);
             const textInput = document.getElementById(textInputId);
@@ -1135,26 +1145,29 @@
                 const dt = e.dataTransfer;
                 const files = dt.files;
                 if (files && files.length > 0) {
-                    handleImageUpload(files[0], textInput, dzText);
+                    handleFileUpload(files[0], textInput, dzText, isVideo);
                 }
             });
 
             fileInput.addEventListener('change', (e) => {
                 const files = e.target.files;
                 if (files && files.length > 0) {
-                    handleImageUpload(files[0], textInput, dzText);
+                    handleFileUpload(files[0], textInput, dzText, isVideo);
                 }
             });
         }
 
-        // Función para subir archivos al servidor
-        async function handleImageUpload(file, inputTarget, textTarget) {
-            if (file.size > 5 * 1024 * 1024) {
-                showToast('❌ El archivo supera el límite de 5MB.', true);
+        // Función para subir archivos (imágenes o videos) al servidor
+        async function handleFileUpload(file, inputTarget, textTarget, isVideo = false) {
+            const maxBytes = isVideo ? 50 * 1024 * 1024 : 10 * 1024 * 1024; // 50MB para videos, 10MB para imágenes
+            const limitText = isVideo ? '50MB' : '10MB';
+
+            if (file.size > maxBytes) {
+                showToast(`❌ El archivo supera el límite de ${limitText}.`, true);
                 return;
             }
 
-            textTarget.textContent = 'Subiendo imagen... ⏳';
+            textTarget.textContent = isVideo ? 'Subiendo video... ⏳' : 'Subiendo imagen... ⏳';
             
             const formData = new FormData();
             formData.append('image', file);
@@ -1171,18 +1184,22 @@
                 }
 
                 inputTarget.value = resData.filepath;
-                textTarget.textContent = '¡Imagen subida con éxito! ✅';
+                textTarget.textContent = isVideo ? '¡Video subido con éxito! ✅' : '¡Imagen subida con éxito! ✅';
                 showToast('✅ Archivo subido y asociado correctamente.');
                 
                 setTimeout(() => {
-                    textTarget.textContent = 'Arrastra una imagen aquí o haz clic para subir 📷';
+                    textTarget.textContent = isVideo 
+                        ? 'Arrastra un video MP4 aquí o haz clic para subir 🎥' 
+                        : 'Arrastra una imagen aquí o haz clic para subir 📷';
                 }, 3000);
             } catch (error) {
                 console.error('[Upload Error]', error);
                 textTarget.textContent = 'Fallo al subir archivo ❌';
                 showToast(`❌ Error al subir archivo: ${error.message}`, true);
                 setTimeout(() => {
-                    textTarget.textContent = 'Arrastra una imagen aquí o haz clic para subir 📷';
+                    textTarget.textContent = isVideo 
+                        ? 'Arrastra un video MP4 aquí o haz clic para subir 🎥' 
+                        : 'Arrastra una imagen aquí o haz clic para subir 📷';
                 }, 3000);
             }
         }

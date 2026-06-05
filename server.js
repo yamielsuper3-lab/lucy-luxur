@@ -26,18 +26,25 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/jfif'];
-    if (allowedTypes.includes(file.mimetype)) {
+    const allowedTypes = [
+        'image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/jfif',
+        'video/mp4', 'video/webm', 'video/quicktime', 'video/x-matroska'
+    ];
+    // Aceptar si está en el array de mimetypes o si su extensión indica que es video/imagen común
+    const ext = path.extname(file.originalname).toLowerCase();
+    const isAllowedExt = ['.mp4', '.webm', '.mov', '.jpg', '.jpeg', '.png', '.webp'].includes(ext);
+    
+    if (allowedTypes.includes(file.mimetype) || isAllowedExt) {
         cb(null, true);
     } else {
-        cb(new Error('Formato de archivo no válido. Solo se admiten imágenes (JPG, PNG, GIF, WEBP).'));
+        cb(new Error('Formato de archivo no válido. Se admiten imágenes (JPG, PNG, GIF, WEBP) y videos (MP4, WEBM, MOV).'));
     }
 };
 
 const upload = multer({ 
     storage, 
     fileFilter,
-    limits: { fileSize: 5 * 1024 * 1024 } // Límite de 5MB
+    limits: { fileSize: 50 * 1024 * 1024 } // Límite de 50MB para soportar videos de WhatsApp/Instagram
 });
 
 // Configuración de Stripe
