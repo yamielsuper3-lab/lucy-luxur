@@ -247,6 +247,23 @@ async function initDatabase() {
     } catch (error) {
         console.error('[Database] Error al sembrar la tabla de videos:', error);
     }
+
+    // 4. Migración para base de datos persistentes: asegurar que los videos predeterminados tengan sus rutas
+    try {
+        await database.run(`
+            UPDATE videos 
+            SET url = 'whatsapp_video_2.mp4' 
+            WHERE name = 'The Telegraph' AND (url IS NULL OR url = '')
+        `);
+        await database.run(`
+            UPDATE videos 
+            SET url = 'diseno_cejas_visagismo.mp4' 
+            WHERE name = 'Masaje de Autor' AND (url IS NULL OR url = '')
+        `);
+        console.log('[Database] Migración de URLs de videos predeterminados realizada con éxito.');
+    } catch (error) {
+        console.error('[Database] Error al migrar URLs de videos vacías:', error);
+    }
 }
 
 module.exports = {
