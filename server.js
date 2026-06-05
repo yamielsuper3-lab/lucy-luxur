@@ -192,6 +192,100 @@ app.put('/api/services/:id', async (req, res) => {
     }
 });
 
+// 2.7. Obtener todos los videos del carrusel
+app.get('/api/videos', async (req, res) => {
+    try {
+        const db = await getDatabase();
+        const videos = await db.all('SELECT id, url, poster, tag, name, instagram_link FROM videos ORDER BY id ASC');
+        res.json(videos);
+    } catch (error) {
+        console.error('[API Error] Error al obtener videos:', error);
+        res.status(500).json({ error: 'Error al obtener los videos del carrusel.' });
+    }
+});
+
+// 2.8. Obtener un video específico
+app.get('/api/videos/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const db = await getDatabase();
+        const video = await db.get('SELECT * FROM videos WHERE id = ?', [id]);
+        if (!video) {
+            return res.status(404).json({ error: 'Video no encontrado.' });
+        }
+        res.json(video);
+    } catch (error) {
+        console.error('[API Error] Error al obtener video:', error);
+        res.status(500).json({ error: 'Error al obtener detalles del video.' });
+    }
+});
+
+// 2.9. Actualizar un video específico
+app.put('/api/videos/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { url, poster, tag, name, instagram_link } = req.body;
+        
+        const db = await getDatabase();
+        
+        // Verificar si el video existe
+        const video = await db.get('SELECT id FROM videos WHERE id = ?', [id]);
+        if (!video) {
+            return res.status(404).json({ error: 'Video no encontrado.' });
+        }
+        
+        await db.run(`
+            UPDATE videos 
+            SET url = ?, poster = ?, tag = ?, name = ?, instagram_link = ?
+            WHERE id = ?
+        `, [url, poster, tag, name, instagram_link, id]);
+        
+        res.json({ success: true, message: 'Video actualizado correctamente.' });
+    } catch (error) {
+        console.error('[API Error] Error al actualizar video:', error);
+        res.status(500).json({ error: 'Error al actualizar el video.', details: error.message });
+    }
+});
+
+// 2.10. Agregar un nuevo video al carrusel
+app.post('/api/videos', async (req, res) => {
+    try {
+        const { url, poster, tag, name, instagram_link } = req.body;
+        
+        const db = await getDatabase();
+        
+        const result = await db.run(`
+            INSERT INTO videos (url, poster, tag, name, instagram_link)
+            VALUES (?, ?, ?, ?, ?)
+        `, [url, poster, tag, name, instagram_link]);
+        
+        res.json({ success: true, id: result.lastID, message: 'Video agregado correctamente.' });
+    } catch (error) {
+        console.error('[API Error] Error al agregar video:', error);
+        res.status(500).json({ error: 'Error al agregar el video a la base de datos.' });
+    }
+});
+
+// 2.11. Eliminar un video del carrusel
+app.delete('/api/videos/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const db = await getDatabase();
+        
+        // Verificar si el video existe
+        const video = await db.get('SELECT id FROM videos WHERE id = ?', [id]);
+        if (!video) {
+            return res.status(404).json({ error: 'Video no encontrado.' });
+        }
+        
+        await db.run('DELETE FROM videos WHERE id = ?', [id]);
+        res.json({ success: true, message: 'Video eliminado correctamente.' });
+    } catch (error) {
+        console.error('[API Error] Error al eliminar video:', error);
+        res.status(500).json({ error: 'Error al eliminar el video.' });
+    }
+});
+
 // 2.6. Subir imagen de servicio (Editor Admin - Drag and Drop / File Input)
 app.post('/api/upload', (req, res) => {
     upload.single('image')(req, res, function (err) {

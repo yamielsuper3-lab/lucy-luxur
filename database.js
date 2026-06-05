@@ -65,11 +65,28 @@ async function initDatabase() {
             FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE CASCADE
         );
 
+    `);
+
+    // Para la tabla videos, si ya existe pero con el esquema viejo, la recreamos
+    try {
+        const columns = await database.all("PRAGMA table_info(videos)");
+        const hasInstagramLink = columns.some(c => c.name === 'instagram_link');
+        if (!hasInstagramLink && columns.length > 0) {
+            console.log('[Database] Detectado esquema antiguo en la tabla videos. Recreando...');
+            await database.run("DROP TABLE IF EXISTS videos");
+        }
+    } catch (err) {
+        console.error('[Database] Error al verificar tabla videos:', err);
+    }
+
+    await database.exec(`
         CREATE TABLE IF NOT EXISTS videos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            url TEXT NOT NULL,
+            url TEXT,
+            poster TEXT,
             tag TEXT,
-            name TEXT
+            name TEXT,
+            instagram_link TEXT
         );
     `);
     
@@ -160,6 +177,75 @@ async function initDatabase() {
         } catch (error) {
             console.error('[Database] Error al sincronizar imágenes vacías en la base de datos:', error);
         }
+    }
+
+    // 3. Semilla para la tabla videos
+    try {
+        const videoCountResult = await database.get('SELECT COUNT(*) as count FROM videos');
+        if (videoCountResult.count === 0) {
+            console.log('[Database] La tabla de videos está vacía. Iniciando siembra...');
+            const defaultVideos = [
+                {
+                    tag: "Prensa",
+                    name: "The Telegraph",
+                    url: "",
+                    poster: "Captura de pantalla 2026-05-29 211828.png",
+                    instagram_link: ""
+                },
+                {
+                    tag: "Facial",
+                    name: "Masaje de Autor",
+                    url: "",
+                    poster: "Captura de pantalla 2026-05-29 212043.png",
+                    instagram_link: ""
+                },
+                {
+                    tag: "Uñas",
+                    name: "Diseño Élite",
+                    url: "https://assets.mixkit.co/videos/preview/mixkit-woman-showing-her-beautifully-manicured-nails-43018-large.mp4",
+                    poster: "nails_luxury.png",
+                    instagram_link: ""
+                },
+                {
+                    tag: "Mirada",
+                    name: "Cejas de Autor",
+                    url: "https://assets.mixkit.co/videos/preview/mixkit-skin-care-massage-on-a-woman-face-41711-large.mp4",
+                    poster: "brows_luxury.png",
+                    instagram_link: ""
+                },
+                {
+                    tag: "Estética",
+                    name: "Micropigmentación",
+                    url: "https://assets.mixkit.co/videos/preview/mixkit-young-woman-touching-her-soft-skin-face-41714-large.mp4",
+                    poster: "hotspots_bg.png",
+                    instagram_link: ""
+                },
+                {
+                    tag: "Bienestar",
+                    name: "Spa Corporal",
+                    url: "https://assets.mixkit.co/videos/preview/mixkit-close-up-of-a-woman-getting-a-massage-on-her-shoulder-and-neck-41709-large.mp4",
+                    poster: "skincare_luxury.png",
+                    instagram_link: ""
+                },
+                {
+                    tag: "Cosmética",
+                    name: "Lucy Luxury",
+                    url: "https://assets.mixkit.co/videos/preview/mixkit-cosmetic-oil-dropper-bottle-on-stone-surface-43026-large.mp4",
+                    poster: "lucy_profile.png",
+                    instagram_link: ""
+                }
+            ];
+
+            for (const video of defaultVideos) {
+                await database.run(`
+                    INSERT INTO videos (tag, name, url, poster, instagram_link)
+                    VALUES (?, ?, ?, ?, ?)
+                `, [video.tag, video.name, video.url, video.poster, video.instagram_link]);
+            }
+            console.log('[Database] Siembra de videos completada con éxito.');
+        }
+    } catch (error) {
+        console.error('[Database] Error al sembrar la tabla de videos:', error);
     }
 }
 

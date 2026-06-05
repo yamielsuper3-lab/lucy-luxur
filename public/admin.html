@@ -386,6 +386,59 @@
             0% { transform: scale(1); opacity: 0.7; }
             100% { transform: scale(1.1); opacity: 1; }
         }
+
+        /* Estilos de Pestañas del Sidebar */
+        .sidebar-tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.15);
+            background: rgba(0, 0, 0, 0.2);
+        }
+        .sidebar-tab {
+            flex: 1;
+            padding: 0.8rem;
+            text-align: center;
+            cursor: pointer;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: var(--transition-fast);
+            border-bottom: 2px solid transparent;
+        }
+        .sidebar-tab:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .sidebar-tab.active {
+            color: var(--brushed-gold);
+            border-bottom-color: var(--brushed-gold);
+            background: rgba(197, 160, 89, 0.05);
+        }
+        
+        /* Botón de agregar en el sidebar */
+        .sidebar-add-btn {
+            display: block;
+            margin: 1rem 1.5rem;
+            padding: 0.7rem 1rem;
+            text-align: center;
+            background: rgba(197, 160, 89, 0.1);
+            border: 1px dashed var(--brushed-gold);
+            color: var(--brushed-gold-light);
+            text-decoration: none;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        .sidebar-add-btn:hover {
+            background: var(--brushed-gold);
+            color: var(--oled-black);
+            box-shadow: 0 0 10px rgba(197, 160, 89, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -397,6 +450,11 @@
             <div class="sidebar-header">
                 <h2>DELINEARTE</h2>
                 <p>Editor de Catálogo</p>
+            </div>
+            
+            <div class="sidebar-tabs">
+                <div class="sidebar-tab active" id="tab-services" onclick="switchTab('services')">Servicios</div>
+                <div class="sidebar-tab" id="tab-videos" onclick="switchTab('videos')">Videos Instagram</div>
             </div>
             
             <div class="services-list-scroll" id="sidebar-list-container">
@@ -433,11 +491,39 @@
 
     <script>
         let servicesData = {};
+        let videosData = {};
         let activeServiceId = null;
+        let activeVideoId = null;
+        let currentTab = 'services';
 
         document.addEventListener('DOMContentLoaded', async () => {
-            await fetchSidebarServices();
+            await switchTab('services');
         });
+
+        // Alternar entre pestañas de administración
+        async function switchTab(tab) {
+            currentTab = tab;
+            
+            // Quitar clase activa de todas las pestañas
+            document.querySelectorAll('.sidebar-tab').forEach(el => el.classList.remove('active'));
+            
+            // Limpiar área de edición
+            const wrapper = document.getElementById('editor-wrapper');
+            wrapper.innerHTML = `
+                <div class="no-selection-placeholder">
+                    <div class="placeholder-gold-icon">👑</div>
+                    <p>Selecciona un elemento de la barra lateral para comenzar a editar.</p>
+                </div>
+            `;
+
+            if (tab === 'services') {
+                document.getElementById('tab-services').classList.add('active');
+                await fetchSidebarServices();
+            } else if (tab === 'videos') {
+                document.getElementById('tab-videos').classList.add('active');
+                await fetchSidebarVideos();
+            }
+        }
 
         // 1. Obtener la lista de servicios del sidebar
         async function fetchSidebarServices() {
@@ -486,11 +572,8 @@
                         `;
                         
                         item.addEventListener('click', () => {
-                            // Cambiar item activo en sidebar
                             document.querySelectorAll('.sidebar-service-item').forEach(el => el.classList.remove('active'));
                             item.classList.add('active');
-                            
-                            // Cargar datos en el formulario
                             loadServiceIntoEditor(service.id);
                         });
                         
@@ -504,7 +587,65 @@
             }
         }
 
-        // 2. Cargar un servicio específico en el panel editor
+        // 2. Obtener la lista de videos del sidebar (Tab Videos)
+        async function fetchSidebarVideos() {
+            try {
+                const response = await fetch('/api/videos');
+                if (!response.ok) throw new Error('Error al obtener videos');
+                const videos = await response.json();
+                
+                videosData = {};
+                videos.forEach(v => {
+                    videosData[v.id] = v;
+                });
+
+                const sidebarContainer = document.getElementById('sidebar-list-container');
+                sidebarContainer.innerHTML = '';
+
+                const groupDiv = document.createElement('div');
+                groupDiv.className = 'sidebar-cat-group';
+                
+                const title = document.createElement('div');
+                title.className = 'sidebar-cat-title';
+                title.textContent = 'Videos del Carrusel';
+                groupDiv.appendChild(title);
+
+                videos.forEach(video => {
+                    const item = document.createElement('div');
+                    item.className = 'sidebar-service-item';
+                    if (video.id === activeVideoId) item.classList.add('active');
+                    item.dataset.id = video.id;
+                    item.innerHTML = `
+                        <span>${video.name}</span>
+                        <span style="font-size: 0.8rem; color: var(--brushed-gold);">${video.tag}</span>
+                    `;
+                    
+                    item.addEventListener('click', () => {
+                        document.querySelectorAll('.sidebar-service-item').forEach(el => el.classList.remove('active'));
+                        item.classList.add('active');
+                        loadVideoIntoEditor(video.id);
+                    });
+                    
+                    groupDiv.appendChild(item);
+                });
+
+                sidebarContainer.appendChild(groupDiv);
+
+                // Botón para agregar nuevo video
+                const addBtn = document.createElement('div');
+                addBtn.className = 'sidebar-add-btn';
+                addBtn.textContent = '+ Agregar Video';
+                addBtn.addEventListener('click', () => {
+                    createNewVideoForm();
+                });
+                sidebarContainer.appendChild(addBtn);
+
+            } catch (error) {
+                console.error('[Sidebar Videos Error]', error);
+            }
+        }
+
+        // 3. Cargar un servicio específico en el panel editor
         async function loadServiceIntoEditor(id) {
             activeServiceId = id;
             const wrapper = document.getElementById('editor-wrapper');
@@ -522,6 +663,9 @@
                 wrapper.innerHTML = `
                     <div class="editor-card glass-panel">
                         <form id="edit-service-form">
+                            <h3 style="font-family: var(--font-serif); color: var(--brushed-gold); margin-bottom: 2rem; font-size: 1.6rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 1rem;">
+                                Editar Ficha de Servicio
+                            </h3>
                             <div class="form-grid-2">
                                 
                                 <div class="input-group">
@@ -533,7 +677,7 @@
                                     <label for="edit-subtitle">Subtítulo (Lema de Canva)</label>
                                     <input type="text" id="edit-subtitle" class="admin-input" value="${data.subtitle || ''}">
                                 </div>
-
+ 
                                 <div class="input-group">
                                     <label for="edit-category">Categoría de Catálogo *</label>
                                     <select id="edit-category" class="admin-select" required>
@@ -542,22 +686,22 @@
                                         <option value="unas" ${data.category === 'unas' ? 'selected' : ''}>Aplicación de Uñas de Lujo</option>
                                     </select>
                                 </div>
-
+ 
                                 <div class="input-group">
                                     <label for="edit-price">Precio de Canva *</label>
                                     <input type="text" id="edit-price" class="admin-input" required value="${data.price || ''}" placeholder="Ej: $650 (Aplicación) o Valoración Gratis">
                                 </div>
-
+ 
                                 <div class="input-group">
                                     <label for="edit-duration">Tiempo del Servicio *</label>
                                     <input type="text" id="edit-duration" class="admin-input" required value="${data.duration || ''}" placeholder="Ej: 2.5 Hrs o 45 Min">
                                 </div>
-
+ 
                                 <div class="input-group">
                                     <label for="edit-frequency">Garantía / Frecuencia *</label>
                                     <input type="text" id="edit-frequency" class="admin-input" required value="${data.frequency || ''}" placeholder="Ej: Cada 3 semanas o Retoque anual">
                                 </div>
-
+ 
                                 <div class="input-group">
                                     <label>Imagen del Servicio (Opcional - Arrastra un archivo aquí o escribe su nombre)</label>
                                     <div class="image-dropzone" id="image-dropzone">
@@ -566,29 +710,29 @@
                                         <input type="file" id="edit-image-file" style="display:none;" accept="image/*">
                                     </div>
                                 </div>
-
+ 
                                 <div class="input-group">
                                     <label for="edit-stripe-id">Identificador Stripe / Booking *</label>
                                     <input type="text" id="edit-stripe-id" class="admin-input" required value="${data.stripe_service_id || ''}" placeholder="Debe coincidir con la variable del formulario de pago">
                                 </div>
-
+ 
                                 <div class="input-group form-full-width">
                                     <label for="edit-description">Descripción Detallada *</label>
                                     <textarea id="edit-description" class="admin-textarea" required>${data.description || ''}</textarea>
                                 </div>
-
+ 
                                 <div class="input-group">
                                     <label for="edit-benefits">Beneficios Élite (Uno por línea)</label>
                                     <textarea id="edit-benefits" class="admin-textarea" style="height: 180px;">${data.benefits ? data.benefits.join('\n') : ''}</textarea>
                                 </div>
-
+ 
                                 <div class="input-group">
                                     <label for="edit-aftercare">Cuidados Posteriores (Uno por línea)</label>
                                     <textarea id="edit-aftercare" class="admin-textarea" style="height: 180px;">${data.aftercare ? data.aftercare.join('\n') : ''}</textarea>
                                 </div>
-
+ 
                             </div>
-
+ 
                             <!-- Editor del Proceso Paso a Paso -->
                             <div class="steps-editor-container">
                                 <h3 style="font-family: var(--font-serif); color: var(--brushed-gold); margin-bottom: 1.5rem;">El Proceso de Autor (3 Pasos)</h3>
@@ -596,7 +740,7 @@
                                     <!-- Se rellenará dinámicamente -->
                                 </div>
                             </div>
-
+ 
                             <!-- Fila de Botones -->
                             <div class="btn-row">
                                 <button type="submit" class="save-btn" id="save-service-btn">
@@ -611,7 +755,6 @@
                 const stepsContainer = document.getElementById('steps-list-inputs');
                 stepsContainer.innerHTML = '';
                 
-                // Asegurar que siempre hay 3 pasos
                 const steps = data.steps || [];
                 for (let i = 0; i < 3; i++) {
                     const step = steps[i] || { title: '', desc: '' };
@@ -635,52 +778,7 @@
                 });
 
                 // Configurar drag and drop de imágenes
-                const dropzone = document.getElementById('image-dropzone');
-                const fileInput = document.getElementById('edit-image-file');
-                const textInput = document.getElementById('edit-image');
-                const dzText = document.getElementById('dropzone-text');
-
-                // Abrir selector al hacer clic en el dropzone (pero no en el input de texto)
-                dropzone.addEventListener('click', (e) => {
-                    if (e.target !== textInput) {
-                        fileInput.click();
-                    }
-                });
-
-                // Eventos de drag/drop
-                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                    dropzone.addEventListener(eventName, (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                    }, false);
-                });
-
-                ['dragenter', 'dragover'].forEach(eventName => {
-                    dropzone.addEventListener(eventName, () => {
-                        dropzone.classList.add('dragover');
-                    }, false);
-                });
-
-                ['dragleave', 'drop'].forEach(eventName => {
-                    dropzone.addEventListener(eventName, () => {
-                        dropzone.classList.remove('dragover');
-                    }, false);
-                });
-
-                dropzone.addEventListener('drop', (e) => {
-                    const dt = e.dataTransfer;
-                    const files = dt.files;
-                    if (files && files.length > 0) {
-                        handleImageUpload(files[0], textInput, dzText);
-                    }
-                });
-
-                fileInput.addEventListener('change', (e) => {
-                    const files = e.target.files;
-                    if (files && files.length > 0) {
-                        handleImageUpload(files[0], textInput, dzText);
-                    }
-                });
+                setupDragAndDrop('image-dropzone', 'edit-image-file', 'edit-image', 'dropzone-text');
 
             } catch (error) {
                 console.error('[Editor Load Error]', error);
@@ -692,14 +790,169 @@
             }
         }
 
-        // 3. Guardar cambios del servicio en la base de datos
+        // 4. Cargar un video específico en el panel editor
+        async function loadVideoIntoEditor(id) {
+            activeVideoId = id;
+            const wrapper = document.getElementById('editor-wrapper');
+            wrapper.innerHTML = `
+                <div style="text-align:center; padding: 5rem; color: var(--text-secondary);">
+                    Cargando detalles del video...
+                </div>
+            `;
+
+            try {
+                const response = await fetch(`/api/videos/${id}`);
+                if (!response.ok) throw new Error('Error al obtener detalles del video');
+                const data = await response.json();
+
+                wrapper.innerHTML = `
+                    <div class="editor-card glass-panel">
+                        <form id="edit-video-form">
+                            <h3 style="font-family: var(--font-serif); color: var(--brushed-gold); margin-bottom: 2rem; font-size: 1.6rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 1rem;">
+                                Editar Tarjeta de Video (Instagram)
+                            </h3>
+                            <div class="form-grid-2">
+                                
+                                <div class="input-group">
+                                    <label for="edit-video-name">Título / Nombre *</label>
+                                    <input type="text" id="edit-video-name" class="admin-input" required value="${data.name || ''}" placeholder="Ej: Diseño Élite o The Telegraph">
+                                </div>
+                                
+                                <div class="input-group">
+                                    <label for="edit-video-tag">Etiqueta (Tag) *</label>
+                                    <input type="text" id="edit-video-tag" class="admin-input" required value="${data.tag || ''}" placeholder="Ej: Uñas, Mirada, Facial, Prensa">
+                                </div>
+
+                                <div class="input-group form-full-width">
+                                    <label for="edit-video-url">URL del Video (MP4 - Deja vacío si es solo imagen estática)</label>
+                                    <input type="text" id="edit-video-url" class="admin-input" value="${data.url || ''}" placeholder="Ej: https://assets.mixkit.co/... o archivo local">
+                                </div>
+
+                                <div class="input-group">
+                                    <label>Imagen de Vista Previa / Poster *</label>
+                                    <div class="image-dropzone" id="poster-dropzone">
+                                        <div class="dropzone-text" id="poster-dropzone-text">Arrastra una imagen aquí o haz clic para subir 📷</div>
+                                        <input type="text" id="edit-video-poster" class="admin-input" required value="${data.poster || ''}" placeholder="Ej: nails_luxury.png">
+                                        <input type="file" id="edit-video-poster-file" style="display:none;" accept="image/*">
+                                    </div>
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="edit-video-instagram">Enlace de Red Social (Instagram Reel / Publicación)</label>
+                                    <input type="text" id="edit-video-instagram" class="admin-input" value="${data.instagram_link || ''}" placeholder="Ej: https://www.instagram.com/reel/xyz">
+                                </div>
+
+                            </div>
+
+                            <!-- Fila de Botones -->
+                            <div class="btn-row" style="justify-content: space-between;">
+                                <button type="submit" class="save-btn" id="save-video-btn">
+                                    <span>Guardar Video</span> ✦
+                                </button>
+                                <button type="button" class="save-btn" id="delete-video-btn" style="background: rgba(244, 67, 54, 0.1); border-color: #f44336; color: #f44336;">
+                                    <span>Eliminar Video</span> ✖
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                `;
+
+                // Manejador submit
+                document.getElementById('edit-video-form').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    await saveVideoChanges(id);
+                });
+
+                // Manejador eliminar
+                document.getElementById('delete-video-btn').addEventListener('click', async () => {
+                    if (confirm(`¿Estás seguro de que deseas eliminar la tarjeta "${data.name}" del carrusel?`)) {
+                        await deleteVideo(id);
+                    }
+                });
+
+                // Configurar drag and drop
+                setupDragAndDrop('poster-dropzone', 'edit-video-poster-file', 'edit-video-poster', 'poster-dropzone-text');
+
+            } catch (error) {
+                console.error('[Video Load Error]', error);
+                wrapper.innerHTML = `
+                    <div class="glass-panel" style="padding: 3rem; text-align:center; color: var(--brushed-gold);">
+                        <p>Error al cargar la información del video en el editor.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // 5. Formulario de creación de nuevo video
+        function createNewVideoForm() {
+            activeVideoId = null;
+            document.querySelectorAll('.sidebar-service-item').forEach(el => el.classList.remove('active'));
+            
+            const wrapper = document.getElementById('editor-wrapper');
+            wrapper.innerHTML = `
+                <div class="editor-card glass-panel">
+                    <form id="create-video-form">
+                        <h3 style="font-family: var(--font-serif); color: var(--brushed-gold); margin-bottom: 2rem; font-size: 1.6rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 1rem;">
+                            Agregar Nuevo Video al Carrusel
+                        </h3>
+                        <div class="form-grid-2">
+                            
+                            <div class="input-group">
+                                <label for="create-video-name">Título / Nombre *</label>
+                                <input type="text" id="create-video-name" class="admin-input" required placeholder="Ej: Nuevo Video">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="create-video-tag">Etiqueta (Tag) *</label>
+                                <input type="text" id="create-video-tag" class="admin-input" required placeholder="Ej: Uñas, Mirada, Facial, Prensa">
+                            </div>
+
+                            <div class="input-group form-full-width">
+                                <label for="create-video-url">URL del Video (MP4 - Deja vacío si es solo imagen estática)</label>
+                                <input type="text" id="create-video-url" class="admin-input" placeholder="Ej: https://assets.mixkit.co/... o archivo local">
+                            </div>
+
+                            <div class="input-group">
+                                <label>Imagen de Vista Previa / Poster *</label>
+                                <div class="image-dropzone" id="new-poster-dropzone">
+                                    <div class="dropzone-text" id="new-poster-dropzone-text">Arrastra una imagen aquí o haz clic para subir 📷</div>
+                                    <input type="text" id="create-video-poster" class="admin-input" required placeholder="Ej: nails_luxury.png">
+                                    <input type="file" id="create-video-poster-file" style="display:none;" accept="image/*">
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="create-video-instagram">Enlace de Red Social (Instagram Reel / Publicación)</label>
+                                <input type="text" id="create-video-instagram" class="admin-input" placeholder="Ej: https://www.instagram.com/reel/xyz">
+                            </div>
+
+                        </div>
+
+                        <!-- Fila de Botones -->
+                        <div class="btn-row">
+                            <button type="submit" class="save-btn" id="create-video-btn">
+                                <span>Agregar Video</span> ✦
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            document.getElementById('create-video-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                await saveNewVideo();
+            });
+
+            setupDragAndDrop('new-poster-dropzone', 'create-video-poster-file', 'create-video-poster', 'new-poster-dropzone-text');
+        }
+
+        // 6. Guardar cambios del servicio en la base de datos
         async function saveServiceChanges(id) {
             const saveBtn = document.getElementById('save-service-btn');
             saveBtn.innerHTML = '<span>Guardando...</span>';
             saveBtn.disabled = true;
 
             try {
-                // Leer inputs principales
                 const title = document.getElementById('edit-title').value.trim();
                 const subtitle = document.getElementById('edit-subtitle').value.trim();
                 const category = document.getElementById('edit-category').value;
@@ -710,7 +963,6 @@
                 const stripe_service_id = document.getElementById('edit-stripe-id').value.trim();
                 const description = document.getElementById('edit-description').value.trim();
 
-                // Leer áreas de texto multilinea
                 const benefits = document.getElementById('edit-benefits').value
                     .split('\n')
                     .map(b => b.trim())
@@ -721,55 +973,29 @@
                     .map(a => a.trim())
                     .filter(a => a.length > 0);
 
-                // Leer los 3 pasos
                 const steps = [];
                 const stepRowEls = document.querySelectorAll('.step-row');
                 stepRowEls.forEach(el => {
                     const stepTitle = el.querySelector('.step-title-input').value.trim();
                     const stepDesc = el.querySelector('.step-desc-input').value.trim();
                     if (stepTitle) {
-                        steps.push({
-                            title: stepTitle,
-                            desc: stepDesc
-                        });
+                        steps.push({ title: stepTitle, desc: stepDesc });
                     }
                 });
 
-                // Enviar petición PUT
                 const response = await fetch(`/api/services/${id}`, {
                     method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        title,
-                        subtitle,
-                        category,
-                        price,
-                        duration,
-                        frequency,
-                        image,
-                        stripe_service_id,
-                        description,
-                        benefits,
-                        aftercare,
-                        steps
+                        title, subtitle, category, price, duration, frequency, image, stripe_service_id, description, benefits, aftercare, steps
                     })
                 });
 
                 const resData = await response.json();
+                if (!response.ok) throw new Error(resData.error || 'Error al guardar');
 
-                if (!response.ok) {
-                    throw new Error(resData.error || 'Error al guardar');
-                }
-
-                // Mostrar notificación de éxito
-                showToast('✅ Cambios guardados con éxito en la base de datos.');
-
-                // Recargar sidebar para reflejar cambios (precios, títulos)
+                showToast('✅ Catálogo de servicio guardado con éxito.');
                 await fetchSidebarServices();
-                
-                // Recargar el editor
                 await loadServiceIntoEditor(id);
 
             } catch (error) {
@@ -781,7 +1007,147 @@
             }
         }
 
-        // 2.7. Función para subir archivo de imagen al servidor
+        // 7. Guardar cambios del video en la base de datos
+        async function saveVideoChanges(id) {
+            const saveBtn = document.getElementById('save-video-btn');
+            saveBtn.innerHTML = '<span>Guardando...</span>';
+            saveBtn.disabled = true;
+
+            try {
+                const name = document.getElementById('edit-video-name').value.trim();
+                const tag = document.getElementById('edit-video-tag').value.trim();
+                const url = document.getElementById('edit-video-url').value.trim();
+                const poster = document.getElementById('edit-video-poster').value.trim();
+                const instagram_link = document.getElementById('edit-video-instagram').value.trim();
+
+                const response = await fetch(`/api/videos/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, tag, url, poster, instagram_link })
+                });
+
+                const resData = await response.json();
+                if (!response.ok) throw new Error(resData.error || 'Error al guardar');
+
+                showToast('✅ Video del carrusel guardado con éxito.');
+                await fetchSidebarVideos();
+                await loadVideoIntoEditor(id);
+
+            } catch (error) {
+                console.error('[Save Video Error]', error);
+                showToast(`❌ Error al guardar video: ${error.message}`, true);
+            } finally {
+                saveBtn.innerHTML = '<span>Guardar Video</span> ✦';
+                saveBtn.disabled = false;
+            }
+        }
+
+        // 8. Crear un nuevo video en la base de datos
+        async function saveNewVideo() {
+            const saveBtn = document.getElementById('create-video-btn');
+            saveBtn.innerHTML = '<span>Guardando...</span>';
+            saveBtn.disabled = true;
+
+            try {
+                const name = document.getElementById('create-video-name').value.trim();
+                const tag = document.getElementById('create-video-tag').value.trim();
+                const url = document.getElementById('create-video-url').value.trim();
+                const poster = document.getElementById('create-video-poster').value.trim();
+                const instagram_link = document.getElementById('create-video-instagram').value.trim();
+
+                const response = await fetch('/api/videos', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, tag, url, poster, instagram_link })
+                });
+
+                const resData = await response.json();
+                if (!response.ok) throw new Error(resData.error || 'Error al crear video');
+
+                showToast('✅ Nuevo video agregado con éxito al carrusel.');
+                await fetchSidebarVideos();
+                await loadVideoIntoEditor(resData.id);
+
+            } catch (error) {
+                console.error('[Create Video Error]', error);
+                showToast(`❌ Error al crear video: ${error.message}`, true);
+            } finally {
+                saveBtn.innerHTML = '<span>Agregar Video</span> ✦';
+                saveBtn.disabled = false;
+            }
+        }
+
+        // 9. Eliminar video de la base de datos
+        async function deleteVideo(id) {
+            try {
+                const response = await fetch(`/api/videos/${id}`, {
+                    method: 'DELETE'
+                });
+
+                const resData = await response.json();
+                if (!response.ok) throw new Error(resData.error || 'Error al eliminar video');
+
+                showToast('✅ Video eliminado con éxito del carrusel.');
+                activeVideoId = null;
+                await switchTab('videos');
+
+            } catch (error) {
+                console.error('[Delete Video Error]', error);
+                showToast(`❌ Error al eliminar video: ${error.message}`, true);
+            }
+        }
+
+        // Helper para inicializar drag and drop
+        function setupDragAndDrop(dzId, fileInputId, textInputId, textTargetId) {
+            const dropzone = document.getElementById(dzId);
+            const fileInput = document.getElementById(fileInputId);
+            const textInput = document.getElementById(textInputId);
+            const dzText = document.getElementById(textTargetId);
+
+            if (!dropzone || !fileInput || !textInput || !dzText) return;
+
+            dropzone.addEventListener('click', (e) => {
+                if (e.target !== textInput) {
+                    fileInput.click();
+                }
+            });
+
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropzone.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }, false);
+            });
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropzone.addEventListener(eventName, () => {
+                    dropzone.classList.add('dragover');
+                }, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropzone.addEventListener(eventName, () => {
+                    dropzone.classList.remove('dragover');
+                }, false);
+            });
+
+            dropzone.addEventListener('drop', (e) => {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                if (files && files.length > 0) {
+                    handleImageUpload(files[0], textInput, dzText);
+                }
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                const files = e.target.files;
+                if (files && files.length > 0) {
+                    handleImageUpload(files[0], textInput, dzText);
+                }
+            });
+        }
+
+        // Función para subir archivos al servidor
         async function handleImageUpload(file, inputTarget, textTarget) {
             if (file.size > 5 * 1024 * 1024) {
                 showToast('❌ El archivo supera el límite de 5MB.', true);
@@ -806,7 +1172,7 @@
 
                 inputTarget.value = resData.filepath;
                 textTarget.textContent = '¡Imagen subida con éxito! ✅';
-                showToast('✅ Imagen cargada y asociada al servicio.');
+                showToast('✅ Archivo subido y asociado correctamente.');
                 
                 setTimeout(() => {
                     textTarget.textContent = 'Arrastra una imagen aquí o haz clic para subir 📷';
@@ -814,7 +1180,7 @@
             } catch (error) {
                 console.error('[Upload Error]', error);
                 textTarget.textContent = 'Fallo al subir archivo ❌';
-                showToast(`❌ Error al subir imagen: ${error.message}`, true);
+                showToast(`❌ Error al subir archivo: ${error.message}`, true);
                 setTimeout(() => {
                     textTarget.textContent = 'Arrastra una imagen aquí o haz clic para subir 📷';
                 }, 3000);

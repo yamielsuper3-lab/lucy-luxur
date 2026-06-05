@@ -430,10 +430,82 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 8. CAROUSEL DE VIDEOS INFINITO (AUTO-SLIDING REELS)
     // ==========================================
-    const carouselWrapper = document.querySelector('.portrait-carousel-wrapper');
+    // ==========================================
+    // 8. CAROUSEL DE VIDEOS INFINITO (AUTO-SLIDING REELS)
+    // ==========================================
+    const carouselWrapper = document.getElementById('carousel-videos-container');
     if (carouselWrapper) {
+        loadCarouselVideos();
+    }
+
+    async function loadCarouselVideos() {
+        try {
+            const response = await fetch('/api/videos');
+            if (!response.ok) throw new Error('Error al obtener los videos del carrusel');
+            const videos = await response.json();
+
+            carouselWrapper.innerHTML = '';
+
+            const instagramIcon = `
+                <svg viewBox="0 0 24 24" style="width: 12px; height: 12px; fill: var(--brushed-gold); vertical-align: middle; margin-right: 4px; display: inline-block; position: relative; top: -1px;">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+                </svg>
+            `;
+
+            videos.forEach(video => {
+                const card = document.createElement('div');
+                card.className = 'portrait-card glass-panel';
+                if (video.instagram_link && video.instagram_link.trim() !== '') {
+                    card.dataset.link = video.instagram_link.trim();
+                }
+
+                // Generar el bloque de contenido (video o imagen de poster)
+                let visualBlock = '';
+                if (video.url && video.url.trim() !== '') {
+                    visualBlock = `<video src="${video.url.trim()}" poster="${video.poster || ''}" autoplay loop muted playsinline class="carousel-card-video"></video>`;
+                } else {
+                    visualBlock = `<img src="${video.poster || ''}" alt="${video.name || ''}" class="carousel-card-img">`;
+                }
+
+                card.innerHTML = `
+                    <div class="card-image-container">
+                        ${visualBlock}
+                    </div>
+                    <div class="card-content-overlay">
+                        <span class="card-tag">
+                            ${(video.instagram_link && video.instagram_link.trim() !== '') ? instagramIcon : ''}
+                            ${video.tag || ''}
+                        </span>
+                        <h4 class="card-name">${video.name || ''}</h4>
+                    </div>
+                `;
+
+                // Evento de redirección si tiene link de Instagram
+                if (video.instagram_link && video.instagram_link.trim() !== '') {
+                    card.addEventListener('click', () => {
+                        window.open(video.instagram_link.trim(), '_blank');
+                    });
+                }
+
+                carouselWrapper.appendChild(card);
+            });
+
+            // Inicializar el movimiento y la clonación infinitos después de renderizar
+            initInfiniteCarousel(carouselWrapper);
+
+        } catch (error) {
+            console.error('[Carousel Load Error]', error);
+            carouselWrapper.innerHTML = `
+                <div style="width:100%; text-align:center; padding: 2rem; color: var(--brushed-gold);">
+                    Error al cargar los reels del carrusel.
+                </div>
+            `;
+        }
+    }
+
+    function initInfiniteCarousel(wrapper) {
         // Clonar elementos para loop infinito transparente
-        const originalCards = Array.from(carouselWrapper.children);
+        const originalCards = Array.from(wrapper.children);
         originalCards.forEach(card => {
             const clone = card.cloneNode(true);
             
@@ -450,12 +522,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     video.play().catch(e => console.log('Autoplay clon amortiguado:', e));
                 });
             }
+
+            // Copiar evento de clic en el clon si tiene data-link
+            if (card.dataset.link) {
+                clone.addEventListener('click', () => {
+                    window.open(card.dataset.link, '_blank');
+                });
+            }
             
-            carouselWrapper.appendChild(clone);
+            wrapper.appendChild(clone);
         });
 
         // Asegurar que todos los videos originales se reproduzcan automáticamente en silencio
-        const originalVideos = carouselWrapper.querySelectorAll('video');
+        const originalVideos = wrapper.querySelectorAll('video');
         originalVideos.forEach(video => {
             video.muted = true;
             video.playsInline = true;
@@ -471,11 +550,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Bucle de animación suave a 60 FPS con hardware acceleration
         function autoScroll() {
             if (!isPaused && !isDown) {
-                carouselWrapper.scrollLeft += scrollSpeed;
+                wrapper.scrollLeft += scrollSpeed;
                 
-                const halfWidth = carouselWrapper.scrollWidth / 2;
-                if (carouselWrapper.scrollLeft >= halfWidth) {
-                    carouselWrapper.scrollLeft = 0;
+                const halfWidth = wrapper.scrollWidth / 2;
+                if (wrapper.scrollLeft >= halfWidth) {
+                    wrapper.scrollLeft = 0;
                 }
             }
             requestAnimationFrame(autoScroll);
@@ -485,27 +564,27 @@ document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(autoScroll);
 
         // Controladores de Pausa con Mouse
-        carouselWrapper.addEventListener('mouseenter', () => {
+        wrapper.addEventListener('mouseenter', () => {
             isPaused = true;
         });
 
-        carouselWrapper.addEventListener('mouseleave', () => {
+        wrapper.addEventListener('mouseleave', () => {
             if (!isDown) isPaused = false;
         });
 
         // Soporte de Arrastre para Escritorio (Mouse Drag)
-        carouselWrapper.addEventListener('mousedown', (e) => {
+        wrapper.addEventListener('mousedown', (e) => {
             isDown = true;
             isPaused = true;
-            startX = e.pageX - carouselWrapper.offsetLeft;
-            scrollLeftStart = carouselWrapper.scrollLeft;
-            carouselWrapper.style.cursor = 'grabbing';
+            startX = e.pageX - wrapper.offsetLeft;
+            scrollLeftStart = wrapper.scrollLeft;
+            wrapper.style.cursor = 'grabbing';
         });
 
         window.addEventListener('mouseup', () => {
             if (isDown) {
                 isDown = false;
-                carouselWrapper.style.cursor = 'pointer';
+                wrapper.style.cursor = 'pointer';
                 // Pequeña pausa antes de reanudar el autodesplazamiento
                 setTimeout(() => {
                     isPaused = false;
@@ -513,31 +592,31 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        carouselWrapper.addEventListener('mousemove', (e) => {
+        wrapper.addEventListener('mousemove', (e) => {
             if (!isDown) return;
             e.preventDefault();
-            const x = e.pageX - carouselWrapper.offsetLeft;
+            const x = e.pageX - wrapper.offsetLeft;
             const walk = (x - startX) * 1.5;
-            carouselWrapper.scrollLeft = scrollLeftStart - walk;
+            wrapper.scrollLeft = scrollLeftStart - walk;
 
             // Corrección de límites instantánea para el bucle
-            const halfWidth = carouselWrapper.scrollWidth / 2;
-            if (carouselWrapper.scrollLeft >= halfWidth) {
-                carouselWrapper.scrollLeft -= halfWidth;
-            } else if (carouselWrapper.scrollLeft <= 0) {
-                carouselWrapper.scrollLeft += halfWidth;
+            const halfWidth = wrapper.scrollWidth / 2;
+            if (wrapper.scrollLeft >= halfWidth) {
+                wrapper.scrollLeft -= halfWidth;
+            } else if (wrapper.scrollLeft <= 0) {
+                wrapper.scrollLeft += halfWidth;
             }
         });
 
         // Soporte Táctil para Dispositivos Móviles (Touch Swipe)
-        carouselWrapper.addEventListener('touchstart', (e) => {
+        wrapper.addEventListener('touchstart', (e) => {
             isPaused = true;
             isDown = true;
-            startX = e.touches[0].pageX - carouselWrapper.offsetLeft;
-            scrollLeftStart = carouselWrapper.scrollLeft;
+            startX = e.touches[0].pageX - wrapper.offsetLeft;
+            scrollLeftStart = wrapper.scrollLeft;
         }, { passive: true });
 
-        carouselWrapper.addEventListener('touchend', () => {
+        wrapper.addEventListener('touchend', () => {
             isDown = false;
             setTimeout(() => {
                 isPaused = false;
