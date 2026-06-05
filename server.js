@@ -66,7 +66,18 @@ const SERVICE_PRICES = {
     "Facial Hidratante": 1200,
     "Facial Despigmentante": 1200,
     "Facial Anti-Edad Premium": 1300,
-    "Micropigmentación de Cejas": 0 // Valoración gratuita, se gestiona por WhatsApp sin pago
+    "Laminación de Cejas": 350,
+    "Cejas HD": 250,
+    "Lifting de Pestañas": 450,
+    "Extensión de Pestañas Clásica": 650,
+    "Extensión de Pestañas Volumen Soft": 750,
+    "Extensión de Pestañas Volumen Intense": 850,
+    "Extensión de Pestañas Volumen Ruso": 800,
+    "Micropigmentación de Cejas": 0, // Valoración gratuita, se gestiona por WhatsApp sin pago
+    "Plasma Fibroblast": 0,
+    "Aquarela Lips": 0,
+    "Full Lips": 0,
+    "Eyeliner": 0
 };
 
 // ----------------------------------------------------

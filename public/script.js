@@ -78,7 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (serviceSelect && paymentMethodSelect) {
         serviceSelect.addEventListener('change', () => {
             const stripeOption = paymentMethodSelect.querySelector('option[value="stripe"]');
-            if (serviceSelect.value === 'Micropigmentación de Cejas') {
+            const freeServices = ['Micropigmentación de Cejas', 'Plasma Fibroblast', 'Aquarela Lips', 'Full Lips', 'Eyeliner'];
+            if (freeServices.includes(serviceSelect.value)) {
                 paymentMethodSelect.value = 'whatsapp';
                 if (stripeOption) stripeOption.disabled = true;
                 if (submitBtn) submitBtn.innerHTML = '<span>Reservar por WhatsApp</span> 👑';

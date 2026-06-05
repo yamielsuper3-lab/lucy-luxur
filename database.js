@@ -264,6 +264,78 @@ async function initDatabase() {
     } catch (error) {
         console.error('[Database] Error al migrar URLs de videos vacías:', error);
     }
+
+    // 5. Sincronización dinámica de nuevos servicios de services-data.js
+    try {
+        const SERVICES_DATA = require('./services-data.js');
+        const dbServices = await database.all('SELECT id FROM services');
+        const dbServiceIds = new Set(dbServices.map(s => s.id));
+
+        for (const [id, data] of Object.entries(SERVICES_DATA)) {
+            if (!dbServiceIds.has(id)) {
+                console.log(`[Database] Detectado nuevo servicio faltante en BD: ${id}. Insertando...`);
+                
+                // Determinar categoría basada en el ID
+                let category = 'mirada';
+                if (id.startsWith('unas') || id.includes('poligel') || id.includes('soft') || id.includes('ruber') || id.includes('gel') || id.includes('vitamina')) {
+                    category = 'unas';
+                } else if (id.startsWith('facial') || id.includes('fibroblast')) {
+                    category = 'faciales';
+                }
+
+                // Insertar servicio principal
+                await database.run(`
+                    INSERT INTO services (id, category, title, subtitle, price, duration, frequency, description, image, stripe_service_id)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                `, [
+                    id,
+                    category,
+                    data.title,
+                    data.subtitle || '',
+                    data.price || '',
+                    data.duration || '',
+                    data.frequency || '',
+                    data.description || '',
+                    data.image || '',
+                    data.stripeServiceId || ''
+                ]);
+
+                // Insertar beneficios
+                if (data.benefits && Array.isArray(data.benefits)) {
+                    for (const benefit of data.benefits) {
+                        await database.run(`
+                            INSERT INTO service_benefits (service_id, benefit)
+                            VALUES (?, ?)
+                        `, [id, benefit]);
+                    }
+                }
+
+                // Insertar pasos (steps)
+                if (data.steps && Array.isArray(data.steps)) {
+                    for (let i = 0; i < data.steps.length; i++) {
+                        const step = data.steps[i];
+                        await database.run(`
+                            INSERT INTO service_steps (service_id, step_num, title, desc)
+                            VALUES (?, ?, ?, ?)
+                        `, [id, i + 1, step.title, step.desc]);
+                    }
+                }
+
+                // Insertar cuidados posteriores (aftercare)
+                if (data.aftercare && Array.isArray(data.aftercare)) {
+                    for (const care of data.aftercare) {
+                        await database.run(`
+                            INSERT INTO service_aftercare (service_id, care_instruction)
+                            VALUES (?, ?)
+                        `, [id, care]);
+                    }
+                }
+            }
+        }
+        console.log('[Database] Sincronización de servicios de services-data.js completada.');
+    } catch (error) {
+        console.error('[Database] Error al sincronizar nuevos servicios:', error);
+    }
 }
 
 module.exports = {
