@@ -188,14 +188,14 @@ async function initDatabase() {
                 {
                     tag: "Prensa",
                     name: "The Telegraph",
-                    url: "",
+                    url: "whatsapp_video_2.mp4",
                     poster: "Captura de pantalla 2026-05-29 211828.png",
                     instagram_link: ""
                 },
                 {
                     tag: "Facial",
                     name: "Masaje de Autor",
-                    url: "",
+                    url: "diseno_cejas_visagismo.mp4",
                     poster: "Captura de pantalla 2026-05-29 212043.png",
                     instagram_link: ""
                 },
