@@ -453,6 +453,173 @@
                 gap: 2.5rem;
             }
         }
+
+        /* Botones de Navegación Deslizable */
+        .nav-arrow-btn {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 1px solid var(--brushed-gold);
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            color: var(--brushed-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            z-index: 100;
+            cursor: pointer;
+            transition: color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+            overflow: hidden;
+        }
+
+        .nav-arrow-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--brushed-gold);
+            z-index: -1;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+        }
+
+        .nav-arrow-btn.prev-arrow {
+            left: 3%;
+        }
+        
+        .nav-arrow-btn.next-arrow {
+            right: 3%;
+        }
+
+        .nav-arrow-btn.prev-arrow::after {
+            transform-origin: left;
+        }
+
+        .nav-arrow-btn.next-arrow::after {
+            transform-origin: right;
+        }
+
+        .nav-arrow-btn:hover::after {
+            transform: scaleX(1);
+        }
+        
+        .nav-arrow-btn.prev-arrow:hover::after {
+            transform-origin: right;
+        }
+        
+        .nav-arrow-btn.next-arrow:hover::after {
+            transform-origin: left;
+        }
+
+        .nav-arrow-btn:hover {
+            color: var(--oled-black);
+            border-color: transparent;
+            box-shadow: 0 0 20px rgba(197, 160, 89, 0.5);
+        }
+        
+        .nav-arrow-btn.prev-arrow:hover {
+            transform: translateY(-50%) translateX(-5px);
+        }
+        
+        .nav-arrow-btn.next-arrow:hover {
+            transform: translateY(-50%) translateX(5px);
+        }
+
+        .arrow-svg {
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-arrow-btn.prev-arrow:hover .arrow-svg {
+            transform: translateX(-2px);
+        }
+
+        .nav-arrow-btn.next-arrow:hover .arrow-svg {
+            transform: translateX(2px);
+        }
+
+        /* Animaciones para la transición de servicios */
+        .service-detail-container {
+            opacity: 0;
+            animation: elegantFadeUp 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        .service-detail-container.slide-from-right {
+            opacity: 0;
+            animation: elegantSlideFromRight 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        .service-detail-container.slide-from-left {
+            opacity: 0;
+            animation: elegantSlideFromLeft 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        @keyframes elegantFadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes elegantSlideFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(80px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes elegantSlideFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-80px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsividad para móviles */
+        @media (max-width: 768px) {
+            .nav-arrow-btn {
+                width: 45px;
+                height: 45px;
+                background: rgba(0, 0, 0, 0.7);
+                top: auto;
+                bottom: 20px;
+                transform: none;
+            }
+            .nav-arrow-btn.prev-arrow {
+                left: 20px;
+            }
+            .nav-arrow-btn.next-arrow {
+                right: 20px;
+            }
+            .nav-arrow-btn.prev-arrow:hover {
+                transform: translateX(-3px);
+            }
+            
+            .nav-arrow-btn.next-arrow:hover {
+                transform: translateX(3px);
+            }
+        }
     </style>
 </head>
 <body>
@@ -466,6 +633,14 @@
     <!-- Regresar a la Boutique -->
     <a href="/" class="back-nav-btn">
         <span>← Volver al Catálogo</span>
+    </a>
+
+    <!-- Botones de Navegación Deslizable entre Servicios -->
+    <a id="prev-service-link" href="#" class="nav-arrow-btn prev-arrow" aria-label="Servicio Anterior">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="arrow-svg"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+    </a>
+    <a id="next-service-link" href="#" class="nav-arrow-btn next-arrow" aria-label="Siguiente Servicio">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="arrow-svg"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
     </a>
 
     <!-- Contenedor de Detalle Principal -->
@@ -551,6 +726,16 @@
             // Extraer el identificador del servicio de la URL
             const params = new URLSearchParams(window.location.search);
             const serviceId = params.get('id');
+            const direction = params.get('dir');
+
+            const container = document.querySelector('.service-detail-container');
+            if (container) {
+                if (direction === 'next') {
+                    container.classList.add('slide-from-right');
+                } else if (direction === 'prev') {
+                    container.classList.add('slide-from-left');
+                }
+            }
 
             // Si no se proporciona ID, redirigir al catálogo
             if (!serviceId) {
@@ -658,6 +843,49 @@
             if (ctaBtn) {
                 // Redirigir al formulario principal y pre-seleccionar este servicio específico
                 ctaBtn.href = `/?select=${encodeURIComponent(data.stripe_service_id)}#reservas`;
+            }
+
+            // Configurar navegación deslizable de servicios
+            try {
+                const servicesResponse = await fetch('/api/services');
+                if (servicesResponse.ok) {
+                    const groupedServices = await servicesResponse.json();
+                    
+                    const allServices = [
+                        ...(groupedServices.mirada || []),
+                        ...(groupedServices.faciales || []),
+                        ...(groupedServices.unas || [])
+                    ];
+                    
+                    const currentIndex = allServices.findIndex(s => s.id === serviceId);
+                    
+                    if (currentIndex !== -1 && allServices.length > 1) {
+                        const prevIndex = (currentIndex - 1 + allServices.length) % allServices.length;
+                        const nextIndex = (currentIndex + 1) % allServices.length;
+                        
+                        const prevService = allServices[prevIndex];
+                        const nextService = allServices[nextIndex];
+                        
+                        const prevLink = document.getElementById('prev-service-link');
+                        const nextLink = document.getElementById('next-service-link');
+                        
+                        if (prevLink) {
+                            prevLink.href = `servicio.html?id=${prevService.id}&dir=prev`;
+                            prevLink.title = `Anterior: ${prevService.title}`;
+                        }
+                        if (nextLink) {
+                            nextLink.href = `servicio.html?id=${nextService.id}&dir=next`;
+                            nextLink.title = `Siguiente: ${nextService.title}`;
+                        }
+                    } else {
+                        document.getElementById('prev-service-link')?.remove();
+                        document.getElementById('next-service-link')?.remove();
+                    }
+                }
+            } catch (err) {
+                console.error('Error al configurar la navegación de servicios:', err);
+                document.getElementById('prev-service-link')?.remove();
+                document.getElementById('next-service-link')?.remove();
             }
         });
     </script>
