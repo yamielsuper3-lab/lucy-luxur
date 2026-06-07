@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucy González | Trayectoria y Alta Estética de Autor</title>
+    
+    <!-- Hojas de Estilo -->
+    <link rel="stylesheet" href="style.css?v=2.3">
+    
+    <!-- Fuentes Tipográficas Premium -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: var(--oled-black);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            padding: 0;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .trayectoria-hero {
+            padding: 8rem 10% 4rem 10%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+            min-height: 70vh;
+            position: relative;
+            background: linear-gradient(180deg, rgba(15,15,15,0.7) 0%, rgba(7,7,8,1) 100%);
+        }
+
+        .hero-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-serif);
+            color: var(--brushed-gold);
+            font-size: 1.4rem;
+            font-style: italic;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .hero-title {
+            font-family: var(--font-serif);
+            font-size: 3.5rem;
+            font-weight: 400;
+            line-height: 1.1;
+            margin: 0 0 2rem 0;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-desc {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+
+        .hero-image-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-img-border {
+            position: relative;
+            padding: 10px;
+            border: var(--hairline-border);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.02);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero-img {
+            width: 100%;
+            max-width: 420px;
+            height: 480px;
+            object-fit: cover;
+            border-radius: 4px;
+            display: block;
+            filter: grayscale(15%) contrast(105%);
+        }
+
+        /* Botón de Regresar Flotante */
+        .back-btn {
+            position: fixed;
+            top: 2rem;
+            left: 3rem;
+            background: rgba(10, 10, 10, 0.7);
+            border: var(--hairline-border);
+            padding: 0.8rem 1.4rem;
+            border-radius: 30px;
+            color: var(--brushed-gold);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: var(--transition-fast);
+            z-index: 100;
+        }
+
+        .back-btn:hover {
+            background: var(--brushed-gold);
+            color: var(--oled-black);
+            transform: translateX(-5px);
+            box-shadow: 0 4px 15px var(--glow-color);
+        }
+
+        /* Timeline de Hitos */
+        .timeline-section-tr {
+            padding: 6rem 10%;
+            background-color: #09090b;
+            border-top: 1px solid rgba(255,255,255,0.03);
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .tr-title-center {
+            text-align: center;
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            color: var(--brushed-gold);
+            margin-bottom: 4rem;
+            font-weight: 400;
+        }
+
+        .tr-timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .tr-timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 1px;
+            background: rgba(197, 160, 89, 0.2);
+            transform: translateX(-50%);
+        }
+
+        .tr-timeline-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .tr-timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .tr-timeline-badge {
+            position: absolute;
+            left: 50%;
+            top: 10px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--brushed-gold);
+            border: 4px solid var(--oled-black);
+            transform: translateX(-50%);
+            z-index: 5;
+            box-shadow: 0 0 10px var(--glow-color);
+        }
+
+        .tr-timeline-content {
+            background: rgba(255, 255, 255, 0.01);
+            border: var(--hairline-border);
+            padding: 2rem;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            transition: var(--transition-smooth);
+        }
+
+        .tr-timeline-content:hover {
+            border-color: var(--brushed-gold);
+            box-shadow: 0 15px 40px rgba(197, 160, 89, 0.1);
+        }
+
+        .tr-timeline-year {
+            font-family: var(--font-serif);
+            font-size: 1.6rem;
+            color: var(--brushed-gold);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .tr-timeline-item:nth-child(even) .tr-timeline-content {
+            grid-column: 2;
+        }
+
+        .tr-timeline-item:nth-child(odd) .tr-timeline-content {
+            grid-column: 1;
+            text-align: right;
+        }
+
+        /* Tabuladores de Currículum Completo */
+        .cv-section {
+            padding: 6rem 10%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .cv-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .cv-tab-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-secondary);
+            padding: 0.9rem 2rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            border-radius: 4px;
+        }
+
+        .cv-tab-btn:hover {
+            color: var(--text-primary);
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        .cv-tab-btn.active {
+            border-color: var(--brushed-gold);
+            color: var(--oled-black);
+            background: var(--brushed-gold);
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(197, 160, 89, 0.3);
+        }
+
+        .cv-content-block {
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .cv-content-block.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .cv-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+        }
+
+        .cv-card {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 2rem;
+            border-radius: 6px;
+            transition: var(--transition-fast);
+        }
+
+        .cv-card:hover {
+            border-color: rgba(197, 160, 89, 0.2);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .cv-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .cv-card-title {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .cv-card-meta {
+            font-size: 0.8rem;
+            color: var(--brushed-gold);
+            background: rgba(197, 160, 89, 0.08);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .cv-card-desc {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            font-weight: 300;
+            margin: 0;
+        }
+
+        /* Secciones de una sola columna para congresos y ponencias */
+        .cv-list-full {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .cv-row-item {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 1.5rem 2rem;
+            border-radius: 6px;
+            transition: var(--transition-fast);
+        }
+
+        .cv-row-item:hover {
+            border-color: rgba(197, 160, 89, 0.2);
+            transform: translateX(5px);
+        }
+
+        .cv-row-year {
+            font-family: var(--font-serif);
+            font-size: 1.4rem;
+            color: var(--brushed-gold);
+            font-weight: 600;
+            width: 80px;
+            flex-shrink: 0;
+        }
+
+        .cv-row-text {
+            font-size: 1rem;
+            color: var(--text-primary);
+            font-weight: 400;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .cv-row-subtext {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.2rem;
+            font-weight: 300;
+        }
+
+        /* Footer Integrado */
+        .trayectoria-footer {
+            padding: 4rem 10% 3rem 10%;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: #050505;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: var(--font-serif);
+            color: var(--brushed-gold);
+            font-size: 1.8rem;
+            letter-spacing: 0.15em;
+            margin-bottom: 1rem;
+        }
+
+        .footer-legal-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-legal-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+            transition: var(--transition-fast);
+        }
+
+        .footer-legal-links a:hover {
+            color: var(--brushed-gold);
+        }
+
+        .copyright-text {
+            color: #555;
+            font-size: 0.75rem;
+            margin-top: 2.5rem;
+        }
+
+        /* Responsividad */
+        @media (max-width: 992px) {
+            .trayectoria-hero {
+                grid-template-columns: 1fr;
+                gap: 3.5rem;
+                padding-top: 6rem;
+                text-align: center;
+            }
+            .hero-title {
+                font-size: 2.8rem;
+            }
+            .hero-img {
+                max-width: 320px;
+                height: 360px;
+                margin: 0 auto;
+            }
+            .tr-timeline::before {
+                left: 20px;
+            }
+            .tr-timeline-item {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding-left: 40px;
+            }
+            .tr-timeline-badge {
+                left: 20px;
+            }
+            .tr-timeline-item:nth-child(odd) .tr-timeline-content,
+            .tr-timeline-item:nth-child(even) .tr-timeline-content {
+                grid-column: 1;
+                text-align: left;
+            }
+            .cv-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .back-btn {
+                top: 1.5rem;
+                left: 1.5rem;
+                padding: 0.6rem 1.2rem;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Botón Regresar -->
+    <a href="/" class="back-btn">
+        <span>← Volver al Inicio</span>
+    </a>
+
+    <!-- Héroe Biográfico -->
+    <section class="trayectoria-hero">
+        <div class="hero-text">
+            <span class="hero-subtitle">El Arte de la Belleza de Autor</span>
+            <h1 class="hero-title">Lucy González</h1>
+            <p class="hero-desc">
+                Fundadora y CEO de Delinearte, Lucy González ha consagrado más de 25 años al perfeccionamiento de la estética de la mirada, la cosmiatría clínica y las artes estéticas de alta costura. Su filosofía se basa en el visagismo matemático personalizado: no diseñar bajo modas pasajeras, sino esculpir y realzar la fisonomía y simetría natural únicas de cada rostro.
+            </p>
+            <p class="hero-desc">
+                Como conferencista internacional de renombre, jueza tecnológica en campeonatos de Europa y Latinoamérica, y Master Lash & Brow Artist acreditada, Lucy lidera una de las boutiques estéticas más exclusivas del país, garantizando tratamientos de calidad clínica internacional con los más altos estándares de bioseguridad.
+            </p>
+        </div>
+        <div class="hero-image-wrapper">
+            <div class="hero-img-border">
+                <img src="lucy_profile.png" alt="Lucy González" class="hero-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Hitos -->
+    <section class="timeline-section-tr">
+        <h2 class="tr-title-center">Hitos de Autoría</h2>
+        <div class="tr-timeline">
+            
+            <div class="tr-timeline-item">
+                <div class="tr-timeline-badge"></div>
+                <div class="tr-timeline-content">
+                    <div class="tr-timeline-year">1998</div>
+                    <p class="cv-desc" style="color: var(--text-secondary); font-weight: 300; font-size: 0.95rem;">
+                        Inicia su carrera en la estética y el cuidado cutáneo clínico, especializándose en Cosmiatría Facial y Corporal.
+                    </p>
+                </div>
+            </div>
+
+            <div class="tr-timeline-item">
+                <div class="tr-timeline-badge"></div>
+                <div class="tr-timeline-content">
+                    <div class="tr-timeline-year">2002</div>
+                    <p class="cv-desc" style="color: var(--text-secondary); font-weight: 300; font-size: 0.95rem;">
+                        Funda **Delinearte Academia**, convirtiéndose en pionera en la enseñanza y aplicación de micropigmentación de alta precisión en México.
+                    </p>
+                </div>
+            </div>
+
+            <div class="tr-timeline-item">
+                <div class="tr-timeline-badge"></div>
+                <div class="tr-timeline-content">
+                    <div class="tr-timeline-year">2012</div>
+                    <p class="cv-desc" style="color: var(--text-secondary); font-weight: 300; font-size: 0.95rem;">
+                        Se especializa y acredita internacionalmente en el diseño y arquitectura avanzada de extensiones de pestañas con la firma premium **Minkys**.
+                    </p>
+                </div>
+            </div>
+
+            <div class="tr-timeline-item">
+                <div class="tr-timeline-badge"></div>
+                <div class="tr-timeline-content">
+                    <div class="tr-timeline-year">2019</div>
+                    <p class="cv-desc" style="color: var(--text-secondary); font-weight: 300; font-size: 0.95rem;">
+                        Recibe la prestigiosa certificación como **Artista Beauty Angels** en Microblading & Shade, integrando técnicas exclusivas europeas a su portafolio.
+                    </p>
+                </div>
+            </div>
+
+            <div class="tr-timeline-item">
+                <div class="tr-timeline-badge"></div>
+                <div class="tr-timeline-content">
+                    <div class="tr-timeline-year">2024 - 2025</div>
+                    <p class="cv-desc" style="color: var(--text-secondary); font-weight: 300; font-size: 0.95rem;">
+                        Consolidación internacional como Ponente y Juez en campeonatos mundiales, destacando en eventos de Italia, España y Medellín, y como colaboradora en la revista europea *Lash Trend Magazine*.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Currículum por Pestañas -->
+    <section class="cv-section">
+        <h2 class="tr-title-center" style="margin-bottom: 2rem;">Acreditaciones y Logros</h2>
+        
+        <div class="cv-tabs">
+            <button class="cv-tab-btn active" onclick="switchCvTab('certificaciones')">Certificaciones y Cursos</button>
+            <button class="cv-tab-btn" onclick="switchCvTab('ponencias')">Ponencias y Congresos</button>
+            <button class="cv-tab-btn" onclick="switchCvTab('juez')">Juez y Premios</button>
+        </div>
+
+        <!-- Bloque 1: Certificaciones -->
+        <div id="tab-certificaciones" class="cv-content-block active">
+            <div class="cv-grid">
+                
+                <div class="cv-card">
+                    <div class="cv-card-header">
+                        <h4 class="cv-card-title">Micropigmentación & Microblading</h4>
+                        <span class="cv-card-meta">Desde 2002</span>
+                    </div>
+                    <p class="cv-card-desc">
+                        Acreditada como **Técnica en Micropigmentación** (Centro Maromy, 2002), **Master en Micropigmentación Avanzada** (Asociación Mexicana, 2002), **Micropigmentación Médica** (2005) y **Microblading & Brows** (2013). Certificación avanzada en *Brow Strokes* y *Powder Brows* por Ugo Verni, y como Artista Beauty Angels (2019-2022).
+                    </p>
+                </div>
+
+                <div class="cv-card">
+                    <div class="cv-card-header">
+                        <h4 class="cv-card-title">Cosmiatría & Tratamientos Faciales</h4>
+                        <span class="cv-card-meta">Desde 2000</span>
+                    </div>
+                    <p class="cv-card-desc">
+                        Certificada en **Estética y Cosmiatría** (Instituto Eduem, 2000), **Plasma Rico en Plaquetas (PRP)** (2015), **Peeling Médico** y **Mesoterapia Facial y Corporal** (Esthetic Medical Center, 2016), y **Plasmapen Facial y Corporal** (Arte en Caras Academia, 2021).
+                    </p>
+                </div>
+
+                <div class="cv-card">
+                    <div class="cv-card-header">
+                        <h4 class="cv-card-title">Arquitectura de Pestañas (Lashes)</h4>
+                        <span class="cv-card-meta">Desde 2012</span>
+                    </div>
+                    <p class="cv-card-desc">
+                        Certificada por **Minkys** (2012), certificación oficial **SEP/CONOCER EC0611** (2019 y renovación 2023). Especialización en *Lash Modeling*, *Volumen Ruso* y *Laminación de Pestañas* por academias internacionales líderes (Amorche / Anna Volkova). Acreditada como **Master Lash Trainer** por She Academy (2021).
+                    </p>
+                </div>
+
+                <div class="cv-card">
+                    <div class="cv-card-header">
+                        <h4 class="cv-card-title">Uñas Esculturales Elite</h4>
+                        <span class="cv-card-meta">Desde 2000</span>
+                    </div>
+                    <p class="cv-card-desc">
+                        Certificada como **Master en Técnica Escultural y Aplicación de Uñas** por la firma internacional **O.P.I** (2000), con especialización en técnicas de Stamping y Mano Alzada con el maestro Adrian Bernal.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Bloque 2: Ponencias -->
+        <div id="tab-ponencias" class="cv-content-block">
+            <div class="cv-list-full">
+                
+                <div class="cv-row-item">
+                    <div class="cv-row-year">2025</div>
+                    <div>
+                        <h4 class="cv-row-text">Ponente en "Lash Tour: Una Noche en Medellín"</h4>
+                        <div class="cv-row-subtext">Colombia — Compartiendo técnicas de diseño y estandarización para miradas VIP.</div>
+                    </div>
+                </div>
+
+                <div class="cv-row-item">
+                    <div class="cv-row-year">2025</div>
+                    <div>
+                        <h4 class="cv-row-text">Ponente en "Master Star" de European Lash Master</h4>
+                        <div class="cv-row-subtext">España — Representando el diseño de autor latinoamericano en Europa.</div>
+                    </div>
+                </div>
+
+                <div class="cv-row-item">
+                    <div class="cv-row-year">2023</div>
+                    <div>
+                        <h4 class="cv-row-text">Ponente en "Lash Lake Congress International" y "Original Lash Congress"</h4>
+                        <div class="cv-row-subtext">México — Conferencista en congresos nacionales sobre colorimetría y diseño de cejas.</div>
+                    </div>
+                </div>
+
+                <div class="cv-row-item">
+                    <div class="cv-row-year">2022</div>
+                    <div>
+                        <h4 class="cv-row-text">Ponente en "Passion PMU Congress" y "Eye Lash Congress"</h4>
+                        <div class="cv-row-subtext">México — Presentación de técnicas avanzadas de micropigmentación de labios (Aquarela) y cejas híbridas.</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Bloque 3: Juez y Premios -->
+        <div id="tab-juez" class="cv-content-block">
+            <div class="cv-list-full">
+                
+                <div class="cv-row-item">
+                    <div class="cv-row-year">2025</div>
+                    <div>
+                        <h4 class="cv-row-text">Juez Internacional en "Dream Lash" Italia y "Global Beauty Cups" España</h4>
+                        <div class="cv-row-subtext">Evaluación técnica y digital de las mejores especialistas del continente europeo.</div>
+                    </div>
+                </div>
+
+                <div class="cv-row-item">
+                    <div class="cv-row-year">2024</div>
+                    <div>
+                        <h4 class="cv-row-text">Ganadora del 1er Lugar como "Lash Maker 2024" por Raev Awards</h4>
+                        <div class="cv-row-subtext">Galardonada por la excelencia en la técnica, diseño y salud de la pestaña natural.</div>
+                    </div>
+                </div>
+
+                <div class="cv-row-item">
+                    <div class="cv-row-year">2024</div>
+                    <div>
+                        <h4 class="cv-row-text">Colaboración y Publicación en "Lash Trend Magazine Europa"</h4>
+                        <div class="cv-row-subtext">Edición de Febrero 2024 con el tema editorial de autoridad: *"El arte de comunicar en la estética"*.</div>
+                    </div>
+                </div>
+
+                <div class="cv-row-item">
+                    <div class="cv-row-year">2023</div>
+                    <div>
+                        <h4 class="cv-row-text">Juez en "We Love Classic Competition" y "Love Fantasy"</h4>
+                        <div class="cv-row-subtext">Jurado técnico en las competencias nacionales más prestigiosas de extensiones de pestañas.</div>
+                    </div>
+                </div>
+
+                <div class="cv-row-item">
+                    <div class="cv-row-year">2018</div>
+                    <div>
+                        <h4 class="cv-row-text">Ganadora del 1er Lugar en "Best Lashes MX"</h4>
+                        <div class="cv-row-subtext">Campeona nacional en la categoría de Técnica Clásica Avanzada.</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Footer -->
+    <footer class="trayectoria-footer">
+        <div class="footer-logo">DELINEARTE</div>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; font-weight: 300; max-width: 600px; margin: 0 auto 1.5rem auto;">
+            Estética de autor y micropigmentación clínica avanzada por Lucy González.
+        </p>
+        <div class="footer-legal-links">
+            <a href="/politica-privacidad">Política de Privacidad</a>
+            <a href="/terminos-condiciones">Términos de Servicio</a>
+            <a href="/faq">Preguntas Frecuentes</a>
+            <a href="/contacto">Contacto</a>
+        </div>
+        <p class="copyright-text">
+            &copy; 2026 Delinearte. Todos los derechos reservados. Diseñado bajo estándares de alta costura.
+        </p>
+    </footer>
+
+    <!-- Script de control de pestañas -->
+    <script>
+        function switchCvTab(tabId) {
+            // Desactivar todos los botones
+            document.querySelectorAll('.cv-tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            // Activar botón pulsado
+            const activeBtn = Array.from(document.querySelectorAll('.cv-tab-btn')).find(btn => {
+                return btn.getAttribute('onclick').includes(tabId);
+            });
+            if (activeBtn) activeBtn.classList.add('active');
+
+            // Ocultar todos los bloques de contenido
+            document.querySelectorAll('.cv-content-block').forEach(block => {
+                block.classList.remove('active');
+            });
+            // Mostrar bloque actual
+            const activeBlock = document.getElementById(`tab-${tabId}`);
+            if (activeBlock) activeBlock.classList.add('active');
+        }
+    </script>
+</body>
+</html>

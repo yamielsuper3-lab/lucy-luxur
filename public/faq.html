@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas Frecuentes | Delinearte by Lucy González</title>
+    
+    <!-- Hojas de Estilo -->
+    <link rel="stylesheet" href="style.css?v=2.3">
+    
+    <!-- Fuentes Tipográficas Premium -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: var(--oled-black);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            padding: 0;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* Banner Superior FAQ */
+        .faq-hero {
+            padding: 8rem 10% 4rem 10%;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(15,15,15,0.7) 0%, rgba(7,7,8,1) 100%);
+        }
+
+        .faq-subtitle {
+            font-family: var(--font-serif);
+            color: var(--brushed-gold);
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .faq-title {
+            font-family: var(--font-serif);
+            font-size: 3.5rem;
+            font-weight: 400;
+            margin: 0 0 1.5rem 0;
+            letter-spacing: -0.02em;
+        }
+
+        .faq-desc {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        /* Contenedor de FAQ */
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto 8rem auto;
+            padding: 0 2rem;
+        }
+
+        .faq-category-title {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            color: var(--brushed-gold);
+            margin: 4rem 0 2rem 0;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.15);
+            padding-bottom: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+
+        /* Estilo Acordeón */
+        .faq-accordion-item {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin-bottom: 1rem;
+            border-radius: 6px;
+            overflow: hidden;
+            transition: var(--transition-fast);
+        }
+
+        .faq-accordion-item:hover {
+            border-color: rgba(197, 160, 89, 0.25);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .faq-accordion-header {
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .faq-question {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin: 0;
+            padding-right: 1.5rem;
+            transition: var(--transition-fast);
+        }
+
+        .faq-accordion-item:hover .faq-question {
+            color: var(--brushed-gold);
+        }
+
+        .faq-icon {
+            color: var(--brushed-gold);
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .faq-answer {
+            padding: 0 2rem 1.8rem 2rem;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            font-weight: 300;
+            margin: 0;
+        }
+
+        /* Acordeón Activo */
+        .faq-accordion-item.active {
+            border-color: var(--brushed-gold);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .faq-accordion-item.active .faq-question {
+            color: var(--brushed-gold);
+        }
+
+        .faq-accordion-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Botón de Regresar Flotante */
+        .back-btn {
+            position: fixed;
+            top: 2rem;
+            left: 3rem;
+            background: rgba(10, 10, 10, 0.7);
+            border: var(--hairline-border);
+            padding: 0.8rem 1.4rem;
+            border-radius: 30px;
+            color: var(--brushed-gold);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: var(--transition-fast);
+            z-index: 100;
+        }
+
+        .back-btn:hover {
+            background: var(--brushed-gold);
+            color: var(--oled-black);
+            transform: translateX(-5px);
+            box-shadow: 0 4px 15px var(--glow-color);
+        }
+
+        /* Footer */
+        .faq-footer {
+            padding: 4rem 10% 3rem 10%;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: #050505;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: var(--font-serif);
+            color: var(--brushed-gold);
+            font-size: 1.8rem;
+            letter-spacing: 0.15em;
+            margin-bottom: 1rem;
+        }
+
+        .footer-legal-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-legal-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+            transition: var(--transition-fast);
+        }
+
+        .footer-legal-links a:hover {
+            color: var(--brushed-gold);
+        }
+
+        .copyright-text {
+            color: #555;
+            font-size: 0.75rem;
+            margin-top: 2.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .faq-hero {
+                padding-top: 6rem;
+            }
+            .faq-title {
+                font-size: 2.5rem;
+            }
+            .faq-accordion-header {
+                padding: 1.2rem 1.5rem;
+            }
+            .faq-answer {
+                padding: 0 1.5rem 1.5rem 1.5rem;
+            }
+            .back-btn {
+                top: 1.5rem;
+                left: 1.5rem;
+                padding: 0.6rem 1.2rem;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Botón Regresar -->
+    <a href="/" class="back-btn">
+        <span>← Volver al Inicio</span>
+    </a>
+
+    <!-- Héroe FAQ -->
+    <section class="faq-hero">
+        <span class="faq-subtitle">Centro de Ayuda y Soporte</span>
+        <h1 class="faq-title">Preguntas Frecuentes</h1>
+        <p class="faq-desc">
+            Encuentra respuestas rápidas sobre nuestros procedimientos estéticos de autor, micropigmentación avanzada y políticas de citas.
+        </p>
+    </section>
+
+    <!-- Acordeones de Preguntas -->
+    <main class="faq-container">
+        
+        <!-- Categoria: Micropigmentación -->
+        <h2 class="faq-category-title">Micropigmentación (Cejas, Ojos y Labios)</h2>
+        
+        <div class="faq-accordion-item">
+            <div class="faq-accordion-header">
+                <h3 class="faq-question">¿El procedimiento de micropigmentación es doloroso?</h3>
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-accordion-body">
+                <p class="faq-answer">
+                    El umbral de dolor varía según cada clienta, pero la molestia es mínima y tolerable. Para garantizar tu comodidad absoluta, aplicamos anestésicos tópicos clínicos de grado médico antes y durante el procedimiento, lo que adormece la zona y reduce la sensación a un ligero hormigueo o vibración suave.
+                </p>
+            </div>
+        </div>
+
+        <div class="faq-accordion-item">
+            <div class="faq-accordion-header">
+                <h3 class="faq-question">¿Cuánto tiempo duran los resultados de la micropigmentación?</h3>
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-accordion-body">
+                <p class="faq-answer">
+                    Al ser una implantación de pigmentos orgánicos y minerales en la capa superficial de la dermis, es un maquillaje semipermanente. La duración suele ser de **12 a 24 meses**, dependiendo de tu tipo de piel (en pieles secas dura más que en grasas), estilo de vida, hábitos y exposición solar. Recomendamos una sesión de retoque anual para mantener la intensidad del color y la definición perfecta de los trazos.
+                </p>
+            </div>
+        </div>
+
+        <div class="faq-accordion-item">
+            <div class="faq-accordion-header">
+                <h3 class="faq-question">¿Cómo es el proceso de cicatrización día con día?</h3>
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-accordion-body">
+                <p class="faq-answer">
+                    El proceso completo dura unas 4 semanas:
+                    <br>• **Días 1 a 3**: El color se verá más oscuro e intenso de lo normal debido a la oxidación del pigmento.
+                    <br>• **Días 4 a 7**: Comenzará una ligera descamación fina (no debes arrancarla). El color puede parecer desaparecer o volverse muy opaco.
+                    <br>• **Días 8 a 15**: La piel se regenera y el color vuelve a emerger gradualmente desde las capas internas.
+                    <br>• **Día 30**: La cicatrización celular se completa y se revela el color final, listo para la sesión de retoque si fuera necesario.
+                </p>
+            </div>
+        </div>
+
+        <!-- Categoria: Extensiones de Pestañas -->
+        <h2 class="faq-category-title">Extensiones de Pestañas & Cejas HD</h2>
+        
+        <div class="faq-accordion-item">
+            <div class="faq-accordion-header">
+                <h3 class="faq-question">¿Las extensiones de pestañas dañan mi pestaña natural?</h3>
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-accordion-body">
+                <p class="faq-answer">
+                    **Absolutamente no**, siempre que se apliquen correctamente. En Delinearte realizamos un análisis del vello natural de cada clienta para determinar la longitud y grosor adecuados que tu pestaña puede soportar sin maltratarse. Utilizamos adhesivos hipoalergénicos quirúrgicos alemanes y aplicamos la técnica de aislamiento "uno a uno" de forma meticulosa, lo que permite que tus pestañas naturales sigan creciendo y mudando en su ciclo biológico normal.
+                </p>
+            </div>
+        </div>
+
+        <div class="faq-accordion-item">
+            <div class="faq-accordion-header">
+                <h3 class="faq-question">¿Cada cuánto tiempo debo agendar mis retoques de pestañas?</h3>
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-accordion-body">
+                <p class="faq-answer">
+                    Mudamos de pestañas de manera natural (entre 2 y 5 pestañas al día). Para mantener tu set tupido, uniforme y con la curvatura perfecta de autor, recomendamos agendar tus retoques cada **2 a 3 semanas**. Si dejas pasar más de 4 semanas, se considerará una aplicación de set nuevo debido al crecimiento del vello natural.
+                </p>
+            </div>
+        </div>
+
+        <div class="faq-accordion-item">
+            <div class="faq-accordion-header">
+                <h3 class="faq-question">¿Puedo maquillarme los ojos o aplicar rímel con las extensiones?</h3>
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-accordion-body">
+                <p class="faq-answer">
+                    No debes aplicar rímel ni usar rizador de pestañas mecánico, ya que esto quebrará las extensiones y dañará el adhesivo. Puedes usar sombras y delineadores en el párpado siempre y cuando sean libres de aceites (oil-free) y los retires por la noche suavemente con un desmaquillante a base de agua micelar utilizando un hisopo.
+                </p>
+            </div>
+        </div>
+
+        <!-- Categoria: Políticas y Reservas -->
+        <h2 class="faq-category-title">Reservas, Pagos & Políticas</h2>
+        
+        <div class="faq-accordion-item">
+            <div class="faq-accordion-header">
+                <h3 class="faq-question">¿Cómo funciona el pago seguro con Stripe?</h3>
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-accordion-body">
+                <p class="faq-answer">
+                    En nuestro sitio web puedes pagar y asegurar tu tratamiento de forma inmediata mediante Stripe Checkout. Stripe es la pasarela de pagos líder a nivel mundial que cuenta con certificados de seguridad bancaria máxima SSL. Tus datos de tarjeta están cifrados de principio a fin; nosotros nunca almacenamos ni tenemos acceso a tu información bancaria.
+                </p>
+            </div>
+        </div>
+
+        <div class="faq-accordion-item">
+            <div class="faq-accordion-header">
+                <h3 class="faq-question">¿Cuál es su política de cancelación y cambios de cita?</h3>
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-accordion-body">
+                <p class="faq-answer">
+                    Entendemos que pueden surgir imprevistos. Aceptamos cancelaciones o reprogramaciones con un mínimo de **24 horas de anticipación** sin penalización. Si cancelas o reprogramas con menos de 24 horas de antelación, o no asistes a tu cita, el depósito de reserva no podrá ser reembolsado. Esto nos ayuda a compensar el tiempo asignado de la especialista y a ofrecer el espacio a otras clientas en lista de espera.
+                </p>
+            </div>
+        </div>
+
+        <div class="faq-accordion-item">
+            <div class="faq-accordion-header">
+                <h3 class="faq-question">¿Tienen tolerancia de retrasos para las citas?</h3>
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-accordion-body">
+                <p class="faq-answer">
+                    Sí, contamos con una tolerancia máxima de **15 minutos**. Si llegas después de este tiempo, nos reservamos el derecho de cancelar la sesión o de recortar el tiempo de tu tratamiento para no retrasar a las clientas subsecuentes, considerándose como cita no asistida bajo nuestra política de cancelación.
+                </p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="faq-footer">
+        <div class="footer-logo">DELINEARTE</div>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; font-weight: 300; max-width: 600px; margin: 0 auto 1.5rem auto;">
+            Respuestas directas y transparencia en alta estética de autor.
+        </p>
+        <div class="footer-legal-links">
+            <a href="/politica-privacidad">Política de Privacidad</a>
+            <a href="/terminos-condiciones">Términos de Servicio</a>
+            <a href="/trayectoria">La Fundadora</a>
+            <a href="/contacto">Contacto</a>
+        </div>
+        <p class="copyright-text">
+            &copy; 2026 Delinearte. Todos los derechos reservados. Diseñado bajo estándares de alta costura.
+        </p>
+    </footer>
+
+    <!-- Script Acordeón -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const accordionHeaders = document.querySelectorAll('.faq-accordion-header');
+            
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const item = header.parentElement;
+                    const body = item.querySelector('.faq-accordion-body');
+                    const isActive = item.classList.contains('active');
+                    
+                    // Cerrar otros acordeones abiertos
+                    document.querySelectorAll('.faq-accordion-item').forEach(otherItem => {
+                        if (otherItem !== item && otherItem.classList.contains('active')) {
+                            otherItem.classList.remove('active');
+                            otherItem.querySelector('.faq-accordion-body').style.maxHeight = '0';
+                        }
+                    });
+                    
+                    // Alternar estado del acordeón seleccionado
+                    if (isActive) {
+                        item.classList.remove('active');
+                        body.style.maxHeight = '0';
+                    } else {
+                        item.classList.add('active');
+                        body.style.maxHeight = body.scrollHeight + 'px';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

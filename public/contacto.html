@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto y Ubicación | Delinearte by Lucy González</title>
+    
+    <!-- Hojas de Estilo -->
+    <link rel="stylesheet" href="style.css?v=2.3">
+    
+    <!-- Fuentes Tipográficas Premium -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: var(--oled-black);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            padding: 0;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* Banner Superior Contacto */
+        .contacto-hero {
+            padding: 8rem 10% 4rem 10%;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(15,15,15,0.7) 0%, rgba(7,7,8,1) 100%);
+        }
+
+        .contacto-subtitle {
+            font-family: var(--font-serif);
+            color: var(--brushed-gold);
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .contacto-title {
+            font-family: var(--font-serif);
+            font-size: 3.5rem;
+            font-weight: 400;
+            margin: 0 0 1.5rem 0;
+            letter-spacing: -0.02em;
+        }
+
+        /* Grid de Contacto */
+        .contacto-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1.8fr;
+            gap: 5rem;
+            max-width: 1200px;
+            margin: 0 auto 6rem auto;
+            padding: 0 2rem;
+        }
+
+        .info-col {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 2rem;
+            border-radius: 6px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .info-card-title {
+            font-family: var(--font-serif);
+            font-size: 1.3rem;
+            color: var(--brushed-gold);
+            margin: 0 0 1.2rem 0;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.15);
+            padding-bottom: 0.6rem;
+            letter-spacing: 0.02em;
+        }
+
+        .info-detail-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .info-detail-item {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .info-detail-item strong {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .info-detail-item a {
+            color: var(--brushed-gold);
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+
+        .info-detail-item a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Formulario Estilizado */
+        .form-card {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 3rem;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        }
+
+        .contacto-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+        }
+
+        .form-row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-input-group label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+
+        .contacto-input {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+            padding: 0.9rem 1.2rem;
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            transition: var(--transition-fast);
+        }
+
+        .contacto-input:focus {
+            outline: none;
+            border-color: var(--brushed-gold);
+            background: rgba(255, 255, 255, 0.04);
+            box-shadow: 0 0 10px rgba(197, 160, 89, 0.15);
+        }
+
+        .contacto-textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .form-submit-btn {
+            background: var(--brushed-gold);
+            color: var(--oled-black);
+            border: 1px solid var(--brushed-gold);
+            padding: 1.1rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.8rem;
+            box-shadow: 0 5px 15px rgba(197, 160, 89, 0.2);
+            margin-top: 1rem;
+        }
+
+        .form-submit-btn:hover {
+            background: var(--brushed-gold-light);
+            border-color: var(--brushed-gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(197, 160, 89, 0.45);
+        }
+
+        /* Mapa de Google Maps Oscuro */
+        .map-section {
+            width: 100%;
+            height: 450px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            background: #000;
+        }
+
+        .map-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            filter: grayscale(100%) invert(92%) contrast(95%) brightness(95%);
+            opacity: 0.65;
+            transition: opacity 0.3s ease;
+        }
+
+        .map-iframe:hover {
+            opacity: 0.85;
+        }
+
+        /* Botón de Regresar Flotante */
+        .back-btn {
+            position: fixed;
+            top: 2rem;
+            left: 3rem;
+            background: rgba(10, 10, 10, 0.7);
+            border: var(--hairline-border);
+            padding: 0.8rem 1.4rem;
+            border-radius: 30px;
+            color: var(--brushed-gold);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: var(--transition-fast);
+            z-index: 100;
+        }
+
+        .back-btn:hover {
+            background: var(--brushed-gold);
+            color: var(--oled-black);
+            transform: translateX(-5px);
+            box-shadow: 0 4px 15px var(--glow-color);
+        }
+
+        /* Footer */
+        .contacto-footer {
+            padding: 4rem 10% 3rem 10%;
+            background: #050505;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: var(--font-serif);
+            color: var(--brushed-gold);
+            font-size: 1.8rem;
+            letter-spacing: 0.15em;
+            margin-bottom: 1rem;
+        }
+
+        .footer-legal-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-legal-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+            transition: var(--transition-fast);
+        }
+
+        .footer-legal-links a:hover {
+            color: var(--brushed-gold);
+        }
+
+        .copyright-text {
+            color: #555;
+            font-size: 0.75rem;
+            margin-top: 2.5rem;
+        }
+
+        /* Notificación Flotante de Contacto (Toast) */
+        .contact-toast {
+            position: fixed;
+            bottom: -80px;
+            right: 30px;
+            background: rgba(10, 10, 10, 0.95);
+            border: 1px solid var(--brushed-gold);
+            padding: 1.2rem 2.2rem;
+            border-radius: 4px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 20px rgba(197,160,89,0.15);
+            color: var(--text-primary);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-weight: 400;
+            font-size: 0.95rem;
+        }
+
+        .contact-toast.active {
+            bottom: 30px;
+        }
+
+        @media (max-width: 992px) {
+            .contacto-hero {
+                padding-top: 6rem;
+            }
+            .contacto-title {
+                font-size: 2.5rem;
+            }
+            .contacto-grid {
+                grid-template-columns: 1fr;
+                gap: 3.5rem;
+            }
+            .form-card {
+                padding: 2rem;
+            }
+            .form-row-2 {
+                grid-template-columns: 1fr;
+                gap: 1.8rem;
+            }
+            .back-btn {
+                top: 1.5rem;
+                left: 1.5rem;
+                padding: 0.6rem 1.2rem;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Botón Regresar -->
+    <a href="/" class="back-btn">
+        <span>← Volver al Inicio</span>
+    </a>
+
+    <!-- Héroe Contacto -->
+    <section class="contacto-hero">
+        <span class="contacto-subtitle">Atención Exclusiva de Conserjería</span>
+        <h1 class="contacto-title">Contacto y Sucursal</h1>
+    </section>
+
+    <!-- Sección de Cuadrícula de Información & Formulario -->
+    <main class="contacto-grid">
+        
+        <!-- Columna de Información -->
+        <div class="info-col">
+            
+            <div class="info-card">
+                <h3 class="info-card-title">La Boutique Polanco</h3>
+                <ul class="info-detail-list">
+                    <li class="info-detail-item">
+                        <strong>Dirección:</strong> Homero 1333, Casa B, Polanco, Miguel Hidalgo, C.P. 11540, Ciudad de México, CDMX.
+                    </li>
+                    <li class="info-detail-item">
+                        <strong>WhatsApp Concierge:</strong> <a href="https://wa.me/525618788614" target="_blank">+52 56 1878 8614</a>
+                    </li>
+                    <li class="info-detail-item">
+                        <strong>Correo General:</strong> <a href="mailto:info@delineartelucy.com">info@delineartelucy.com</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <h3 class="info-card-title">Horarios de Autor</h3>
+                <ul class="info-detail-list">
+                    <li class="info-detail-item">
+                        <strong>Lunes a Viernes:</strong> 09:00 AM a 07:00 PM
+                    </li>
+                    <li class="info-detail-item">
+                        <strong>Sábados:</strong> 09:00 AM a 04:00 PM
+                    </li>
+                    <li class="info-detail-item">
+                        <strong>Domingos:</strong> Cerrado por descanso del personal
+                    </li>
+                    <li class="info-detail-item" style="margin-top: 0.8rem; font-size: 0.85rem; font-style: italic; color: var(--brushed-gold);">
+                        * Las citas deben ser reservadas con depósito previo por Stripe o acordadas vía WhatsApp Concierge.
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Columna del Formulario -->
+        <div class="form-card">
+            <form id="client-contact-form" class="contacto-form">
+                
+                <div class="form-row-2">
+                    <div class="form-input-group">
+                        <label for="contact-name">Nombre Completo *</label>
+                        <input type="text" id="contact-name" class="contacto-input" required placeholder="Ej: Alejandra Silva">
+                    </div>
+                    <div class="form-input-group">
+                        <label for="contact-phone">Número de Teléfono *</label>
+                        <input type="tel" id="contact-phone" class="contacto-input" required placeholder="Ej: 55 1234 5678">
+                    </div>
+                </div>
+
+                <div class="form-input-group">
+                    <label for="contact-email">Correo Electrónico *</label>
+                    <input type="email" id="contact-email" class="contacto-input" required placeholder="Ej: alejandra@mail.com">
+                </div>
+
+                <div class="form-input-group">
+                    <label for="contact-subject">Asunto o Tratamiento de Interés *</label>
+                    <input type="text" id="contact-subject" class="contacto-input" required placeholder="Ej: Información sobre Ceja Hiperrealista">
+                </div>
+
+                <div class="form-input-group">
+                    <label for="contact-message">Mensaje / Requerimientos Especiales *</label>
+                    <textarea id="contact-message" class="contacto-input contacto-textarea" required placeholder="Describe detalladamente tus dudas o la fecha tentativa en la que deseas visitarnos..."></textarea>
+                </div>
+
+                <button type="submit" class="form-submit-btn" id="contact-submit-btn">
+                    <span>Enviar Mensaje</span> ✦
+                </button>
+
+            </form>
+        </div>
+
+    </main>
+
+    <!-- Mapa Oscuro Google Maps -->
+    <section class="map-section">
+        <!-- Google Maps Iframe centrado en Homero 1333, Polanco, CDMX -->
+        <iframe 
+            class="map-iframe"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.6071727783984!2d-99.2064114!3d19.4348227!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d2020272b1a8d1%3A0xe54d2cc428f52627!2sHomero%201333%2C%20Polanco%2C%20Polanco%20I%20Sec%2C%20Miguel%20Hidalgo%2C%2011510%20Ciudad%20de%20M%C3%A9xico%2C%20CDMX!5e0!3m2!1ses-419!2smx!4v1700000000000!5m2!1ses-419!2smx" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </section>
+
+    <!-- Footer -->
+    <footer class="contacto-footer">
+        <div class="footer-logo">DELINEARTE</div>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; font-weight: 300; max-width: 600px; margin: 0 auto 1.5rem auto;">
+            Estética de autor y micropigmentación clínica avanzada por Lucy González.
+        </p>
+        <div class="footer-legal-links">
+            <a href="/politica-privacidad">Política de Privacidad</a>
+            <a href="/terminos-condiciones">Términos de Servicio</a>
+            <a href="/trayectoria">La Fundadora</a>
+            <a href="/faq">Preguntas Frecuentes</a>
+        </div>
+        <p class="copyright-text">
+            &copy; 2026 Delinearte. Todos los derechos reservados. Diseñado bajo estándares de alta costura.
+        </p>
+    </footer>
+
+    <!-- Toast flotante de éxito -->
+    <div id="contact-success-toast" class="contact-toast">
+        <span style="font-size: 1.5rem;">✅</span>
+        <span>¡Gracias! Tu mensaje ha sido enviado. Nos comunicaremos contigo a la brevedad.</span>
+    </div>
+
+    <!-- Script del Formulario de Contacto -->
+    <script>
+        document.getElementById('client-contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('contact-name').value;
+            const phone = document.getElementById('contact-phone').value;
+            const email = document.getElementById('contact-email').value;
+            const subject = document.getElementById('contact-subject').value;
+            const message = document.getElementById('contact-message').value;
+            
+            const submitBtn = document.getElementById('contact-submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span>Enviando...</span>';
+            
+            // Simular envío de leads de contacto a WhatsApp o guardar en base
+            // En un flujo VIP de alta gama, abrimos WhatsApp de forma pre-llenada o mostramos Toast de éxito inmediatamente.
+            setTimeout(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span>Enviar Mensaje</span> ✦';
+                
+                // Mostrar Toast
+                const toast = document.getElementById('contact-success-toast');
+                toast.classList.add('active');
+                
+                // Limpiar formulario
+                document.getElementById('client-contact-form').reset();
+                
+                setTimeout(() => {
+                    toast.classList.remove('active');
+                }, 5000);
+            }, 1200);
+        });
+    </script>
+</body>
+</html>

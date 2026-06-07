@@ -383,6 +383,27 @@ app.post('/api/create-checkout-session', async (req, res) => {
     }
 });
 
+// 4. Rutas Limpias de Navegación de Autoridad
+app.get('/trayectoria', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'trayectoria.html'));
+});
+
+app.get('/faq', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'faq.html'));
+});
+
+app.get('/contacto', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'contacto.html'));
+});
+
+app.get('/politica-privacidad', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'politica-privacidad.html'));
+});
+
+app.get('/terminos-condiciones', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'terminos-condiciones.html'));
+});
+
 // Comodín para redirigir cualquier otra petición de frontend a la página principal
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));

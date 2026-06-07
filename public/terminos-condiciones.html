@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Términos y Condiciones | Delinearte by Lucy González</title>
+    
+    <!-- Hojas de Estilo -->
+    <link rel="stylesheet" href="style.css?v=2.3">
+    
+    <!-- Fuentes Tipográficas Premium -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: var(--oled-black);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            padding: 0;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .legal-container {
+            max-width: 800px;
+            margin: 8rem auto 6rem auto;
+            padding: 0 2rem;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .legal-title {
+            font-family: var(--font-serif);
+            font-size: 3rem;
+            color: var(--brushed-gold);
+            margin-bottom: 3rem;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.15);
+            padding-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .legal-section-title {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2.5rem 0 1.2rem 0;
+            font-weight: 500;
+        }
+
+        .legal-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .legal-list {
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .legal-list li {
+            margin-bottom: 0.8rem;
+        }
+
+        /* Botón de Regresar Flotante */
+        .back-btn {
+            position: fixed;
+            top: 2rem;
+            left: 3rem;
+            background: rgba(10, 10, 10, 0.7);
+            border: var(--hairline-border);
+            padding: 0.8rem 1.4rem;
+            border-radius: 30px;
+            color: var(--brushed-gold);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: var(--transition-fast);
+            z-index: 100;
+        }
+
+        .back-btn:hover {
+            background: var(--brushed-gold);
+            color: var(--oled-black);
+            transform: translateX(-5px);
+            box-shadow: 0 4px 15px var(--glow-color);
+        }
+
+        /* Footer */
+        .legal-footer {
+            padding: 4rem 10% 3rem 10%;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: #050505;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: var(--font-serif);
+            color: var(--brushed-gold);
+            font-size: 1.8rem;
+            letter-spacing: 0.15em;
+            margin-bottom: 1rem;
+        }
+
+        .footer-legal-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-legal-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+            transition: var(--transition-fast);
+        }
+
+        .footer-legal-links a:hover {
+            color: var(--brushed-gold);
+        }
+
+        .copyright-text {
+            color: #555;
+            font-size: 0.75rem;
+            margin-top: 2.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .legal-container {
+                margin-top: 6rem;
+            }
+            .legal-title {
+                font-size: 2.2rem;
+            }
+            .back-btn {
+                top: 1.5rem;
+                left: 1.5rem;
+                padding: 0.6rem 1.2rem;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Botón Regresar -->
+    <a href="/" class="back-btn">
+        <span>← Volver al Inicio</span>
+    </a>
+
+    <!-- Contenedor Legal -->
+    <main class="legal-container">
+        
+        <h1 class="legal-title">Términos y Condiciones de Servicio</h1>
+        
+        <p class="legal-text" style="font-style: italic; color: var(--brushed-gold);">
+            Última actualización: 7 de junio de 2026.
+        </p>
+
+        <p class="legal-text">
+            Por favor, lee atentamente los siguientes Términos y Condiciones que regulan el uso de nuestro sitio web y los servicios prestados en nuestra boutique estética **Delinearte by Lucy González**. Al agendar una cita o realizar un pago a través de esta plataforma, aceptas quedar vinculado por estas reglas.
+        </p>
+
+        <h2 class="legal-section-title">1. Reservas de Citas y Pagos</h2>
+        <p class="legal-text">
+            Para garantizar un servicio exclusivo y optimizar los tiempos de cabina, la asignación de citas estéticas se rige bajo las siguientes modalidades:
+        </p>
+        <ul class="legal-list">
+            <li>**Pagos Seguros en Línea**: Los servicios pagados del catálogo (como Faciales y Uñas Élite) requieren el pago completo del tratamiento a través de la pasarela **Stripe** para poder reservar y bloquear tu horario.</li>
+            <li>**Servicios de Valoración**: Los tratamientos que requieren valoración física de autor previa (como Micropigmentación y Plasma Fibroblast) se reservan sin costo inicial mediante redirección a nuestro chat de **WhatsApp Concierge**, donde se acordará el día y la hora.</li>
+        </ul>
+
+        <h2 class="legal-section-title">2. Políticas de Cancelación y Reprogramación</h2>
+        <p class="legal-text">
+            Nuestro objetivo es brindar una atención dedicada a cada cliente. Por ello, solicitamos tu compromiso con la hora pactada:
+        </p>
+        <ul class="legal-list">
+            <li>**Plazo de 24 horas**: Puedes cancelar o reprogramar tu cita sin ninguna penalización hasta **24 horas antes** del horario de tu cita programada.</li>
+            <li>**Cancelación Tardía o Inasistencia**: Si cancelas o reprogramas tu cita con menos de 24 horas de anticipación, o no asistes a la boutique el día de tu cita, **el depósito o pago completo no será reembolsado** ni se aplicará como saldo para citas futuras. Esto cubre el costo del espacio bloqueado de la especialista que no pudo ofrecerse a otra clienta.</li>
+        </ul>
+
+        <h2 class="legal-section-title">3. Tolerancia de Retraso</h2>
+        <p class="legal-text">
+            Para no retrasar el inicio de las sesiones de las clientas subsecuentes, contamos con una **tolerancia máxima de 15 minutos**. 
+        </p>
+        <p class="legal-text">
+            Si excedes los 15 minutos de retraso, la sesión se considerará cancelada por inasistencia tardía, perdiendo el depósito correspondiente. En caso de que la especialista decida atenderte a pesar del retraso, el tiempo de tu tratamiento podrá verse reducido proporcionalmente al tiempo de tu demora.
+        </p>
+
+        <h2 class="legal-section-title">4. Reembolsos y Transacciones de Stripe</h2>
+        <p class="legal-text">
+            En caso de que proceda un reembolso de acuerdo con nuestras políticas (cancelaciones realizadas con más de 24 horas de antelación), este se solicitará a través del procesador de pagos **Stripe**.
+        </p>
+        <p class="legal-text">
+            Stripe procesa los reembolsos de manera automática hacia la tarjeta de origen utilizada. El tiempo que tarda el saldo en reflejarse en tu estado de cuenta bancario suele ser de **5 a 10 días hábiles**, dependiendo de los plazos de procesamiento de tu banco emisor. La Boutique no se hace responsable por demoras bancarias ajenas a nuestra administración.
+        </p>
+
+        <h2 class="legal-section-title">5. Declaración de Salud y Consentimiento</h2>
+        <p class="legal-text">
+            Para la realización de procedimientos de micropigmentación clínica (cejas, labios o delineado) o Plasma Fibroblast, te comprometes a declarar con total honestidad cualquier padecimiento de salud o condición relevante previa en el formulario o durante la valoración presencial.
+        </p>
+        <p class="legal-text">
+            **Contraindicaciones**: Algunos tratamientos están contraindicados para personas embarazadas, en periodo de lactancia, diabéticos no controlados, personas con tendencia a cicatrización queloide o portadores de marcapasos. Si tienes dudas, deberás consultar a tu médico antes de agendar y pagar.
+        </p>
+
+        <h2 class="legal-section-title">6. Aceptación de los Términos</h2>
+        <p class="legal-text">
+            Al realizar tu transacción o agendar tu cita, confirmas que has leído, entendido y aceptado los presentes Términos y Condiciones en su totalidad.
+        </p>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="legal-footer">
+        <div class="footer-logo">DELINEARTE</div>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; font-weight: 300; max-width: 600px; margin: 0 auto 1.5rem auto;">
+            Estética de autor y micropigmentación clínica avanzada por Lucy González.
+        </p>
+        <div class="footer-legal-links">
+            <a href="/politica-privacidad">Política de Privacidad</a>
+            <a href="/trayectoria">La Fundadora</a>
+            <a href="/faq">Preguntas Frecuentes</a>
+            <a href="/contacto">Contacto</a>
+        </div>
+        <p class="copyright-text">
+            &copy; 2026 Delinearte. Todos los derechos reservados. Diseñado bajo estándares de alta costura.
+        </p>
+    </footer>
+
+</body>
+</html>
