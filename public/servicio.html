@@ -205,24 +205,49 @@
         /* Insignia de Precio */
         .canva-price-badge {
             align-self: flex-start;
-            background: linear-gradient(135deg, var(--brushed-gold) 0%, #a27c39 100%);
-            color: var(--oled-black);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            background: transparent;
+            color: var(--brushed-gold);
+            border: 1px solid var(--brushed-gold);
             padding: 0.9rem 2.2rem;
             border-radius: 4px;
             font-weight: 700;
             font-size: 1.1rem;
             letter-spacing: 0.05em;
-            box-shadow: 0 8px 25px rgba(197, 160, 89, 0.35);
+            box-shadow: 0 8px 25px rgba(197, 160, 89, 0.1);
             margin-bottom: 2.5rem;
             display: flex;
             align-items: center;
             gap: 1rem;
-            transition: var(--transition-fast);
+            transition: color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+        }
+
+        .canva-price-badge::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--brushed-gold) 0%, #a27c39 100%);
+            z-index: -1;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+        }
+
+        .canva-price-badge:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
         }
 
         .canva-price-badge:hover {
-            transform: scale(1.03);
+            color: var(--oled-black);
+            border-color: transparent;
             box-shadow: 0 10px 30px rgba(197, 160, 89, 0.5);
+            transform: scale(1.03);
         }
 
         .price-badge-label {
@@ -231,8 +256,13 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
             opacity: 0.8;
-            border-left: 1px solid rgba(0, 0, 0, 0.25);
+            border-left: 1px solid rgba(197, 160, 89, 0.3);
             padding-left: 1rem;
+            transition: border-color 0.4s ease;
+        }
+
+        .canva-price-badge:hover .price-badge-label {
+            border-left-color: rgba(0, 0, 0, 0.25);
         }
 
         /* Sección de Pasos Estilo Editorial (Con líneas finas y números elegantes) */
@@ -341,6 +371,9 @@
         }
 
         .cta-large-btn {
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
             padding: 1.2rem 4rem;
             border-radius: 4px;
             font-weight: 700;
@@ -348,18 +381,39 @@
             letter-spacing: 0.15em;
             text-transform: uppercase;
             cursor: pointer;
-            transition: var(--transition-smooth);
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 1rem;
+            background: transparent;
+            color: var(--brushed-gold);
+            border: 1px solid var(--brushed-gold);
+            box-shadow: 0 6px 20px rgba(197, 160, 89, 0.15);
+            transition: color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+        }
+
+        .cta-large-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: var(--brushed-gold);
-            color: var(--oled-black);
-            box-shadow: 0 6px 20px rgba(197, 160, 89, 0.3);
+            z-index: -1;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+        }
+
+        .cta-large-btn:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
         }
 
         .cta-large-btn:hover {
-            background: var(--brushed-gold-light);
+            color: var(--oled-black);
+            border-color: transparent;
             box-shadow: 0 8px 30px rgba(197, 160, 89, 0.6);
             transform: translateY(-3px);
         }
