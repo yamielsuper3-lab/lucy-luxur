@@ -887,6 +887,27 @@
                 document.getElementById('prev-service-link')?.remove();
                 document.getElementById('next-service-link')?.remove();
             }
+
+            // Configurar navegación por teclado (flechas izquierda / derecha)
+            document.addEventListener('keydown', (e) => {
+                // Evitar navegación si el usuario está escribiendo en algún formulario
+                const activeTag = document.activeElement.tagName.toLowerCase();
+                if (activeTag === 'input' || activeTag === 'textarea' || document.activeElement.isContentEditable) {
+                    return;
+                }
+
+                if (e.key === 'ArrowLeft') {
+                    const prevLink = document.getElementById('prev-service-link');
+                    if (prevLink && prevLink.getAttribute('href') !== '#') {
+                        prevLink.click();
+                    }
+                } else if (e.key === 'ArrowRight') {
+                    const nextLink = document.getElementById('next-service-link');
+                    if (nextLink && nextLink.getAttribute('href') !== '#') {
+                        nextLink.click();
+                    }
+                }
+            });
         });
     </script>
 </body>
