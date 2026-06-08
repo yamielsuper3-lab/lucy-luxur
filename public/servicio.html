@@ -106,6 +106,7 @@
             box-shadow: none;
             z-index: 10;
             background: #000;
+            overflow: hidden;
         }
 
         .service-detail-img {
@@ -620,6 +621,59 @@
                 transform: translateX(3px);
             }
         }
+
+        /* Estilos para el Efecto de Disolución Cristalina */
+        .service-image-block {
+            overflow: hidden;
+        }
+
+        .service-detail-img {
+            transition: filter 0.8s ease, transform 0.8s ease;
+        }
+
+        .crystalline-grid-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 15;
+            pointer-events: none;
+            display: grid;
+        }
+
+        .crystalline-cell {
+            position: relative;
+            background-repeat: no-repeat;
+            box-shadow: inset 1px 1px 0px rgba(255, 255, 255, 0.15), inset -1px -1px 0px rgba(0, 0, 0, 0.2);
+            border: 0.5px solid rgba(197, 160, 89, 0.12); /* Cuadrícula dorada muy sutil */
+            transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+            opacity: 1;
+            filter: blur(0px) brightness(1);
+            transition: transform 1.4s cubic-bezier(0.25, 1, 0.5, 1), 
+                        opacity 1.4s cubic-bezier(0.25, 1, 0.5, 1), 
+                        filter 1.4s cubic-bezier(0.25, 1, 0.5, 1);
+            will-change: transform, opacity, filter;
+        }
+
+        .crystalline-cell.shattered {
+            opacity: 0;
+            filter: blur(6px) brightness(1.6) contrast(1.1); /* Resplandor brillante */
+        }
+
+        /* Vibración/Tremor de tensión de cristal antes de quebrarse */
+        @keyframes crack-tremor {
+            0%, 100% { transform: translate(0, 0) scale(1); filter: brightness(1); }
+            10% { transform: translate(-2px, 2px) scale(1.005); filter: brightness(1.05); }
+            30% { transform: translate(2px, -2px) scale(1.008); }
+            50% { transform: translate(-1px, 1px) scale(1.01); filter: brightness(1.1); }
+            70% { transform: translate(2px, 2px) scale(1.005); }
+            90% { transform: translate(-2px, -1px) scale(1.002); }
+        }
+
+        .cracking {
+            animation: crack-tremor 0.35s cubic-bezier(.36,.07,.19,.97) both;
+        }
     </style>
 </head>
 <body>
@@ -907,6 +961,168 @@
                         nextLink.click();
                     }
                 }
+            });
+
+            // ==========================================
+            // EFECTO DE TRANSICIÓN DE GALERÍA CRISTALINA
+            // ==========================================
+            const GALLERY_MAPPING = {
+                mirada: [
+                    'microblading.jpeg',
+                    'microblading_2.jpeg',
+                    'powder_brows.jpeg',
+                    'cejas_hd.jpeg',
+                    'cejas_hd_2.jpeg',
+                    'laminacion_cejas.jpeg',
+                    'extension_pestanas_tecnica_clasica.jpeg',
+                    'extension_pestanas_volumen.jpeg',
+                    'extension_pestanas_volumen_soft.jpeg',
+                    'lifting_pestanas.jpeg',
+                    'aquarela_lips_micropigmentacion.jpeg',
+                    'hidratante_lips.jpeg'
+                ],
+                faciales: [
+                    'facial_limpieza_profunda.jpeg',
+                    'facial_hidratante.jpeg',
+                    'facial_despigmentante.jpeg',
+                    'facial_antiedad.jpeg'
+                ],
+                unas: [
+                    'gel_semipermanente.jpeg',
+                    'poligel.jpeg',
+                    'ruber_base.jpeg',
+                    'soft_gel.jpeg',
+                    'vitamina_nail.jpeg'
+                ]
+            };
+
+            let galleryImages = [];
+            let currentGalleryIndex = 0;
+            let galleryInterval = null;
+
+            // Inicializar la galería para este servicio
+            if (data.image && data.image !== "") {
+                galleryImages.push(data.image);
+            }
+            const catGallery = GALLERY_MAPPING[data.category] || [];
+            catGallery.forEach(img => {
+                // Evitar duplicar la imagen de portada
+                if (img !== data.image && !img.includes(data.image)) {
+                    galleryImages.push(img);
+                }
+            });
+
+            // Si hay más de una imagen de galería, activar el carrusel de cristal
+            if (galleryImages.length > 1 && imgBlock && imgEl) {
+                startGallerySlideshow();
+            }
+
+            function startGallerySlideshow() {
+                if (galleryInterval) clearInterval(galleryInterval);
+                galleryInterval = setInterval(async () => {
+                    const nextIndex = (currentGalleryIndex + 1) % galleryImages.length;
+                    await triggerCrystallineShatter(galleryImages[currentGalleryIndex], galleryImages[nextIndex]);
+                    currentGalleryIndex = nextIndex;
+                }, 5000); // Cambiar cada 5 segundos
+            }
+
+            function triggerCrystallineShatter(fromUrl, toUrl) {
+                return new Promise((resolve) => {
+                    if (!imgBlock || !imgEl) return resolve();
+
+                    // 1. Iniciar animación de vibración de quiebre (tremor)
+                    imgBlock.classList.add('cracking');
+
+                    setTimeout(() => {
+                        // Quitar tremor
+                        imgBlock.classList.remove('cracking');
+
+                        // 2. Obtener dimensiones del contenedor de imagen
+                        const width = imgBlock.offsetWidth;
+                        const height = imgBlock.offsetHeight;
+
+                        // Si las dimensiones son cero (contenedor oculto en móvil) no hacer shatter
+                        if (width === 0 || height === 0) {
+                            imgEl.src = toUrl;
+                            return resolve();
+                        }
+
+                        // 3. Configurar dimensiones de la cuadrícula
+                        const cols = 8;
+                        const rows = 10;
+                        const cellWidth = width / cols;
+                        const cellHeight = height / rows;
+
+                        const gridWrapper = document.createElement('div');
+                        gridWrapper.className = 'crystalline-grid-wrapper';
+                        gridWrapper.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+                        gridWrapper.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+                        gridWrapper.style.width = `${width}px`;
+                        gridWrapper.style.height = `${height}px`;
+
+                        // 4. Crear los fragmentos
+                        for (let r = 0; r < rows; r++) {
+                            for (let c = 0; c < cols; c++) {
+                                const cell = document.createElement('div');
+                                cell.className = 'crystalline-cell';
+                                cell.style.backgroundImage = `url('${fromUrl}')`;
+                                cell.style.backgroundSize = `${width}px ${height}px`;
+                                cell.style.backgroundPosition = `-${c * cellWidth}px -${r * cellHeight}px`;
+
+                                // Retraso escalonado (staggered delay) desde el centro hacia afuera + factor aleatorio
+                                const centerX = cols / 2;
+                                const centerY = rows / 2;
+                                const dist = Math.sqrt((c - centerX) ** 2 + (r - centerY) ** 2);
+                                const delay = dist * 0.045 + Math.random() * 0.15;
+                                cell.style.transitionDelay = `${delay}s`;
+
+                                gridWrapper.appendChild(cell);
+                            }
+                        }
+
+                        // 5. Cubrir la imagen con la cuadrícula de cristal
+                        imgBlock.appendChild(gridWrapper);
+                        
+                        // Ocultar temporalmente la imagen base por debajo
+                        imgEl.style.opacity = '0';
+
+                        // 6. Cargar la nueva imagen en la base por debajo
+                        imgEl.src = toUrl;
+
+                        // 7. Disparar el shatter (dispersión cristalina de los fragmentos) en el siguiente frame
+                        requestAnimationFrame(() => {
+                            setTimeout(() => {
+                                // Devolver opacidad a la imagen base
+                                imgEl.style.opacity = '1';
+
+                                const cells = gridWrapper.querySelectorAll('.crystalline-cell');
+                                cells.forEach(cell => {
+                                    cell.classList.add('shattered');
+                                    
+                                    // Direcciones de dispersión aleatoria 3D
+                                    const randomX = (Math.random() - 0.5) * 160; 
+                                    const randomY = (Math.random() - 0.5) * 160; 
+                                    const randomScale = 0.15 + Math.random() * 0.35; 
+                                    const randomRotate = (Math.random() - 0.5) * 240; 
+                                    
+                                    cell.style.transform = `translate3d(${randomX}px, ${randomY}px, 0) scale(${randomScale}) rotate(${randomRotate}deg)`;
+                                });
+                            }, 50);
+                        });
+
+                        // 8. Limpiar los fragmentos del DOM una vez terminada la animación
+                        setTimeout(() => {
+                            gridWrapper.remove();
+                            resolve();
+                        }, 2000);
+
+                    }, 350); // Tiempo del tremor
+                });
+            }
+
+            // Asegurar que el temporizador de la galería se destruya si salimos de la página o cambiamos de vista
+            window.addEventListener('beforeunload', () => {
+                if (galleryInterval) clearInterval(galleryInterval);
             });
         });
     </script>

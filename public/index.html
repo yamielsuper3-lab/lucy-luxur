@@ -67,8 +67,27 @@
         
         <div class="header-right">
             <a href="#reservas" class="cta-button-nav">Reservar Cita</a>
+            <button class="mobile-menu-toggle" aria-label="Abrir Menú">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </header>
+
+    <!-- Menú Móvil Desplegable (Drawer) -->
+    <div class="mobile-menu-drawer">
+        <div class="mobile-menu-content">
+            <div class="mobile-menu-logo">DELINEARTE</div>
+            <ul class="mobile-nav-links">
+                <li><a href="#servicios" class="mobile-nav-link">Servicios</a></li>
+                <li><a href="/trayectoria" class="mobile-nav-link">La Fundadora</a></li>
+                <li><a href="/faq" class="mobile-nav-link">Preguntas Frecuentes</a></li>
+                <li><a href="/contacto" class="mobile-nav-link">Contacto</a></li>
+            </ul>
+            <a href="#reservas" class="mobile-cta-btn">Reservar Cita</a>
+        </div>
+    </div>
 
     <!-- Main Hero Slideshow (Estilo Jo Hansford) -->
     <main class="hero-slideshow-wrapper">
@@ -298,16 +317,36 @@
                 <div class="contact-details-list">
                     <div class="contact-detail-item">
                         <div class="detail-icon">📍</div>
-                        <div class="detail-text">Avenida Brasil, Nº 312, Centro</div>
+                        <div class="detail-text">
+                            <a id="address-link-home" href="https://maps.google.com/?q=Calle+Francia+140-B,+Col+Versalles,+Puerto+Vallarta,+Jalisco,+C.P.+48310" target="_blank">Calle Francia 140-B, Col. Versalles, Puerto Vallarta, Jal.</a>
+                        </div>
                     </div>
                     <div class="contact-detail-item">
                         <div class="detail-icon">📞</div>
-                        <div class="detail-text">+52 56 18 78 86 14</div>
+                        <div class="detail-text">
+                            <a href="https://wa.me/525618788614" target="_blank">+52 56 18 78 86 14</a>
+                        </div>
                     </div>
                     <div class="contact-detail-item">
                         <div class="detail-icon">✉</div>
-                        <div class="detail-text">contacto@delinearte.luxury</div>
+                        <div class="detail-text">
+                            <a href="mailto:contacto@delinearte.luxury">contacto@delinearte.luxury</a>
+                        </div>
                     </div>
+                </div>
+
+                <!-- Google Maps Dinámico (Se revela al hacer click en la dirección) -->
+                <div id="contact-map-container" class="contact-map-container" style="display: none; width: 100%; height: 0; opacity: 0; overflow: hidden; transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); margin-top: 1.5rem; border-radius: 6px; border: var(--hairline-border);">
+                    <iframe 
+                        id="contact-map-iframe"
+                        width="100%" 
+                        height="260px" 
+                        frameborder="0" 
+                        style="border:0; filter: grayscale(100%) invert(92%) contrast(95%) brightness(95%); opacity: 0.85; border-radius: 6px;" 
+                        src="" 
+                        allowfullscreen 
+                        loading="lazy">
+                    </iframe>
                 </div>
             </div>
             

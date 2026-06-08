@@ -856,4 +856,78 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     loadDynamicServices();
+
+    // ==========================================
+    // 11. MENÚ MÓVIL DESPLEGABLE (HAMBURGER TOGGLE)
+    // ==========================================
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const mobileMenuDrawer = document.querySelector('.mobile-menu-drawer');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link, .mobile-cta-btn');
+
+    if (mobileMenuToggle && mobileMenuDrawer) {
+        // Abrir/Cerrar Menú al hacer click en el botón hamburguesa
+        mobileMenuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileMenuToggle.classList.toggle('active');
+            mobileMenuDrawer.classList.toggle('active');
+            document.body.classList.toggle('body-no-scroll');
+        });
+
+        // Cerrar Menú al hacer click en cualquier enlace o botón dentro del drawer
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuToggle.classList.remove('active');
+                mobileMenuDrawer.classList.remove('active');
+                document.body.classList.remove('body-no-scroll');
+            });
+        });
+
+        // Cerrar Menú al hacer click fuera del drawer
+        document.addEventListener('click', (e) => {
+            if (mobileMenuDrawer.classList.contains('active') && 
+                !mobileMenuDrawer.contains(e.target) && 
+                !mobileMenuToggle.contains(e.target)) {
+                mobileMenuToggle.classList.remove('active');
+                mobileMenuDrawer.classList.remove('active');
+                document.body.classList.remove('body-no-scroll');
+            }
+        });
+    }
+
+    // ==========================================
+    // 12. MAPA INTERACTIVO DINÁMICO (TOGGLE ON CLICK)
+    // ==========================================
+    const addressLink = document.getElementById('address-link-home');
+    const mapContainer = document.getElementById('contact-map-container');
+    const mapIframe = document.getElementById('contact-map-iframe');
+
+    if (addressLink && mapContainer && mapIframe) {
+        addressLink.addEventListener('click', (e) => {
+            e.preventDefault(); // Evita redirigir a una página externa
+            const mapUrl = "https://maps.google.com/maps?q=Calle%20Francia%20140-B,%20Col%20Versalles,%20Puerto%20Vallarta,%20Jalisco,%20C.P.%2048310&t=&z=16&ie=UTF8&iwloc=&output=embed";
+            
+            if (mapContainer.style.display === 'none' || mapContainer.style.height === '0px' || mapContainer.style.height === '') {
+                if (!mapIframe.getAttribute('src')) {
+                    mapIframe.setAttribute('src', mapUrl);
+                }
+                mapContainer.style.display = 'block';
+                // Forzar reflujo
+                mapContainer.offsetHeight;
+                mapContainer.style.height = '260px';
+                mapContainer.style.opacity = '1';
+                
+                // Hacer scroll suave al contenedor para que sea visible
+                setTimeout(() => {
+                    mapContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 200);
+            } else {
+                mapContainer.style.height = '0px';
+                mapContainer.style.opacity = '0';
+                setTimeout(() => {
+                    mapContainer.style.display = 'none';
+                }, 500);
+            }
+        });
+    }
 });
+
