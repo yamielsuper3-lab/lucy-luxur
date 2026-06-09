@@ -242,7 +242,7 @@ async function initDatabase() {
                     tag: "Cosmética",
                     name: "Lucy Luxury",
                     url: "https://assets.mixkit.co/videos/preview/mixkit-cosmetic-oil-dropper-bottle-on-stone-surface-43026-large.mp4",
-                    poster: "lucy_profile.png",
+                    poster: "lucy_real_photo.png",
                     instagram_link: ""
                 }
             ];
