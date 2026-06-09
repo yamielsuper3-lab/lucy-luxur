@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -139,64 +139,12 @@
 
     <!-- Main Hero Slideshow (Estilo Jo Hansford) -->
     <main class="hero-slideshow-wrapper">
-        <div class="slides-container">
-            <!-- Slide 1: Micropigmentación (El fuerte de la Boutique) -->
-            <div class="hero-slide active" style="background-image: linear-gradient(to right, rgba(0, 0, 0, 0.85) 30%, rgba(0, 0, 0, 0.25) 100%), url('brows_luxury.png'); border-bottom: 1px solid rgba(197, 160, 89, 0.15);">
-                <div class="slide-overlay-shade"></div>
-                <div class="slide-content">
-                    <span class="slide-subtitle">El Arte de la Mirada</span>
-                    <h1 class="slide-title">Ceja Hiperrealista</h1>
-                    <p class="slide-text">
-                        Diseño y micropigmentación orgánica de cejas y labios adaptada a la simetría y armonía única de tu rostro.
-                    </p>
-                    <a href="#servicios" class="more-info-link">
-                        <div class="arrow-line"></div>
-                        <div class="arrow-head"></div>
-                        <span class="more-info-text">Agendar Valoración</span>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Slide 2: Uñas Élite -->
-            <div class="hero-slide" style="background-image: linear-gradient(to right, rgba(0, 0, 0, 0.85) 30%, rgba(0, 0, 0, 0.25) 100%), url('nails_luxury.png'); border-bottom: 1px solid rgba(197, 160, 89, 0.15);">
-                <div class="slide-overlay-shade"></div>
-                <div class="slide-content">
-                    <span class="slide-subtitle">Esculpido de Autor</span>
-                    <h1 class="slide-title">Uñas Élite</h1>
-                    <p class="slide-text">
-                        Esculpido fino de autor y extensiones premium diseñadas a medida con materiales de máxima calidad que respetan tu salud natural.
-                    </p>
-                    <a href="#servicios" class="more-info-link">
-                        <div class="arrow-line"></div>
-                        <div class="arrow-head"></div>
-                        <span class="more-info-text">Ver Carta de Uñas</span>
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Slide 3: Faciales Clínicos -->
-            <div class="hero-slide" style="background-image: linear-gradient(to right, rgba(0, 0, 0, 0.85) 30%, rgba(0, 0, 0, 0.25) 100%), url('skincare_luxury.png'); border-bottom: 1px solid rgba(197, 160, 89, 0.15);">
-                <div class="slide-overlay-shade"></div>
-                <div class="slide-content">
-                    <span class="slide-subtitle">Tratamientos de Autor</span>
-                    <h1 class="slide-title">Faciales Clínicos</h1>
-                    <p class="slide-text">
-                        Nutrición científica celular y aparatología avanzada de vanguardia para revelar la luminosidad real y juventud de tu piel.
-                    </p>
-                    <a href="#servicios" class="more-info-link">
-                        <div class="arrow-line"></div>
-                        <div class="arrow-head"></div>
-                        <span class="more-info-text">Explorar Faciales</span>
-                    </a>
-                </div>
-            </div>
+        <div class="slides-container" id="hero-slides-container">
+            <!-- Cargado Dinamicamente desde /api/hero-slides -->
         </div>
-
-        <!-- Botones de Paginación Manual -->
-        <div class="slideshow-pagination">
-            <span class="pagination-dot active" data-slide="0"></span>
-            <span class="pagination-dot" data-slide="1"></span>
-            <span class="pagination-dot" data-slide="2"></span>
+        <!-- Botones de Paginacion Manual -->
+        <div class="slideshow-pagination" id="hero-pagination">
+            <!-- Generado dinamicamente -->
         </div>
     </main>
 
@@ -631,3 +579,4 @@
     <script src="script.js?v=2.3"></script>
 </body>
 </html>
+

@@ -88,6 +88,17 @@ async function initDatabase() {
             name TEXT,
             instagram_link TEXT
         );
+
+        CREATE TABLE IF NOT EXISTS hero_slides (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            slide_order INTEGER NOT NULL DEFAULT 0,
+            image TEXT NOT NULL,
+            subtitle TEXT,
+            title TEXT NOT NULL,
+            body TEXT,
+            cta_text TEXT,
+            cta_href TEXT
+        );
     `);
     
     // 2. Semilla (Seeding) si la base de datos está vacía
@@ -265,7 +276,53 @@ async function initDatabase() {
         console.error('[Database] Error al migrar URLs de videos vacías:', error);
     }
 
-    // 5. Sincronización dinámica de nuevos servicios de services-data.js
+    // 5. Semilla para la tabla hero_slides
+    try {
+        const slideCount = await database.get('SELECT COUNT(*) as count FROM hero_slides');
+        if (slideCount.count === 0) {
+            console.log('[Database] La tabla hero_slides está vacía. Iniciando siembra...');
+            const defaultSlides = [
+                {
+                    slide_order: 1,
+                    image: 'brows_luxury.png',
+                    subtitle: 'El Arte de la Mirada',
+                    title: 'Ceja Hiperrealista',
+                    body: 'Diseño y micropigmentación orgánica de cejas y labios adaptada a la simetría y armonía única de tu rostro.',
+                    cta_text: 'Agendar Valoración',
+                    cta_href: '#servicios'
+                },
+                {
+                    slide_order: 2,
+                    image: 'nails_luxury.png',
+                    subtitle: 'Esculpido de Autor',
+                    title: 'Uñas Élite',
+                    body: 'Esculpido fino de autor y extensiones premium diseñadas a medida con materiales de máxima calidad que respetan tu salud natural.',
+                    cta_text: 'Ver Carta de Uñas',
+                    cta_href: '#servicios'
+                },
+                {
+                    slide_order: 3,
+                    image: 'skincare_luxury.png',
+                    subtitle: 'Tratamientos de Autor',
+                    title: 'Faciales Clínicos',
+                    body: 'Nutrición científica celular y aparatología avanzada de vanguardia para revelar la luminosidad real y juventud de tu piel.',
+                    cta_text: 'Explorar Faciales',
+                    cta_href: '#servicios'
+                }
+            ];
+            for (const slide of defaultSlides) {
+                await database.run(`
+                    INSERT INTO hero_slides (slide_order, image, subtitle, title, body, cta_text, cta_href)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                `, [slide.slide_order, slide.image, slide.subtitle, slide.title, slide.body, slide.cta_text, slide.cta_href]);
+            }
+            console.log('[Database] Siembra de hero_slides completada con éxito.');
+        }
+    } catch (error) {
+        console.error('[Database] Error al sembrar hero_slides:', error);
+    }
+
+    // 6. Sincronización dinámica de nuevos servicios de services-data.js
     try {
         const SERVICES_DATA = require('./services-data.js');
         const dbServices = await database.all('SELECT id FROM services');

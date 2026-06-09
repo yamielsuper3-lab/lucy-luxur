@@ -439,6 +439,12 @@
             color: var(--oled-black);
             box-shadow: 0 0 10px rgba(197, 160, 89, 0.3);
         }
+        /* Ocultar inyecciones de extensiones del navegador */
+        [id^="babelrc"], [class^="__ext"], body > iframe:not([src]), body > div[style*="z-index: 2147483647"],
+        grammarly-extension, grammarly-desktop-integration {
+            display: none !important;
+            visibility: hidden !important;
+        }
     </style>
 </head>
 <body>
@@ -454,7 +460,8 @@
             
             <div class="sidebar-tabs">
                 <div class="sidebar-tab active" id="tab-services" onclick="switchTab('services')">Servicios</div>
-                <div class="sidebar-tab" id="tab-videos" onclick="switchTab('videos')">Videos Instagram</div>
+                <div class="sidebar-tab" id="tab-videos" onclick="switchTab('videos')">Videos</div>
+                <div class="sidebar-tab" id="tab-banners" onclick="switchTab('banners')">Banners Hero</div>
             </div>
             
             <div class="services-list-scroll" id="sidebar-list-container">
@@ -492,8 +499,10 @@
     <script>
         let servicesData = {};
         let videosData = {};
+        let bannersData = {};
         let activeServiceId = null;
         let activeVideoId = null;
+        let activeBannerId = null;
         let currentTab = 'services';
 
         document.addEventListener('DOMContentLoaded', async () => {
@@ -522,6 +531,9 @@
             } else if (tab === 'videos') {
                 document.getElementById('tab-videos').classList.add('active');
                 await fetchSidebarVideos();
+            } else if (tab === 'banners') {
+                document.getElementById('tab-banners').classList.add('active');
+                await fetchSidebarBanners();
             }
         }
 
@@ -642,6 +654,58 @@
 
             } catch (error) {
                 console.error('[Sidebar Videos Error]', error);
+            }
+        }
+
+        // 2.5 Obtener la lista de banners hero del sidebar
+        async function fetchSidebarBanners() {
+            try {
+                const response = await fetch('/api/hero-slides');
+                if (!response.ok) throw new Error('Error al obtener banners hero');
+                const banners = await response.json();
+
+                bannersData = {};
+                banners.forEach(b => { bannersData[b.id] = b; });
+
+                const sidebarContainer = document.getElementById('sidebar-list-container');
+                sidebarContainer.innerHTML = '';
+
+                const groupDiv = document.createElement('div');
+                groupDiv.className = 'sidebar-cat-group';
+
+                const title = document.createElement('div');
+                title.className = 'sidebar-cat-title';
+                title.textContent = 'Banners del Carrusel Hero';
+                groupDiv.appendChild(title);
+
+                banners.forEach(banner => {
+                    const item = document.createElement('div');
+                    item.className = 'sidebar-service-item';
+                    if (banner.id === activeBannerId) item.classList.add('active');
+                    item.dataset.id = banner.id;
+                    item.innerHTML = `
+                        <span>${banner.title}</span>
+                        <span style="font-size:0.75rem;color:var(--brushed-gold);">#${banner.slide_order}</span>
+                    `;
+                    item.addEventListener('click', () => {
+                        document.querySelectorAll('.sidebar-service-item').forEach(el => el.classList.remove('active'));
+                        item.classList.add('active');
+                        loadBannerIntoEditor(banner.id);
+                    });
+                    groupDiv.appendChild(item);
+                });
+
+                sidebarContainer.appendChild(groupDiv);
+
+                // Botón agregar nuevo banner
+                const addBtn = document.createElement('div');
+                addBtn.className = 'sidebar-add-btn';
+                addBtn.textContent = '+ Agregar Banner';
+                addBtn.addEventListener('click', createNewBannerForm);
+                sidebarContainer.appendChild(addBtn);
+
+            } catch (error) {
+                console.error('[Sidebar Banners Error]', error);
             }
         }
 
@@ -885,6 +949,248 @@
                         <p>Error al cargar la información del video en el editor.</p>
                     </div>
                 `;
+            }
+        }
+
+        // 4.5 Cargar un banner hero en el panel editor
+        async function loadBannerIntoEditor(id) {
+            activeBannerId = id;
+            const wrapper = document.getElementById('editor-wrapper');
+            wrapper.innerHTML = `<div style="text-align:center;padding:5rem;color:var(--text-secondary);">Cargando banner...</div>`;
+            try {
+                const response = await fetch(`/api/hero-slides/${id}`);
+                if (!response.ok) throw new Error('Error al obtener banner');
+                const data = await response.json();
+
+                wrapper.innerHTML = `
+                    <div class="editor-card glass-panel">
+                        <form id="edit-banner-form">
+                            <h3 style="font-family:var(--font-serif);color:var(--brushed-gold);margin-bottom:2rem;font-size:1.6rem;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:1rem;">
+                                Editar Banner Hero
+                            </h3>
+
+                            <!-- Indicación de tamaño -->
+                            <div style="background:rgba(197,160,89,0.08);border:1px solid rgba(197,160,89,0.25);border-radius:6px;padding:1rem 1.2rem;margin-bottom:1.5rem;font-size:0.82rem;color:var(--brushed-gold-light);line-height:1.6;">
+                                📐 <strong>Tamaño recomendado de imagen:</strong> <span style="color:#fff;">1920 × 1080 px</span> (Pantalla completa, formato horizontal 16:9)<br>
+                                📄 <strong>Formatos aceptados:</strong> JPG, PNG, WEBP &nbsp;|&nbsp;
+                                💾 <strong>Peso máximo:</strong> 10 MB<br>
+                                💡 <em>Imágenes oscuras o con gradiente funcionan mejor porque el texto va encima.</em>
+                            </div>
+
+                            <div class="form-grid-2">
+                                <div class="input-group">
+                                    <label for="edit-banner-title">Título Principal *</label>
+                                    <input type="text" id="edit-banner-title" class="admin-input" required value="${data.title || ''}" placeholder="Ej: Ceja Hiperrealista">
+                                </div>
+                                <div class="input-group">
+                                    <label for="edit-banner-subtitle">Subtítulo (Lema pequeño arriba)</label>
+                                    <input type="text" id="edit-banner-subtitle" class="admin-input" value="${data.subtitle || ''}" placeholder="Ej: El Arte de la Mirada">
+                                </div>
+                                <div class="input-group form-full-width">
+                                    <label for="edit-banner-body">Texto Descriptivo</label>
+                                    <textarea id="edit-banner-body" class="admin-textarea" style="height:100px;">${data.body || ''}</textarea>
+                                </div>
+                                <div class="input-group">
+                                    <label for="edit-banner-cta">Texto del Botón CTA</label>
+                                    <input type="text" id="edit-banner-cta" class="admin-input" value="${data.cta_text || ''}" placeholder="Ej: Agendar Valoración">
+                                </div>
+                                <div class="input-group">
+                                    <label for="edit-banner-href">Enlace del Botón</label>
+                                    <input type="text" id="edit-banner-href" class="admin-input" value="${data.cta_href || '#servicios'}" placeholder="#servicios o URL completa">
+                                </div>
+                                <div class="input-group">
+                                    <label for="edit-banner-order">Orden de aparición</label>
+                                    <input type="number" id="edit-banner-order" class="admin-input" min="1" value="${data.slide_order || 1}">
+                                </div>
+                                <div class="input-group form-full-width">
+                                    <label>Imagen de Fondo — 1920×1080px recomendado</label>
+                                    <div class="image-dropzone" id="banner-image-dropzone">
+                                        <div class="dropzone-text" id="banner-image-dz-text">Arrastra una imagen aquí o haz clic para subir 📷</div>
+                                        <input type="text" id="edit-banner-image" class="admin-input" value="${data.image || ''}" placeholder="Ej: brows_luxury.png">
+                                        <input type="file" id="edit-banner-image-file" style="display:none;" accept="image/*">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="btn-row" style="justify-content:space-between;">
+                                <button type="submit" class="save-btn" id="save-banner-btn">
+                                    <span>Guardar Banner</span> ✦
+                                </button>
+                                <button type="button" class="save-btn" id="delete-banner-btn" style="background:rgba(244,67,54,0.1);border-color:#f44336;color:#f44336;">
+                                    <span>Eliminar Banner</span> ✖
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                `;
+
+                document.getElementById('edit-banner-form').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    await saveBannerChanges(id);
+                });
+
+                document.getElementById('delete-banner-btn').addEventListener('click', async () => {
+                    if (confirm(`¿Eliminar el banner "${data.title}"? Esta acción no se puede deshacer.`)) {
+                        await deleteBanner(id);
+                    }
+                });
+
+                setupDragAndDrop('banner-image-dropzone', 'edit-banner-image-file', 'edit-banner-image', 'banner-image-dz-text');
+
+            } catch (error) {
+                console.error('[Banner Load Error]', error);
+                wrapper.innerHTML = `<div class="glass-panel" style="padding:3rem;text-align:center;color:var(--brushed-gold);"><p>Error al cargar el banner.</p></div>`;
+            }
+        }
+
+        // 4.6 Formulario de nuevo banner
+        function createNewBannerForm() {
+            activeBannerId = null;
+            document.querySelectorAll('.sidebar-service-item').forEach(el => el.classList.remove('active'));
+            const wrapper = document.getElementById('editor-wrapper');
+            wrapper.innerHTML = `
+                <div class="editor-card glass-panel">
+                    <form id="create-banner-form">
+                        <h3 style="font-family:var(--font-serif);color:var(--brushed-gold);margin-bottom:2rem;font-size:1.6rem;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:1rem;">
+                            Agregar Nuevo Banner Hero
+                        </h3>
+
+                        <div style="background:rgba(197,160,89,0.08);border:1px solid rgba(197,160,89,0.25);border-radius:6px;padding:1rem 1.2rem;margin-bottom:1.5rem;font-size:0.82rem;color:var(--brushed-gold-light);line-height:1.6;">
+                            📐 <strong>Tamaño recomendado de imagen:</strong> <span style="color:#fff;">1920 × 1080 px</span> (Pantalla completa, formato horizontal 16:9)<br>
+                            📄 <strong>Formatos aceptados:</strong> JPG, PNG, WEBP &nbsp;|&nbsp;
+                            💾 <strong>Peso máximo:</strong> 10 MB<br>
+                            💡 <em>Imágenes oscuras o con gradiente funcionan mejor porque el texto va encima.</em>
+                        </div>
+
+                        <div class="form-grid-2">
+                            <div class="input-group">
+                                <label for="create-banner-title">Título Principal *</label>
+                                <input type="text" id="create-banner-title" class="admin-input" required placeholder="Ej: Ceja Hiperrealista">
+                            </div>
+                            <div class="input-group">
+                                <label for="create-banner-subtitle">Subtítulo</label>
+                                <input type="text" id="create-banner-subtitle" class="admin-input" placeholder="Ej: El Arte de la Mirada">
+                            </div>
+                            <div class="input-group form-full-width">
+                                <label for="create-banner-body">Texto Descriptivo</label>
+                                <textarea id="create-banner-body" class="admin-textarea" style="height:100px;" placeholder="Descripción breve del servicio destacado..."></textarea>
+                            </div>
+                            <div class="input-group">
+                                <label for="create-banner-cta">Texto del Botón CTA</label>
+                                <input type="text" id="create-banner-cta" class="admin-input" placeholder="Ej: Agendar Valoración">
+                            </div>
+                            <div class="input-group">
+                                <label for="create-banner-href">Enlace del Botón</label>
+                                <input type="text" id="create-banner-href" class="admin-input" value="#servicios" placeholder="#servicios o URL completa">
+                            </div>
+                            <div class="input-group">
+                                <label for="create-banner-order">Orden de aparición</label>
+                                <input type="number" id="create-banner-order" class="admin-input" min="1" value="4">
+                            </div>
+                            <div class="input-group form-full-width">
+                                <label>Imagen de Fondo — 1920×1080px recomendado</label>
+                                <div class="image-dropzone" id="new-banner-image-dropzone">
+                                    <div class="dropzone-text" id="new-banner-image-dz-text">Arrastra una imagen aquí o haz clic para subir 📷</div>
+                                    <input type="text" id="create-banner-image" class="admin-input" required placeholder="Ej: brows_luxury.png">
+                                    <input type="file" id="create-banner-image-file" style="display:none;" accept="image/*">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="btn-row">
+                            <button type="submit" class="save-btn" id="create-banner-btn">
+                                <span>Agregar Banner</span> ✦
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            document.getElementById('create-banner-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                await saveNewBanner();
+            });
+
+            setupDragAndDrop('new-banner-image-dropzone', 'create-banner-image-file', 'create-banner-image', 'new-banner-image-dz-text');
+        }
+
+        // 4.7 Guardar cambios de banner
+        async function saveBannerChanges(id) {
+            const saveBtn = document.getElementById('save-banner-btn');
+            saveBtn.innerHTML = '<span>Guardando...</span>';
+            saveBtn.disabled = true;
+            try {
+                const payload = {
+                    title: document.getElementById('edit-banner-title').value.trim(),
+                    subtitle: document.getElementById('edit-banner-subtitle').value.trim(),
+                    body: document.getElementById('edit-banner-body').value.trim(),
+                    cta_text: document.getElementById('edit-banner-cta').value.trim(),
+                    cta_href: document.getElementById('edit-banner-href').value.trim(),
+                    slide_order: parseInt(document.getElementById('edit-banner-order').value) || 1,
+                    image: document.getElementById('edit-banner-image').value.trim()
+                };
+                const response = await fetch(`/api/hero-slides/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const res = await response.json();
+                if (!response.ok) throw new Error(res.error || 'Error al guardar');
+                showToast('✅ Banner actualizado. Se verá en el sitio al recargar.');
+                await fetchSidebarBanners();
+                await loadBannerIntoEditor(id);
+            } catch (error) {
+                showToast(`❌ Error: ${error.message}`, true);
+            } finally {
+                saveBtn.innerHTML = '<span>Guardar Banner</span> ✦';
+                saveBtn.disabled = false;
+            }
+        }
+
+        // 4.8 Crear nuevo banner
+        async function saveNewBanner() {
+            const saveBtn = document.getElementById('create-banner-btn');
+            saveBtn.innerHTML = '<span>Guardando...</span>';
+            saveBtn.disabled = true;
+            try {
+                const payload = {
+                    title: document.getElementById('create-banner-title').value.trim(),
+                    subtitle: document.getElementById('create-banner-subtitle').value.trim(),
+                    body: document.getElementById('create-banner-body').value.trim(),
+                    cta_text: document.getElementById('create-banner-cta').value.trim(),
+                    cta_href: document.getElementById('create-banner-href').value.trim() || '#servicios',
+                    slide_order: parseInt(document.getElementById('create-banner-order').value) || 99,
+                    image: document.getElementById('create-banner-image').value.trim()
+                };
+                const response = await fetch('/api/hero-slides', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const res = await response.json();
+                if (!response.ok) throw new Error(res.error || 'Error al crear banner');
+                showToast('✅ Nuevo banner agregado con éxito.');
+                await fetchSidebarBanners();
+                await loadBannerIntoEditor(res.id);
+            } catch (error) {
+                showToast(`❌ Error: ${error.message}`, true);
+            } finally {
+                saveBtn.innerHTML = '<span>Agregar Banner</span> ✦';
+                saveBtn.disabled = false;
+            }
+        }
+
+        // 4.9 Eliminar banner
+        async function deleteBanner(id) {
+            try {
+                const response = await fetch(`/api/hero-slides/${id}`, { method: 'DELETE' });
+                const res = await response.json();
+                if (!response.ok) throw new Error(res.error || 'Error al eliminar banner');
+                showToast('✅ Banner eliminado.');
+                activeBannerId = null;
+                await switchTab('banners');
+            } catch (error) {
+                showToast(`❌ Error: ${error.message}`, true);
             }
         }
 

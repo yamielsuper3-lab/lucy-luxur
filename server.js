@@ -62,6 +62,7 @@ const basicAuth = (req, res, next) => {
     const isProtectedPage = req.path === '/editor' || req.path === '/editor.html';
     const isWriteApi = (req.path.startsWith('/api/services') && req.method !== 'GET') ||
                       (req.path.startsWith('/api/videos') && req.method !== 'GET') ||
+                      (req.path.startsWith('/api/hero-slides') && req.method !== 'GET') ||
                       req.path.startsWith('/api/upload');
                       
     if (isProtectedPage || isWriteApi) {
@@ -365,6 +366,86 @@ app.post('/api/upload', (req, res) => {
             res.status(500).json({ error: 'Fallo al procesar la subida del archivo.' });
         }
     });
+});
+
+// ------ HERO SLIDES API ------
+
+// GET all hero slides
+app.get('/api/hero-slides', async (req, res) => {
+    try {
+        const db = await getDatabase();
+        const slides = await db.all('SELECT * FROM hero_slides ORDER BY slide_order ASC');
+        res.json(slides);
+    } catch (error) {
+        console.error('[API Error] Error al obtener hero_slides:', error);
+        res.status(500).json({ error: 'Error al obtener los banners hero.' });
+    }
+});
+
+// GET single hero slide
+app.get('/api/hero-slides/:id', async (req, res) => {
+    try {
+        const db = await getDatabase();
+        const slide = await db.get('SELECT * FROM hero_slides WHERE id = ?', [req.params.id]);
+        if (!slide) return res.status(404).json({ error: 'Banner no encontrado.' });
+        res.json(slide);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al obtener el banner.' });
+    }
+});
+
+// POST create new hero slide
+app.post('/api/hero-slides', async (req, res) => {
+    try {
+        const { image, subtitle, title, body, cta_text, cta_href, slide_order } = req.body;
+        if (!title || !image) return res.status(400).json({ error: 'Título e imagen son obligatorios.' });
+        const db = await getDatabase();
+        // Determine order
+        const maxOrder = await db.get('SELECT MAX(slide_order) as maxo FROM hero_slides');
+        const newOrder = slide_order || (maxOrder.maxo || 0) + 1;
+        const result = await db.run(
+            'INSERT INTO hero_slides (slide_order, image, subtitle, title, body, cta_text, cta_href) VALUES (?,?,?,?,?,?,?)',
+            [newOrder, image, subtitle || '', title, body || '', cta_text || '', cta_href || '#servicios']
+        );
+        res.json({ success: true, id: result.lastID, message: 'Banner creado correctamente.' });
+    } catch (error) {
+        console.error('[API Error] Error al crear banner:', error);
+        res.status(500).json({ error: 'Error al crear el banner.' });
+    }
+});
+
+// PUT update hero slide
+app.put('/api/hero-slides/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { image, subtitle, title, body, cta_text, cta_href, slide_order } = req.body;
+        const db = await getDatabase();
+        const slide = await db.get('SELECT id FROM hero_slides WHERE id = ?', [id]);
+        if (!slide) return res.status(404).json({ error: 'Banner no encontrado.' });
+        await db.run(
+            'UPDATE hero_slides SET image=?, subtitle=?, title=?, body=?, cta_text=?, cta_href=?, slide_order=? WHERE id=?',
+            [image, subtitle, title, body, cta_text, cta_href, slide_order, id]
+        );
+        res.json({ success: true, message: 'Banner actualizado correctamente.' });
+    } catch (error) {
+        console.error('[API Error] Error al actualizar banner:', error);
+        res.status(500).json({ error: 'Error al actualizar el banner.' });
+    }
+});
+
+// DELETE hero slide
+app.delete('/api/hero-slides/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const db = await getDatabase();
+        const slide = await db.get('SELECT id FROM hero_slides WHERE id = ?', [id]);
+        if (!slide) return res.status(404).json({ error: 'Banner no encontrado.' });
+        await db.run('DELETE FROM hero_slides WHERE id = ?', [id]);
+        res.json({ success: true, message: 'Banner eliminado correctamente.' });
+    } catch (error) {
+        console.error('[API Error] Error al eliminar banner:', error);
+        res.status(500).json({ error: 'Error al eliminar el banner.' });
+    }
 });
 
 // 3. Crear sesión de pago en Stripe (Checkout)

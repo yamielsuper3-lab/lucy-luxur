@@ -215,31 +215,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 3. CONTROLADOR DEL SLIDESHOW DE BIENVENIDA (Estilo Jo Hansford)
+    // 3. CONTROLADOR DEL SLIDESHOW HERO (Dinámico desde BD)
     // ==========================================
-    
-    const slides = document.querySelectorAll('.hero-slide');
-    const dots = document.querySelectorAll('.pagination-dot');
+
+    let slides = [];
+    let dots = [];
     let currentSlide = 0;
     let slideInterval;
-    const intervalTime = 6000; // 6 segundos por diapositiva para lectura óptima
+    const intervalTime = 6000;
 
     function showSlide(index) {
         if (slides.length === 0) return;
-        
-        // Remover clase active de todos los slides y dots
-        slides.forEach(slide => {
-            slide.classList.remove('active');
-            
-            // Forzar reinicio de animación de textos para entrada limpia
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === index);
             const content = slide.querySelector('.slide-content');
             if (content) {
                 content.style.opacity = '0';
                 content.style.transform = 'translateY(30px)';
-                content.offsetHeight; // Truco de reflow para resetear animaciones
-                
-                // Si es el slide activo, volver a animar con delay
-                if (index === Array.from(slides).indexOf(slide)) {
+                content.offsetHeight;
+                if (i === index) {
                     setTimeout(() => {
                         content.style.opacity = '1';
                         content.style.transform = 'translateY(0)';
@@ -247,12 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
-        dots.forEach(dot => dot.classList.remove('active'));
-
-        // Activar el slide y dot actual
-        slides[index].classList.add('active');
-        if (dots[index]) dots[index].classList.add('active');
-        
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
         currentSlide = index;
     }
 
@@ -271,13 +260,63 @@ document.addEventListener('DOMContentLoaded', () => {
         if (slideInterval) clearInterval(slideInterval);
     }
 
-    // Inicializar navegación manual por dots
-    dots.forEach((dot, idx) => {
-        dot.addEventListener('click', () => {
-            showSlide(idx);
-            startSlideShow(); // Reiniciar contador al interactuar
-        });
-    });
+    async function initHeroSlideshow() {
+        const slidesContainer = document.getElementById('hero-slides-container');
+        const paginationContainer = document.getElementById('hero-pagination');
+        if (!slidesContainer || !paginationContainer) return;
+
+        try {
+            const res = await fetch('/api/hero-slides');
+            const slidesData = await res.json();
+
+            if (!slidesData || slidesData.length === 0) return;
+
+            slidesContainer.innerHTML = '';
+            paginationContainer.innerHTML = '';
+
+            slidesData.forEach((s, idx) => {
+                // Build slide element
+                const div = document.createElement('div');
+                div.className = 'hero-slide' + (idx === 0 ? ' active' : '');
+                div.style.backgroundImage = `linear-gradient(to right, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.25) 100%), url('${s.image}')`;
+                div.style.borderBottom = '1px solid rgba(197,160,89,0.15)';
+                div.innerHTML = `
+                    <div class="slide-overlay-shade"></div>
+                    <div class="slide-content">
+                        ${s.subtitle ? `<span class="slide-subtitle">${s.subtitle}</span>` : ''}
+                        <h1 class="slide-title">${s.title}</h1>
+                        ${s.body ? `<p class="slide-text">${s.body}</p>` : ''}
+                        <a href="${s.cta_href || '#servicios'}" class="more-info-link">
+                            <div class="arrow-line"></div>
+                            <div class="arrow-head"></div>
+                            <span class="more-info-text">${s.cta_text || 'Ver Más'}</span>
+                        </a>
+                    </div>
+                `;
+                slidesContainer.appendChild(div);
+
+                // Build dot
+                const dot = document.createElement('span');
+                dot.className = 'pagination-dot' + (idx === 0 ? ' active' : '');
+                dot.dataset.slide = idx;
+                dot.addEventListener('click', () => {
+                    showSlide(idx);
+                    startSlideShow();
+                });
+                paginationContainer.appendChild(dot);
+            });
+
+            // Re-query slides and dots now that they're rendered
+            slides = Array.from(slidesContainer.querySelectorAll('.hero-slide'));
+            dots = Array.from(paginationContainer.querySelectorAll('.pagination-dot'));
+
+            showSlide(0);
+            startSlideShow();
+
+        } catch (err) {
+            console.error('[HeroSlideshow] Error al cargar banners:', err);
+        }
+    }
 
     // Pausar en hover para permitir lectura pausada
     const slideshowWrapper = document.querySelector('.hero-slideshow-wrapper');
@@ -286,11 +325,8 @@ document.addEventListener('DOMContentLoaded', () => {
         slideshowWrapper.addEventListener('mouseleave', startSlideShow);
     }
 
-    // Arrancar slideshow
-    if (slides.length > 0) {
-        showSlide(0);
-        startSlideShow();
-    }
+    // Arrancar slideshow dinámico
+    initHeroSlideshow();
 
     // ==========================================
     // 4. CAMBIO ESTILIZADO DE HEADER AL SCROLL
