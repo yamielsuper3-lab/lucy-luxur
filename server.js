@@ -53,9 +53,47 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY || 'sk_test_51PMk
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
+// Middleware esenciales
 app.use(cors());
 app.use(express.json());
+
+// Middleware de Autenticación para el Panel de Administración y APIs de escritura
+const basicAuth = (req, res, next) => {
+    const isProtectedPage = req.path === '/admin.html';
+    const isWriteApi = (req.path.startsWith('/api/services') && req.method !== 'GET') ||
+                      (req.path.startsWith('/api/videos') && req.method !== 'GET') ||
+                      req.path.startsWith('/api/upload');
+                      
+    if (isProtectedPage || isWriteApi) {
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            res.setHeader('WWW-Authenticate', 'Basic realm="Admin Delinearte"');
+            return res.status(401).send('Authentication required.');
+        }
+        
+        try {
+            const auth = Buffer.from(authHeader.split(' ')[1], 'base64').toString().split(':');
+            const username = auth[0];
+            const password = auth[1];
+            
+            const expectedUsername = 'lucy';
+            const expectedPassword = process.env.ADMIN_PASSWORD || 'Ludisaju0212';
+            
+            if (username === expectedUsername && password === expectedPassword) {
+                return next();
+            }
+        } catch (e) {
+            console.error('[Auth Error]', e);
+        }
+        
+        res.setHeader('WWW-Authenticate', 'Basic realm="Admin Delinearte"');
+        return res.status(401).send('Invalid credentials.');
+    }
+    
+    next();
+};
+
+app.use(basicAuth);
 
 // Servir archivos estáticos del frontend desde la carpeta 'public'
 app.use(express.static(path.join(__dirname, 'public')));
