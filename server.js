@@ -59,7 +59,7 @@ app.use(express.json());
 
 // Middleware de Autenticación para el Panel de Administración y APIs de escritura
 const basicAuth = (req, res, next) => {
-    const isProtectedPage = req.path === '/admin.html';
+    const isProtectedPage = req.path === '/editor' || req.path === '/editor.html';
     const isWriteApi = (req.path.startsWith('/api/services') && req.method !== 'GET') ||
                       (req.path.startsWith('/api/videos') && req.method !== 'GET') ||
                       req.path.startsWith('/api/upload');
@@ -422,6 +422,14 @@ app.post('/api/create-checkout-session', async (req, res) => {
 });
 
 // 4. Rutas Limpias de Navegación de Autoridad
+app.get('/editor', basicAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'editor.html'));
+});
+
+app.get('/editor.html', basicAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'editor.html'));
+});
+
 app.get('/trayectoria', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'trayectoria.html'));
 });
