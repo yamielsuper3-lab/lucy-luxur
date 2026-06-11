@@ -176,17 +176,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 const leadId = 'LL-' + Math.floor(1000 + Math.random() * 9000);
                 
                 // Formatear mensaje para WhatsApp
-                const message = `✨ *DELINEARTE - NUEVA RESERVA (SUCURSAL)* ✨\n\n` +
-                                `👑 *Cliente:* ${name}\n` +
-                                `📞 *Teléfono:* ${phone}\n` +
-                                `💅 *Servicio:* ${service}\n` +
-                                `📅 *Fecha:* ${date}\n` +
-                                `⏰ *Hora:* ${time}\n` +
-                                `📝 *Notas:* ${notes}\n\n` +
+                const message = `\u2728 *DELINEARTE - NUEVA RESERVA (SUCURSAL)* \u2728\n\n` +
+                                `\uD83D\uDC51 *Cliente:* ${name}\n` +
+                                `\uD83D\uDCDE *Tel\u00F3fono:* ${phone}\n` +
+                                `\uD83D\uDC85 *Servicio:* ${service}\n` +
+                                `\uD83D\uDCC5 *Fecha:* ${date}\n` +
+                                `\u23F0 *Hora:* ${time}\n` +
+                                `\uD83D\uDCDD *Notas:* ${notes}\n\n` +
                                 `---------------------------------\n` +
-                                `🔗 *Código de Lead:* ${leadId}\n` +
-                                `🔖 *Atribución:* REF-${referralCode}\n` +
-                                `✨ _Solicitud de cita para pago en boutique_`;
+                                `\uD83D\uDD17 *C\u00F3digo de Lead:* ${leadId}\n` +
+                                `\uD83D\uDD16 *Atribuci\u00F3n:* REF-${referralCode}\n` +
+                                `\u2728 _Solicitud de cita para pago en boutique_`;
                 
                 // Codificar el texto para URL
                 const encodedText = encodeURIComponent(message);

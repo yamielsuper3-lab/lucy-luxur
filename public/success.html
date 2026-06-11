@@ -200,15 +200,15 @@
             const confirmBtn = document.getElementById('btn-whatsapp-confirm');
             if (confirmBtn) {
                 confirmBtn.addEventListener('click', () => {
-                    const message = `✨ *DELINEARTE - PAGO CONFIRMADO* ✨\n\n` +
-                                    `👑 *Cliente:* ${name}\n` +
-                                    `💅 *Servicio:* ${service}\n` +
-                                    `📅 *Fecha:* ${date}\n` +
-                                    `⏰ *Hora:* ${time}\n` +
-                                    `📝 *Notas:* ${notes}\n\n` +
+                    const message = `\u2728 *DELINEARTE - PAGO CONFIRMADO* \u2728\n\n` +
+                                    `\uD83D\uDC51 *Cliente:* ${name}\n` +
+                                    `\uD83D\uDC85 *Servicio:* ${service}\n` +
+                                    `\uD83D\uDCC5 *Fecha:* ${date}\n` +
+                                    `\u23F0 *Hora:* ${time}\n` +
+                                    `\uD83D\uDCDD *Notas:* ${notes}\n\n` +
                                     `---------------------------------\n` +
-                                    `💳 *ID Pago Stripe:* ${sessionId}\n` +
-                                    `✨ _Reserva pagada con tarjeta en línea_`;
+                                    `\uD83D\uDCB3 *ID Pago Stripe:* ${sessionId}\n` +
+                                    `\u2728 _Reserva pagada con tarjeta en l\u00EDnea_`;
 
                     const encodedText = encodeURIComponent(message);
                     // Usar el número de la boutique configurado
