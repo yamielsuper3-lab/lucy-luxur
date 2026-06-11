@@ -97,7 +97,15 @@ const basicAuth = (req, res, next) => {
 app.use(basicAuth);
 
 // Servir archivos estáticos del frontend desde la carpeta 'public'
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), {
+    setHeaders: (res, filepath) => {
+        if (filepath.endsWith('.html') || filepath.endsWith('.js') || filepath.endsWith('.css')) {
+            res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+            res.setHeader('Pragma', 'no-cache');
+            res.setHeader('Expires', '0');
+        }
+    }
+}));
 
 // Tabla estática de precios de Stripe para garantizar compatibilidad con los valores del formulario
 const SERVICE_PRICES = {

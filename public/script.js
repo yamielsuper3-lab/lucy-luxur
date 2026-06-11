@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Formatear mensaje para WhatsApp
                 const message = `\u2728 *DELINEARTE - NUEVA RESERVA (SUCURSAL)* \u2728\n\n` +
                                 `\uD83D\uDC51 *Cliente:* ${name}\n` +
-                                `\uD83D\uDCDE *Tel\u00F3fono:* ${phone}\n` +
+                                `\uD83D\uDCDE *Tel\u00E9fono:* ${phone}\n` +
                                 `\uD83D\uDC85 *Servicio:* ${service}\n` +
                                 `\uD83D\uDCC5 *Fecha:* ${date}\n` +
                                 `\u23F0 *Hora:* ${time}\n` +
@@ -191,6 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Codificar el texto para URL
                 const encodedText = encodeURIComponent(message);
                 const whatsappUrl = `https://wa.me/${CONFIG.whatsappPhone}?text=${encodedText}`;
+                
                 
                 if (submitBtn) {
                     const originalText = submitBtn.innerHTML;
