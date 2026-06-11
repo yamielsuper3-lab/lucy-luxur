@@ -550,19 +550,35 @@
         }
 
         /* Animaciones para la transición de servicios */
-        .service-detail-container {
+        /* Animaciones para la transición de la columna de información (derecha) */
+        .service-info-block {
             opacity: 0;
             animation: elegantFadeUp 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
-        .service-detail-container.slide-from-right {
+        .service-info-block.slide-from-right {
             opacity: 0;
             animation: elegantSlideFromRight 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
-        .service-detail-container.slide-from-left {
+        .service-info-block.slide-from-left {
             opacity: 0;
             animation: elegantSlideFromLeft 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        /* Animación suave para la imagen de la izquierda (sin transform para no romper position: fixed) */
+        .service-image-block {
+            opacity: 0;
+            animation: elegantFadeIn 0.8s ease forwards;
+        }
+
+        @keyframes elegantFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
         @keyframes elegantFadeUp {
@@ -783,12 +799,12 @@
             const serviceId = params.get('id');
             const direction = params.get('dir');
 
-            const container = document.querySelector('.service-detail-container');
-            if (container) {
+            const infoBlock = document.querySelector('.service-info-block');
+            if (infoBlock) {
                 if (direction === 'next') {
-                    container.classList.add('slide-from-right');
+                    infoBlock.classList.add('slide-from-right');
                 } else if (direction === 'prev') {
-                    container.classList.add('slide-from-left');
+                    infoBlock.classList.add('slide-from-left');
                 }
             }
 
