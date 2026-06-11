@@ -827,7 +827,8 @@
             const imgEl = document.getElementById('detail-img-front');
             const imgElBack = document.getElementById('detail-img-back');
             const imgBlock = document.querySelector('.service-image-block');
-            const infoBlock = document.querySelector('.service-info-block');
+            // infoBlock is already declared in the outer scope
+            
             
             if (data.image && data.image !== "") {
                 if (imgEl) {
