@@ -5,7 +5,7 @@
 
 // CONFIGURACIÓN GLOBAL DE LA PLATAFORMA
 const CONFIG = {
-    whatsappPhone: '525618788614', // Número de WhatsApp de la boutique (Delinearte por Lucy González)
+    whatsappPhone: '5213222629523', // Número de WhatsApp de la boutique (Delinearte por Lucy González)
     defaultReferral: 'LUCY-DIRECT', // Código de referido por defecto
     refStorageKey: 'lucy_luxury_ref_code', // Clave para localStorage
 };
