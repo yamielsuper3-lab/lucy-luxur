@@ -460,21 +460,28 @@
 </head>
 <body>
 
+    <!-- Selector de Idioma Flotante Premium -->
+    <div class="lang-selector" style="position: fixed; top: 2rem; right: 3rem; z-index: 100; margin-right: 0;">
+        <button class="lang-btn" data-lang="es" onclick="setLanguage('es')">ES</button>
+        <span class="lang-separator">|</span>
+        <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
+    </div>
+
     <!-- Botón Regresar -->
     <a href="/" class="back-btn">
-        <span>← Volver al Inicio</span>
+        <span data-i18n="back-home">← Volver al Inicio</span>
     </a>
 
     <!-- Héroe Biográfico -->
     <section class="trayectoria-hero">
         <div class="hero-text">
-            <span class="hero-subtitle">El Arte de la Belleza de Autor</span>
-            <h1 class="hero-title">Lucy González</h1>
-            <p class="hero-desc">
+            <span class="hero-subtitle" data-i18n="career-pre-title">El Arte de la Belleza de Autor</span>
+            <h1>Lucy González</h1>
+            <p class="hero-desc" data-i18n="career-desc-1">
                 Fundadora y CEO de Delinearte, Lucy González ha consagrado más de 25 años al perfeccionamiento de la estética de la mirada, la cosmiatría clínica y las artes estéticas de alta costura. Su filosofía se basa en el visagismo matemático personalizado: no diseñar bajo modas pasajeras, sino esculpir y realzar la fisonomía y simetría natural únicas de cada rostro.
             </p>
-            <p class="hero-desc">
-                Como conferencista internacional de renombre, jueza tecnológica en campeonatos de Europa y Latinoamérica, y Master Lash & Brow Artist acreditada, Lucy lidera una de las boutiques estéticas más exclusivas del país, garantizando tratamientos de calidad clínica internacional con los más altos estándares de bioseguridad.
+            <p class="hero-desc" data-i18n="career-desc-2">
+                Como conferencista internacional de renombre, jueza tecnológica en campeonatos de Europa y Latinoamérica, y Master Lash & Brow Artist acreditada, Lucy González lidera una de las boutiques estéticas más exclusivas del país, garantizando tratamientos de calidad clínica internacional con los más altos estándares de bioseguridad.
             </p>
         </div>
         <div class="hero-image-wrapper">
@@ -486,14 +493,14 @@
 
     <!-- Timeline Hitos -->
     <section class="timeline-section-tr">
-        <h2 class="tr-title-center">Hitos de Autoría</h2>
+        <h2 class="tr-title-center" data-i18n="career-timeline-title">Hitos de Autoría</h2>
         <div class="tr-timeline">
             
             <div class="tr-timeline-item">
                 <div class="tr-timeline-badge"></div>
                 <div class="tr-timeline-content">
                     <div class="tr-timeline-year">1998</div>
-                    <p class="cv-desc" style="color: var(--text-secondary); font-weight: 300; font-size: 0.95rem;">
+                    <p class="cv-desc" style="color: var(--text-secondary); font-weight: 300; font-size: 0.95rem;" data-i18n="career-time-1998">
                         Inicia su carrera en la estética y el cuidado cutáneo clínico, especializándose en Cosmiatría Facial y Corporal.
                     </p>
                 </div>
@@ -503,7 +510,7 @@
                 <div class="tr-timeline-badge"></div>
                 <div class="tr-timeline-content">
                     <div class="tr-timeline-year">2002</div>
-                    <p class="cv-desc" style="color: var(--text-secondary); font-weight: 300; font-size: 0.95rem;">
+                    <p class="cv-desc" style="color: var(--text-secondary); font-weight: 300; font-size: 0.95rem;" data-i18n="career-time-2002">
                         Funda **Delinearte Academia**, convirtiéndose en pionera en la enseñanza y aplicación de micropigmentación de alta precisión en México.
                     </p>
                 </div>
@@ -513,7 +520,7 @@
                 <div class="tr-timeline-badge"></div>
                 <div class="tr-timeline-content">
                     <div class="tr-timeline-year">2012</div>
-                    <p class="cv-desc" style="color: var(--text-secondary); font-weight: 300; font-size: 0.95rem;">
+                    <p class="cv-desc" style="color: var(--text-secondary); font-weight: 300; font-size: 0.95rem;" data-i18n="career-time-2012">
                         Se especializa y acredita internacionalmente en el diseño y arquitectura avanzada de extensiones de pestañas con la firma premium **Minkys**.
                     </p>
                 </div>
@@ -523,7 +530,7 @@
                 <div class="tr-timeline-badge"></div>
                 <div class="tr-timeline-content">
                     <div class="tr-timeline-year">2019</div>
-                    <p class="cv-desc" style="color: var(--text-secondary); font-weight: 300; font-size: 0.95rem;">
+                    <p class="cv-desc" style="color: var(--text-secondary); font-weight: 300; font-size: 0.95rem;" data-i18n="career-time-2019">
                         Recibe la prestigiosa certificación como **Artista Beauty Angels** en Microblading & Shade, integrando técnicas exclusivas europeas a su portafolio.
                     </p>
                 </div>
@@ -533,7 +540,7 @@
                 <div class="tr-timeline-badge"></div>
                 <div class="tr-timeline-content">
                     <div class="tr-timeline-year">2024 - 2025</div>
-                    <p class="cv-desc" style="color: var(--text-secondary); font-weight: 300; font-size: 0.95rem;">
+                    <p class="cv-desc" style="color: var(--text-secondary); font-weight: 300; font-size: 0.95rem;" data-i18n="career-time-2025">
                         Consolidación internacional como Ponente y Juez en campeonatos mundiales, destacando en eventos de Italia, España y Medellín, y como colaboradora en la revista europea *Lash Trend Magazine*.
                     </p>
                 </div>
@@ -544,12 +551,12 @@
 
     <!-- Currículum por Pestañas -->
     <section class="cv-section">
-        <h2 class="tr-title-center" style="margin-bottom: 2rem;">Acreditaciones y Logros</h2>
+        <h2 class="tr-title-center" style="margin-bottom: 2rem;" data-i18n="career-cv-title">Acreditaciones y Logros</h2>
         
         <div class="cv-tabs">
-            <button class="cv-tab-btn active" onclick="switchCvTab('certificaciones')">Certificaciones y Cursos</button>
-            <button class="cv-tab-btn" onclick="switchCvTab('ponencias')">Ponencias y Congresos</button>
-            <button class="cv-tab-btn" onclick="switchCvTab('juez')">Juez y Premios</button>
+            <button class="cv-tab-btn active" onclick="switchCvTab('certificaciones')" data-i18n="career-tab-certs">Certificaciones y Cursos</button>
+            <button class="cv-tab-btn" onclick="switchCvTab('ponencias')" data-i18n="career-tab-talks">Ponencias y Congresos</button>
+            <button class="cv-tab-btn" onclick="switchCvTab('juez')" data-i18n="career-tab-judge">Juez y Premios</button>
         </div>
 
         <!-- Bloque 1: Certificaciones -->
@@ -558,40 +565,40 @@
                 
                 <div class="cv-card">
                     <div class="cv-card-header">
-                        <h4 class="cv-card-title">Micropigmentación & Microblading</h4>
-                        <span class="cv-card-meta">Desde 2002</span>
+                        <h4 class="cv-card-title" data-i18n="career-cert-title-pmu">Micropigmentación & Microblading</h4>
+                        <span class="cv-card-meta" data-i18n="career-cert-meta-2002">Desde 2002</span>
                     </div>
-                    <p class="cv-card-desc">
+                    <p class="cv-card-desc" data-i18n="career-cert-desc-pmu">
                         Acreditada como **Técnica en Micropigmentación** (Centro Maromy, 2002), **Master en Micropigmentación Avanzada** (Asociación Mexicana, 2002), **Micropigmentación Médica** (2005) y **Microblading & Brows** (2013). Certificación avanzada en *Brow Strokes* y *Powder Brows* por Ugo Verni, y como Artista Beauty Angels (2019-2022).
                     </p>
                 </div>
 
                 <div class="cv-card">
                     <div class="cv-card-header">
-                        <h4 class="cv-card-title">Cosmiatría & Tratamientos Faciales</h4>
-                        <span class="cv-card-meta">Desde 2000</span>
+                        <h4 class="cv-card-title" data-i18n="career-cert-title-skin">Cosmiatría & Tratamientos Faciales</h4>
+                        <span class="cv-card-meta" data-i18n="career-cert-meta-2000">Desde 2000</span>
                     </div>
-                    <p class="cv-card-desc">
+                    <p class="cv-card-desc" data-i18n="career-cert-desc-skin">
                         Certificada en **Estética y Cosmiatría** (Instituto Eduem, 2000), **Plasma Rico en Plaquetas (PRP)** (2015), **Peeling Médico** y **Mesoterapia Facial y Corporal** (Esthetic Medical Center, 2016), y **Plasmapen Facial y Corporal** (Arte en Caras Academia, 2021).
                     </p>
                 </div>
 
                 <div class="cv-card">
                     <div class="cv-card-header">
-                        <h4 class="cv-card-title">Arquitectura de Pestañas (Lashes)</h4>
-                        <span class="cv-card-meta">Desde 2012</span>
+                        <h4 class="cv-card-title" data-i18n="career-cert-title-lash">Arquitectura de Pestañas (Lashes)</h4>
+                        <span class="cv-card-meta" data-i18n="career-cert-meta-2012">Desde 2012</span>
                     </div>
-                    <p class="cv-card-desc">
+                    <p class="cv-card-desc" data-i18n="career-cert-desc-lash">
                         Certificada por **Minkys** (2012), certificación oficial **SEP/CONOCER EC0611** (2019 y renovación 2023). Especialización en *Lash Modeling*, *Volumen Ruso* y *Laminación de Pestañas* por academias internacionales líderes (Amorche / Anna Volkova). Acreditada como **Master Lash Trainer** por She Academy (2021).
                     </p>
                 </div>
 
                 <div class="cv-card">
                     <div class="cv-card-header">
-                        <h4 class="cv-card-title">Uñas Esculturales Elite</h4>
-                        <span class="cv-card-meta">Desde 2000</span>
+                        <h4 class="cv-card-title" data-i18n="career-cert-title-nail">Uñas Esculturales Elite</h4>
+                        <span class="cv-card-meta" data-i18n="career-cert-meta-2000">Desde 2000</span>
                     </div>
-                    <p class="cv-card-desc">
+                    <p class="cv-card-desc" data-i18n="career-cert-desc-nail">
                         Certificada como **Master en Técnica Escultural y Aplicación de Uñas** por la firma internacional **O.P.I** (2000), con especialización en técnicas de Stamping y Mano Alzada con el maestro Adrian Bernal.
                     </p>
                 </div>
@@ -606,32 +613,32 @@
                 <div class="cv-row-item">
                     <div class="cv-row-year">2025</div>
                     <div>
-                        <h4 class="cv-row-text">Ponente en "Lash Tour: Una Noche en Medellín"</h4>
-                        <div class="cv-row-subtext">Colombia — Compartiendo técnicas de diseño y estandarización para miradas VIP.</div>
+                        <h4 class="cv-row-text" data-i18n="career-talk-medellin-title">Ponente en "Lash Tour: Una Noche en Medellín"</h4>
+                        <div class="cv-row-subtext" data-i18n="career-talk-medellin-sub">Colombia — Compartiendo técnicas de diseño y estandarización para miradas VIP.</div>
                     </div>
                 </div>
 
                 <div class="cv-row-item">
                     <div class="cv-row-year">2025</div>
                     <div>
-                        <h4 class="cv-row-text">Ponente en "Master Star" de European Lash Master</h4>
-                        <div class="cv-row-subtext">España — Representando el diseño de autor latinoamericano en Europa.</div>
+                        <h4 class="cv-row-text" data-i18n="career-talk-star-title">Ponente en "Master Star" de European Lash Master</h4>
+                        <div class="cv-row-subtext" data-i18n="career-talk-star-sub">España — Representando el diseño de autor latinoamericano en Europa.</div>
                     </div>
                 </div>
 
                 <div class="cv-row-item">
                     <div class="cv-row-year">2023</div>
                     <div>
-                        <h4 class="cv-row-text">Ponente en "Lash Lake Congress International" y "Original Lash Congress"</h4>
-                        <div class="cv-row-subtext">México — Conferencista en congresos nacionales sobre colorimetría y diseño de cejas.</div>
+                        <h4 class="cv-row-text" data-i18n="career-talk-lake-title">Ponente en "Lash Lake Congress International" y "Original Lash Congress"</h4>
+                        <div class="cv-row-subtext" data-i18n="career-talk-lake-sub">México — Conferencista en congresos nacionales sobre colorimetría y diseño de cejas.</div>
                     </div>
                 </div>
 
                 <div class="cv-row-item">
                     <div class="cv-row-year">2022</div>
                     <div>
-                        <h4 class="cv-row-text">Ponente en "Passion PMU Congress" y "Eye Lash Congress"</h4>
-                        <div class="cv-row-subtext">México — Presentación de técnicas avanzadas de micropigmentación de labios (Aquarela) y cejas híbridas.</div>
+                        <h4 class="cv-row-text" data-i18n="career-talk-passion-title">Ponente en "Passion PMU Congress" y "Eye Lash Congress"</h4>
+                        <div class="cv-row-subtext" data-i18n="career-talk-passion-sub">México — Presentación de técnicas avanzadas de micropigmentación de labios (Aquarela) y cejas híbridas.</div>
                     </div>
                 </div>
 
@@ -645,40 +652,40 @@
                 <div class="cv-row-item">
                     <div class="cv-row-year">2025</div>
                     <div>
-                        <h4 class="cv-row-text">Juez Internacional en "Dream Lash" Italia y "Global Beauty Cups" España</h4>
-                        <div class="cv-row-subtext">Evaluación técnica y digital de las mejores especialistas del continente europeo.</div>
+                        <h4 class="cv-row-text" data-i18n="career-judge-europe-title">Juez Internacional en "Dream Lash" Italia y "Global Beauty Cups" España</h4>
+                        <div class="cv-row-subtext" data-i18n="career-judge-europe-sub">Evaluación técnica y digital de las mejores especialistas del continente europeo.</div>
                     </div>
                 </div>
 
                 <div class="cv-row-item">
                     <div class="cv-row-year">2024</div>
                     <div>
-                        <h4 class="cv-row-text">Ganadora del 1er Lugar como "Lash Maker 2024" por Raev Awards</h4>
-                        <div class="cv-row-subtext">Galardonada por la excelencia en la técnica, diseño y salud de la pestaña natural.</div>
+                        <h4 class="cv-row-text" data-i18n="career-award-maker-title">Ganadora del 1er Lugar como "Lash Maker 2024" por Raev Awards</h4>
+                        <div class="cv-row-subtext" data-i18n="career-award-maker-sub">Galardonada por la excelencia en la técnica, diseño y salud de la pestaña natural.</div>
                     </div>
                 </div>
 
                 <div class="cv-row-item">
                     <div class="cv-row-year">2024</div>
                     <div>
-                        <h4 class="cv-row-text">Colaboración y Publicación en "Lash Trend Magazine Europa"</h4>
-                        <div class="cv-row-subtext">Edición de Febrero 2024 con el tema editorial de autoridad: *"El arte de comunicar en la estética"*.</div>
+                        <h4 class="cv-row-text" data-i18n="career-award-trend-title">Colaboración y Publicación en "Lash Trend Magazine Europa"</h4>
+                        <div class="cv-row-subtext" data-i18n="career-award-trend-sub">Edición de Febrero 2024 con el tema editorial de autoridad: *"El arte de comunicar en la estética"*.</div>
                     </div>
                 </div>
 
                 <div class="cv-row-item">
                     <div class="cv-row-year">2023</div>
                     <div>
-                        <h4 class="cv-row-text">Juez en "We Love Classic Competition" y "Love Fantasy"</h4>
-                        <div class="cv-row-subtext">Jurado técnico en las competencias nacionales más prestigiosas de extensiones de pestañas.</div>
+                        <h4 class="cv-row-text" data-i18n="career-judge-classic-title">Juez en "We Love Classic Competition" y "Love Fantasy"</h4>
+                        <div class="cv-row-subtext" data-i18n="career-judge-classic-sub">Jurado técnico en las competencias nacionales más prestigiosas de extensiones de pestañas.</div>
                     </div>
                 </div>
 
                 <div class="cv-row-item">
                     <div class="cv-row-year">2018</div>
                     <div>
-                        <h4 class="cv-row-text">Ganadora del 1er Lugar en "Best Lashes MX"</h4>
-                        <div class="cv-row-subtext">Campeona nacional en la categoría de Técnica Clásica Avanzada.</div>
+                        <h4 class="cv-row-text" data-i18n="career-award-best-title">Ganadora del 1er Lugar en "Best Lashes MX"</h4>
+                        <div class="cv-row-subtext" data-i18n="career-award-best-sub">Campeona nacional en la categoría de Técnica Clásica Avanzada.</div>
                     </div>
                 </div>
 
@@ -690,21 +697,22 @@
     <!-- Footer -->
     <footer class="trayectoria-footer">
         <div class="footer-logo">DELINEARTE</div>
-        <p style="color: var(--text-secondary); font-size: 0.9rem; font-weight: 300; max-width: 600px; margin: 0 auto 1.5rem auto;">
+        <p style="color: var(--text-secondary); font-size: 0.9rem; font-weight: 300; max-width: 600px; margin: 0 auto 1.5rem auto;" data-i18n="footer-desc-home">
             Estética de autor y micropigmentación clínica avanzada por Lucy González.
         </p>
         <div class="footer-legal-links">
-            <a href="/politica-privacidad">Política de Privacidad</a>
-            <a href="/terminos-condiciones">Términos de Servicio</a>
-            <a href="/faq">Preguntas Frecuentes</a>
-            <a href="/contacto">Contacto</a>
+            <a href="/politica-privacidad" data-i18n="footer-privacy">Política de Privacidad</a>
+            <a href="/terminos-condiciones" data-i18n="footer-terms-home">Términos de Servicio</a>
+            <a href="/faq" data-i18n="nav-faqs">Preguntas Frecuentes</a>
+            <a href="/contacto" data-i18n="nav-contact">Contacto</a>
         </div>
-        <p class="copyright-text">
+        <p class="copyright-text" data-i18n="footer-copyright">
             &copy; 2026 Delinearte. Todos los derechos reservados. Diseñado bajo estándares de alta costura.
         </p>
     </footer>
 
-    <!-- Script de control de pestañas -->
+    <!-- Carga de Script de Traducción y Tabs -->
+    <script src="translations.js?v=1.0" charset="UTF-8"></script>
     <script>
         function switchCvTab(tabId) {
             // Desactivar todos los botones

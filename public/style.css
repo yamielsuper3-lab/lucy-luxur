@@ -239,6 +239,61 @@ html, body {
     box-shadow: 0 0 15px var(--glow-color);
 }
 
+/* Language Selector */
+.lang-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    margin-right: 1.5rem;
+}
+
+.lang-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    padding: 0.2rem 0.4rem;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.lang-btn:hover {
+    color: var(--brushed-gold);
+}
+
+.lang-btn.active {
+    color: var(--brushed-gold);
+    font-weight: 700;
+    text-shadow: 0 0 8px rgba(197, 160, 89, 0.5);
+}
+
+.lang-separator {
+    color: rgba(255, 255, 255, 0.15);
+    font-size: 0.8rem;
+    user-select: none;
+}
+
+/* Mobile Language Selector */
+.lang-selector-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+    margin-top: 1rem;
+}
+
+.lang-selector-mobile .lang-btn {
+    font-size: 1rem;
+    padding: 0.4rem 0.8rem;
+}
+
+.lang-selector-mobile .lang-separator {
+    font-size: 1rem;
+}
+
 /* Mega Menu */
 .mega-menu {
     position: absolute;

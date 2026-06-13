@@ -674,9 +674,16 @@
         <img src="Imagen.png" class="decor-magnolia" alt="Magnolia Decal">
     </div>
 
+    <!-- Selector de Idioma Flotante Premium -->
+    <div class="lang-selector" style="position: fixed; top: 2rem; right: 3rem; z-index: 100; margin-right: 0;">
+        <button class="lang-btn" data-lang="es" onclick="setLanguage('es')">ES</button>
+        <span class="lang-separator">|</span>
+        <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
+    </div>
+
     <!-- Regresar a la Boutique -->
     <a href="/" class="back-nav-btn">
-        <span>← Volver al Catálogo</span>
+        <span data-i18n="detail-back">← Volver al Catálogo</span>
     </a>
 
     <!-- Botones de Navegación Deslizable entre Servicios -->
@@ -705,7 +712,7 @@
             <!-- Insignia de Precio -->
             <div class="canva-price-badge">
                 <span id="detail-price">$0</span>
-                <span class="price-badge-label">Aplicación</span>
+                <span class="price-badge-label" data-i18n="detail-price-label">Aplicación</span>
             </div>
 
             <!-- Tarjeta Canva de Descripción -->
@@ -717,18 +724,18 @@
                 <div class="meta-spec-list">
                     <div class="meta-spec-item">
                         <span class="meta-spec-icon">🗓</span>
-                        <span>Durabilidad: <strong id="detail-frequency">-</strong></span>
+                        <span><span data-i18n="detail-frequency-label">Durabilidad:</span> <strong id="detail-frequency">-</strong></span>
                     </div>
                     <div class="meta-spec-item">
                         <span class="meta-spec-icon">⏱</span>
-                        <span>Tiempo de servicio: <strong id="detail-duration">-</strong></span>
+                        <span><span data-i18n="detail-duration-label">Tiempo de servicio:</span> <strong id="detail-duration">-</strong></span>
                     </div>
                 </div>
             </div>
 
             <!-- Línea de Proceso Paso a Paso -->
             <div class="process-steps-section">
-                <h3 class="section-header-small">El Proceso de Autor</h3>
+                <h3 class="section-header-small" data-i18n="detail-process">El Proceso de Autor</h3>
                 <div id="detail-steps-list" class="detail-steps-grid">
                     <!-- Dinámico -->
                 </div>
@@ -739,7 +746,7 @@
                 
                 <!-- Beneficios -->
                 <div>
-                    <h3 class="section-header-small">Beneficios Élite</h3>
+                    <h3 class="section-header-small" data-i18n="detail-benefits">Beneficios Élite</h3>
                     <ul id="detail-benefits-list" class="block-list">
                         <!-- Dinámico -->
                     </ul>
@@ -747,7 +754,7 @@
                 
                 <!-- Cuidados -->
                 <div>
-                    <h3 class="section-header-small">Cuidados Posteriores</h3>
+                    <h3 class="section-header-small" data-i18n="detail-aftercare">Cuidados Posteriores</h3>
                     <ul id="detail-care-list" class="block-list">
                         <!-- Dinámico -->
                     </ul>
@@ -758,7 +765,7 @@
             <!-- Fila CTA para Reservar -->
             <div class="cta-action-row">
                 <a id="detail-cta-btn" href="/#reservas" class="cta-large-btn">
-                    <span>Agendar Cita Ahora</span> 👑
+                    <span data-i18n="detail-cta">Agendar Cita Ahora</span> 👑
                 </a>
             </div>
 
@@ -766,57 +773,50 @@
 
     </div>
 
+    <!-- Carga del Script Lógico y Traducciones -->
+    <script src="translations.js?v=1.0" charset="UTF-8"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            // Extraer el identificador del servicio de la URL
-            const params = new URLSearchParams(window.location.search);
-            const serviceId = params.get('id');
-            const direction = params.get('dir');
+        // Store original service data globally
+        let originalServiceData = null;
+        let serviceId = null;
 
-            const infoBlock = document.querySelector('.service-info-block');
-            if (infoBlock) {
-                if (direction === 'next') {
-                    infoBlock.classList.add('slide-from-right');
-                } else if (direction === 'prev') {
-                    infoBlock.classList.add('slide-from-left');
-                }
-            }
-
-            // Si no se proporciona ID, redirigir al catálogo
-            if (!serviceId) {
-                window.location.href = '/';
-                return;
-            }
-
-            let data;
-            try {
-                const response = await fetch(`/api/services/${serviceId}`);
-                if (!response.ok) {
-                    window.location.href = '/';
-                    return;
-                }
-                data = await response.json();
-            } catch (error) {
-                console.error('Error fetching service:', error);
-                window.location.href = '/';
-                return;
+        function renderServiceDetails(rawData) {
+            if (!rawData) return;
+            
+            let data = { ...rawData };
+            const isEn = (typeof currentLanguage !== 'undefined' ? currentLanguage : (localStorage.getItem('lang') || 'es')) === 'en';
+            
+            if (isEn && typeof TRANSLATIONS_SERVICES !== 'undefined' && TRANSLATIONS_SERVICES[serviceId]) {
+                const trans = TRANSLATIONS_SERVICES[serviceId];
+                data = {
+                    ...data,
+                    title: trans.title || data.title,
+                    subtitle: trans.subtitle || data.subtitle,
+                    price: trans.price || data.price,
+                    duration: trans.duration || data.duration,
+                    frequency: trans.frequency || data.frequency,
+                    description: trans.description || data.description,
+                    benefits: trans.benefits || data.benefits,
+                    steps: trans.steps || data.steps,
+                    aftercare: trans.aftercare || data.aftercare
+                };
             }
 
             // Rellenar datos principales
             document.title = `${data.title} | Delinearte by Lucy González`;
             
             // Separar el pre-título (categoría) del título principal para el efecto Canva
-            let preTitleText = "Servicio";
+            let preTitleText = isEn ? "Service" : "Servicio";
             let mainTitleText = data.title;
             
-            if (data.title.includes('Facial')) {
-                preTitleText = "Facial";
-                mainTitleText = data.title.replace(/faciales?/i, '').replace(/facial/i, '').trim();
-            } else if (data.title.includes('Ceja') || data.title.includes('Mirada')) {
-                preTitleText = "Mirada";
-                mainTitleText = data.title.replace(/de cejas?/i, '').replace(/cejas?/i, '').replace(/miradas?/i, '').trim();
-            } else if (data.title.includes('Uñas') || data.title.includes('Poligel') || data.title.includes('Soft Gel') || data.title.includes('Ruber')) {
-                preTitleText = "Uñas Élite";
+            if (data.title.toLowerCase().includes('facial') || data.title.toLowerCase().includes('skin') || data.title.toLowerCase().includes('cleansing') || data.title.toLowerCase().includes('peeling')) {
+                preTitleText = isEn ? "Facial" : "Facial";
+                mainTitleText = data.title.replace(/faciales?/i, '').replace(/facial/i, '').replace(/Skin/i, '').replace(/Cleansing/i, '').replace(/\s+/g, ' ').trim();
+            } else if (data.title.toLowerCase().includes('ceja') || data.title.toLowerCase().includes('mirada') || data.title.toLowerCase().includes('eyebrow') || data.title.toLowerCase().includes('lash') || data.title.toLowerCase().includes('lips') || data.title.toLowerCase().includes('micropigmentaci')) {
+                preTitleText = isEn ? "Gaze" : "Mirada";
+                mainTitleText = data.title.replace(/de cejas?/i, '').replace(/cejas?/i, '').replace(/miradas?/i, '').replace(/Eyebrows?/i, '').replace(/Lash(es)?/i, '').replace(/Lips?/i, '').replace(/\s+/g, ' ').trim();
+            } else if (data.title.toLowerCase().includes('uñas') || data.title.toLowerCase().includes('poligel') || data.title.toLowerCase().includes('soft gel') || data.title.toLowerCase().includes('ruber') || data.title.toLowerCase().includes('nail') || data.title.toLowerCase().includes('gel') || data.title.toLowerCase().includes('vitamina')) {
+                preTitleText = isEn ? "Elite Nails" : "Uñas Élite";
                 mainTitleText = data.title;
             }
 
@@ -827,10 +827,18 @@
             const imgEl = document.getElementById('detail-img-front');
             const imgElBack = document.getElementById('detail-img-back');
             const imgBlock = document.querySelector('.service-image-block');
-            // infoBlock is already declared in the outer scope
-            
+            const infoBlock = document.querySelector('.service-info-block');
             
             if (data.image && data.image !== "") {
+                if (imgBlock) imgBlock.style.display = '';
+                if (infoBlock) {
+                    infoBlock.style.width = '';
+                    infoBlock.style.marginLeft = '';
+                    infoBlock.style.maxWidth = '';
+                    infoBlock.style.margin = '';
+                    infoBlock.style.paddingLeft = '';
+                    infoBlock.style.paddingRight = '';
+                }
                 if (imgEl) {
                     imgEl.src = data.image;
                     imgEl.alt = data.title;
@@ -897,48 +905,104 @@
                 // Redirigir al formulario principal y pre-seleccionar este servicio específico
                 ctaBtn.href = `/?select=${encodeURIComponent(data.stripe_service_id)}#reservas`;
             }
+        }
 
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Extraer el identificador del servicio de la URL
+            const params = new URLSearchParams(window.location.search);
+            serviceId = params.get('id');
+            const direction = params.get('dir');
+
+            const infoBlock = document.querySelector('.service-info-block');
+            if (infoBlock) {
+                if (direction === 'next') {
+                    infoBlock.classList.add('slide-from-right');
+                } else if (direction === 'prev') {
+                    infoBlock.classList.add('slide-from-left');
+                }
+            }
+
+            // Si no se proporciona ID, redirigir al catálogo
+            if (!serviceId) {
+                window.location.href = '/';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/services/${serviceId}`);
+                if (!response.ok) {
+                    window.location.href = '/';
+                    return;
+                }
+                originalServiceData = await response.json();
+                renderServiceDetails(originalServiceData);
+            } catch (error) {
+                console.error('Error fetching service:', error);
+                window.location.href = '/';
+                return;
+            }
+
+            // Listen for language change events
+            window.addEventListener('languageChanged', (e) => {
+                renderServiceDetails(originalServiceData);
+                // Also update dynamic title tooltips of the previous / next navigation links if they are already drawn
+                updateNavigationTooltips();
+            });
+
+            let allServicesList = [];
+            
             // Configurar navegación deslizable de servicios
             try {
                 const servicesResponse = await fetch('/api/services');
                 if (servicesResponse.ok) {
                     const groupedServices = await servicesResponse.json();
                     
-                    const allServices = [
+                    allServicesList = [
                         ...(groupedServices.mirada || []),
                         ...(groupedServices.faciales || []),
                         ...(groupedServices.unas || [])
                     ];
                     
-                    const currentIndex = allServices.findIndex(s => s.id === serviceId);
-                    
-                    if (currentIndex !== -1 && allServices.length > 1) {
-                        const prevIndex = (currentIndex - 1 + allServices.length) % allServices.length;
-                        const nextIndex = (currentIndex + 1) % allServices.length;
-                        
-                        const prevService = allServices[prevIndex];
-                        const nextService = allServices[nextIndex];
-                        
-                        const prevLink = document.getElementById('prev-service-link');
-                        const nextLink = document.getElementById('next-service-link');
-                        
-                        if (prevLink) {
-                            prevLink.href = `servicio.html?id=${prevService.id}&dir=prev`;
-                            prevLink.title = `Anterior: ${prevService.title}`;
-                        }
-                        if (nextLink) {
-                            nextLink.href = `servicio.html?id=${nextService.id}&dir=next`;
-                            nextLink.title = `Siguiente: ${nextService.title}`;
-                        }
-                    } else {
-                        document.getElementById('prev-service-link')?.remove();
-                        document.getElementById('next-service-link')?.remove();
-                    }
+                    updateNavigationTooltips();
                 }
             } catch (err) {
                 console.error('Error al configurar la navegación de servicios:', err);
                 document.getElementById('prev-service-link')?.remove();
                 document.getElementById('next-service-link')?.remove();
+            }
+
+            function updateNavigationTooltips() {
+                if (!allServicesList || allServicesList.length <= 1) {
+                    document.getElementById('prev-service-link')?.remove();
+                    document.getElementById('next-service-link')?.remove();
+                    return;
+                }
+                
+                const currentIndex = allServicesList.findIndex(s => s.id === serviceId);
+                if (currentIndex !== -1) {
+                    const prevIndex = (currentIndex - 1 + allServicesList.length) % allServicesList.length;
+                    const nextIndex = (currentIndex + 1) % allServicesList.length;
+                    
+                    const prevService = allServicesList[prevIndex];
+                    const nextService = allServicesList[nextIndex];
+                    
+                    const prevLink = document.getElementById('prev-service-link');
+                    const nextLink = document.getElementById('next-service-link');
+                    
+                    const isEn = (typeof currentLanguage !== 'undefined' ? currentLanguage : (localStorage.getItem('lang') || 'es')) === 'en';
+                    
+                    const prevTitle = isEn && TRANSLATIONS_SERVICES[prevService.id] ? TRANSLATIONS_SERVICES[prevService.id].title : prevService.title;
+                    const nextTitle = isEn && TRANSLATIONS_SERVICES[nextService.id] ? TRANSLATIONS_SERVICES[nextService.id].title : nextService.title;
+
+                    if (prevLink) {
+                        prevLink.href = `servicio.html?id=${prevService.id}&dir=prev`;
+                        prevLink.title = isEn ? `Previous: ${prevTitle}` : `Anterior: ${prevService.title}`;
+                    }
+                    if (nextLink) {
+                        nextLink.href = `servicio.html?id=${nextService.id}&dir=next`;
+                        nextLink.title = isEn ? `Next: ${nextTitle}` : `Siguiente: ${nextService.title}`;
+                    }
+                }
             }
 
             // Configurar navegación por teclado (flechas izquierda / derecha)
@@ -1000,19 +1064,20 @@
             let galleryInterval = null;
 
             // Inicializar la galería para este servicio
-            if (data.image && data.image !== "") {
-                galleryImages.push(data.image);
+            if (originalServiceData.image && originalServiceData.image !== "") {
+                galleryImages.push(originalServiceData.image);
             }
-            const catGallery = GALLERY_MAPPING[data.category] || [];
+            const catGallery = GALLERY_MAPPING[originalServiceData.category] || [];
             catGallery.forEach(img => {
                 // Evitar duplicar la imagen de portada
-                if (img !== data.image && !img.includes(data.image)) {
+                if (img !== originalServiceData.image && !img.includes(originalServiceData.image)) {
                     galleryImages.push(img);
                 }
             });
 
             // Si hay más de una imagen de galería, activar el carrusel Ken Burns
             const frontImg = document.getElementById('detail-img-front');
+            const imgBlock = document.querySelector('.service-image-block');
             if (galleryImages.length > 1 && imgBlock && frontImg) {
                 startGallerySlideshow();
             }

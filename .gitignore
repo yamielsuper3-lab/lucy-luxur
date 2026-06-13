@@ -4,3 +4,6 @@ data/
 .DS_Store
 *.log
 Thumbs.db
+generate_translation_skeleton.js
+services_skeleton.js
+translate_all.js

@@ -76,40 +76,40 @@
         <div class="nav-container">
             <ul class="nav-links">
                 <li class="nav-item has-mega-menu">
-                    <a href="#servicios" class="nav-link">Servicios</a>
+                    <a href="#servicios" class="nav-link" data-i18n="nav-services">Servicios</a>
                     
                     <!-- Mega Menú de Lujo -->
                     <div class="mega-menu glass-panel">
                         <div class="mega-category">
-                            <h3>Uñas Élite</h3>
+                            <h3 data-i18n="mega-unas">Uñas Élite</h3>
                             <ul>
-                                <li><a href="#servicios">Uñas Esculturales</a></li>
-                                <li><a href="#servicios">Poligel Premium</a></li>
-                                <li><a href="#servicios">Soft Gel & Ruber Base</a></li>
-                                <li><a href="#servicios">Gel Semipermanente</a></li>
+                                <li><a href="#servicios" data-i18n="mega-item-unas-esculturales">Uñas Esculturales</a></li>
+                                <li><a href="#servicios" data-i18n="mega-item-poligel">Poligel Premium</a></li>
+                                <li><a href="#servicios" data-i18n="mega-item-soft-gel">Soft Gel & Ruber Base</a></li>
+                                <li><a href="#servicios" data-i18n="mega-item-gel">Gel Semipermanente</a></li>
                             </ul>
                         </div>
                         <div class="mega-category">
-                            <h3>Faciales</h3>
+                            <h3 data-i18n="mega-faciales">Faciales</h3>
                             <ul>
-                                <li><a href="#servicios">Limpieza Profunda</a></li>
-                                <li><a href="#servicios">Facial Hidratante</a></li>
-                                <li><a href="#servicios">Despigmentante Avanzado</a></li>
-                                <li><a href="#servicios">Anti-Edad Colágeno</a></li>
+                                <li><a href="#servicios" data-i18n="mega-item-limpieza">Limpieza Profunda</a></li>
+                                <li><a href="#servicios" data-i18n="mega-item-hidratante">Facial Hidratante</a></li>
+                                <li><a href="#servicios" data-i18n="mega-item-despigmentante">Despigmentante Avanzado</a></li>
+                                <li><a href="#servicios" data-i18n="mega-item-antiedad">Anti-Edad Colágeno</a></li>
                             </ul>
                         </div>
                         <div class="mega-category">
-                            <h3>Mirada</h3>
+                            <h3 data-i18n="mega-mirada">Mirada</h3>
                             <ul>
-                                <li><a href="#servicios">Micropigmentación</a></li>
-                                <li><a href="#servicios">Diseño de Cejas</a></li>
+                                <li><a href="#servicios" data-i18n="mega-item-micropigmentacion">Micropigmentación</a></li>
+                                <li><a href="#servicios" data-i18n="mega-item-diseno">Diseño de Cejas</a></li>
                             </ul>
                         </div>
                     </div>
                 </li>
-                <li class="nav-item"><a href="/trayectoria" class="nav-link">La Fundadora</a></li>
-                <li class="nav-item"><a href="/faq" class="nav-link">Preguntas Frecuentes</a></li>
-                <li class="nav-item"><a href="/contacto" class="nav-link">Contacto</a></li>
+                <li class="nav-item"><a href="/trayectoria" class="nav-link" data-i18n="nav-career">La Fundadora</a></li>
+                <li class="nav-item"><a href="/faq" class="nav-link" data-i18n="nav-faqs">Preguntas Frecuentes</a></li>
+                <li class="nav-item"><a href="/contacto" class="nav-link" data-i18n="nav-contact">Contacto</a></li>
             </ul>
         </div>
         
@@ -121,7 +121,13 @@
         </div>
         
         <div class="header-right">
-            <a href="#reservas" class="cta-button-nav">Reservar Cita</a>
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <button class="lang-btn active" data-lang="es" onclick="setLanguage('es')">ES</button>
+                <span class="lang-separator">|</span>
+                <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
+            </div>
+            <a href="#reservas" class="cta-button-nav" data-i18n="nav-cta">Reservar Cita</a>
             <button class="mobile-menu-toggle" aria-label="Abrir Menú">
                 <span></span>
                 <span></span>
@@ -134,13 +140,19 @@
     <div class="mobile-menu-drawer">
         <div class="mobile-menu-content">
             <div class="mobile-menu-logo">DELINEARTE</div>
+            <!-- Language Selector Mobile -->
+            <div class="lang-selector-mobile">
+                <button class="lang-btn active" data-lang="es" onclick="setLanguage('es')">ES</button>
+                <span class="lang-separator">|</span>
+                <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
+            </div>
             <ul class="mobile-nav-links">
-                <li><a href="#servicios" class="mobile-nav-link">Servicios</a></li>
-                <li><a href="/trayectoria" class="mobile-nav-link">La Fundadora</a></li>
-                <li><a href="/faq" class="mobile-nav-link">Preguntas Frecuentes</a></li>
-                <li><a href="/contacto" class="mobile-nav-link">Contacto</a></li>
+                <li><a href="#servicios" class="mobile-nav-link" data-i18n="nav-services">Servicios</a></li>
+                <li><a href="/trayectoria" class="mobile-nav-link" data-i18n="nav-career">La Fundadora</a></li>
+                <li><a href="/faq" class="mobile-nav-link" data-i18n="nav-faqs">Preguntas Frecuentes</a></li>
+                <li><a href="/contacto" class="mobile-nav-link" data-i18n="nav-contact">Contacto</a></li>
             </ul>
-            <a href="#reservas" class="mobile-cta-btn">Reservar Cita</a>
+            <a href="#reservas" class="mobile-cta-btn" data-i18n="nav-cta">Reservar Cita</a>
         </div>
     </div>
 
@@ -161,24 +173,21 @@
             <div class="portrait-carousel-wrapper" id="carousel-videos-container">
                 <!-- Cargado Dinámicamente -->
             </div>
-        </div>
-    </section>
-
-    <!-- Sección Sobre Lucy: Fusión Hiroshi -->
+          <!-- Sección Sobre Lucy: Fusión Hiroshi -->
     <section class="about-lucy-section" id="nosotros">
         <div class="about-lucy-container">
             <div class="about-lucy-content">
-                <span class="section-subtitle">El Legado</span>
-                <h2 class="about-lucy-title">Sobre LUCY</h2>
+                <span class="section-subtitle" data-i18n="home-about-subtitle">El Legado</span>
+                <h2 class="about-lucy-title" data-i18n="home-about-title">Sobre LUCY</h2>
                 <div class="about-lucy-divider"></div>
-                <p class="about-lucy-text">
+                <p class="about-lucy-text" data-i18n="home-about-desc">
                     En el año 2002, Lucy González emprendió un viaje extraordinario al abrir las puertas de Delinearte, un concepto boutique de autor consagrado al cuidado clínico de la piel y el perfeccionamiento estético de cejas, micropigmentación y uñas.<br><br>
                     Con más de dos décadas de maestría constante en el segmento de la estética fina, Lucy combina una precisión técnica impecable con un profundo respeto por la salud natural. Su reputación se ha construido detalle a detalle, ofreciendo a su selecta clientela una experiencia donde la sofisticación se encuentra con la durabilidad real.
                 </p>
                 <a href="#legacy-timeline" id="trigger-timeline-h" class="more-info-link">
                     <div class="arrow-line"></div>
                     <div class="arrow-head"></div>
-                    <span class="more-info-text">Descubre su historia</span>
+                    <span class="more-info-text" data-i18n="home-about-btn">Descubre su historia</span>
                 </a>
             </div>
             <div class="about-lucy-image-wrapper">
@@ -191,8 +200,8 @@
     <!-- Sección Línea del Tiempo: El Legado de Lucy -->
     <section class="timeline-section" id="legacy-timeline">
         <div class="section-header">
-            <span class="section-subtitle">Nuestra Trayectoria</span>
-            <h2 class="section-title">El Sendero de la Maestría</h2>
+            <span class="section-subtitle" data-i18n="timeline-subtitle">Nuestra Trayectoria</span>
+            <h2 class="section-title" data-i18n="timeline-title">El Sendero de la Maestría</h2>
         </div>
         
         <div class="timeline-container">
@@ -206,9 +215,9 @@
             <div class="timeline-item left">
                 <div class="timeline-card glass-panel">
                     <span class="timeline-year">2002</span>
-                    <h3 class="timeline-card-title">La Semilla del Arte</h3>
-                    <p class="timeline-card-text">
-                        Lucy González funda Delinearte. Nace el concepto boutique consagrado a elevar la aplicación de uñas a una categoría artística, desmarcándose por completo de los servicios industriales masivos.
+                    <h3 class="timeline-card-title" data-i18n="timeline-title-2002">La Semilla del Arte</h3>
+                    <p class="timeline-card-text" data-i18n="timeline-desc-2002">
+                        Lucy González funda Delinearte. Nace el concept boutique consagrado a elevar la aplicación de uñas a una categoría artística, desmarcándose por completo de los servicios industriales masivos.
                     </p>
                 </div>
                 <div class="timeline-node" style="top: 10%;"></div>
@@ -218,8 +227,8 @@
             <div class="timeline-item right">
                 <div class="timeline-card glass-panel">
                     <span class="timeline-year">2010</span>
-                    <h3 class="timeline-card-title">Cuidado Clínico de Autor</h3>
-                    <p class="timeline-card-text">
+                    <h3 class="timeline-card-title" data-i18n="timeline-title-2010">Cuidado Clínico de Autor</h3>
+                    <p class="timeline-card-text" data-i18n="timeline-desc-2010">
                         Suma al menú la división de faciales clínicos. Lucy establece su filosofía de oro: la constancia y la nutrición científica celular como los únicos caminos hacia una piel saludable.
                     </p>
                 </div>
@@ -230,8 +239,8 @@
             <div class="timeline-item left">
                 <div class="timeline-card glass-panel">
                     <span class="timeline-year">2018</span>
-                    <h3 class="timeline-card-title">El Arte de la Mirada</h3>
-                    <p class="timeline-card-text">
+                    <h3 class="timeline-card-title" data-i18n="timeline-title-2018">El Arte de la Mirada</h3>
+                    <p class="timeline-card-text" data-i18n="timeline-desc-2018">
                         Especialización en Micropigmentación hiperrealista. Lucy introduce técnicas orgánicas avanzadas para cejas y labios, atrayendo a clientes selectos que valoran la naturalidad absoluta.
                     </p>
                 </div>
@@ -242,8 +251,8 @@
             <div class="timeline-item right">
                 <div class="timeline-card glass-panel">
                     <span class="timeline-year">2026</span>
-                    <h3 class="timeline-card-title">La Deep Dark Boutique</h3>
-                    <p class="timeline-card-text">
+                    <h3 class="timeline-card-title" data-i18n="timeline-title-2026">La Deep Dark Boutique</h3>
+                    <p class="timeline-card-text" data-i18n="timeline-desc-2026">
                         Consolidación y reubicación en su nueva suite premium. Lucy diseña bajo cita privada una experiencia de autor sumamente exclusiva donde cada detalle se personaliza al máximo nivel.
                     </p>
                 </div>
@@ -255,8 +264,8 @@
     <!-- Sección Servicios Élite: Menú Estilo Michelin -->
     <section class="services-section" id="servicios">
         <div class="section-header">
-            <span class="section-subtitle">Carta de Servicios</span>
-            <h2 class="section-title">Menú de Exclusividad</h2>
+            <span class="section-subtitle" data-i18n="services-subtitle">Carta de Servicios</span>
+            <h2 class="section-title" data-i18n="services-title-home">Menú de Exclusividad</h2>
         </div>
         
         <div class="services-container" id="services-categories-container">
@@ -269,35 +278,35 @@
     <!-- Sección de Políticas y Cuidados Posteriores -->
     <section class="policies-section" id="politicas">
         <div class="section-header">
-            <span class="section-subtitle">Tu Bienestar & Garantía</span>
-            <h2 class="section-title">Normas de la Boutique</h2>
+            <span class="section-subtitle" data-i18n="policies-subtitle">Tu Bienestar & Garantía</span>
+            <h2 class="section-title" data-i18n="policies-title">Normas de la Boutique</h2>
         </div>
         
         <div class="policies-grid">
             
             <!-- Cuidados Posteriores -->
             <div class="policy-block">
-                <h3 class="policy-block-title">Cuidados Posteriores (Uñas)</h3>
+                <h3 class="policy-block-title" data-i18n="policies-block-uñas">Cuidados Posteriores (Uñas)</h3>
                 <ul class="policy-list">
-                    <li>No remover la aplicación en casa por cuenta propia para evitar dañar la queratina natural.</li>
-                    <li>Evitar largos periodos sin mantenimiento (máximo de 3 semanas para retoque).</li>
-                    <li>No utilizar ningún tipo de material abrasivo o químicos fuertes sobre la aplicación.</li>
-                    <li>Evitar practicar deportes extremos o de contacto que puedan fracturar la uña.</li>
-                    <li>No morderlas, comerlas o usarlas como herramientas mecánicas de apertura.</li>
-                    <li>Lavarlas diariamente con un cepillo dental suave para mantener la asepsia de la base.</li>
+                    <li data-i18n="policies-uñas-1">No remover la aplicación en casa por cuenta propia para evitar dañar la queratina natural.</li>
+                    <li data-i18n="policies-uñas-2">Evitar largos periodos sin mantenimiento (máximo de 3 semanas para retoque).</li>
+                    <li data-i18n="policies-uñas-3">No utilizar ningún tipo de material abrasivo o químicos fuertes sobre la aplicación.</li>
+                    <li data-i18n="policies-uñas-4">Evitar practicar deportes extremos o de contacto que puedan fracturar la uña.</li>
+                    <li data-i18n="policies-uñas-5">No morderlas, comerlas o usarlas como herramientas mecánicas de apertura.</li>
+                    <li data-i18n="policies-uñas-6">Lavarlas diariamente con un cepillo dental suave para mantener la asepsia de la base.</li>
                 </ul>
             </div>
             
             <!-- Políticas de Cita -->
             <div class="policy-block">
-                <h3 class="policy-block-title">Políticas de Cita</h3>
+                <h3 class="policy-block-title" data-i18n="policies-block-citas">Políticas de Cita</h3>
                 <ul class="policy-list">
-                    <li>Todas nuestras citas se agendan estrictamente mediante un anticipo monetario previo.</li>
-                    <li>Tolerancia máxima de 10 minutos. Pasado ese lapso la cita se cancelará sin devolución del anticipo.</li>
-                    <li>Asistir puntualmente y de forma individual (sin acompañantes ni menores de edad).</li>
-                    <li>Agradecemos preferentemente el pago final en efectivo para agilizar el proceso.</li>
-                    <li>No hay devoluciones de anticipos. Cancelaciones previas a 24 horas permiten reprogramar la fecha una sola vez.</li>
-                    <li>Si no se asiste sin previo aviso, la próxima cita requiere cubrir el 30% del valor completo.</li>
+                    <li data-i18n="policies-citas-1">Todas nuestras citas se agendan estrictamente mediante un anticipo monetario previo.</li>
+                    <li data-i18n="policies-citas-2">Tolerancia máxima de 10 minutos. Pasado ese lapso la cita se cancelará sin devolución del anticipo.</li>
+                    <li data-i18n="policies-citas-3">Asistir puntualmente y de forma individual (sin acompañantes ni menores de edad).</li>
+                    <li data-i18n="policies-citas-4">Agradecemos preferentemente el pago final en efectivo para agilizar el proceso.</li>
+                    <li data-i18n="policies-citas-5">No hay devoluciones de anticipos. Cancelaciones previas a 24 horas permiten reprogramar la fecha una sola vez.</li>
+                    <li data-i18n="policies-citas-6">Si no se asiste sin previo aviso, la próxima cita requiere cubrir el 30% del valor completo.</li>
                 </ul>
             </div>
             
@@ -307,21 +316,21 @@
     <!-- Sección de Contacto & Reservas con Formulario Glowing -->
     <section class="contact-section" id="reservas">
         <div class="section-header">
-            <span class="section-subtitle">Reservas Directas</span>
-            <h2 class="section-title">Agenda Tu Momento</h2>
+            <span class="section-subtitle" data-i18n="contact-subtitle">Reservas Directas</span>
+            <h2 class="section-title" data-i18n="contact-title-home">Agenda Tu Momento</h2>
         </div>
         
         <div class="contact-container">
             
             <!-- Información de Contacto -->
             <div class="contact-info-block">
-                <h3 class="contact-motto">La belleza aquí, se lleva desde <span class="motto-gold">tus manos</span>.</h3>
+                <h3 class="contact-motto" data-i18n="contact-motto">La belleza aquí, se lleva desde <span class="motto-gold">tus manos</span>.</h3>
                 
                 <div class="contact-details-list">
                     <div class="contact-detail-item">
                         <div class="detail-icon">📍</div>
                         <div class="detail-text">
-                            <a id="address-link-home" href="https://maps.google.com/?q=Calle+Francia+140-B,+Col+Versalles,+Puerto+Vallarta,+Jalisco,+C.P.+48310" target="_blank">Calle Francia 140-B, Col. Versalles, Puerto Vallarta, Jal.</a>
+                            <a id="address-link-home" href="https://maps.google.com/?q=Calle+Francia+140-B,+Col+Versalles,+Puerto+Vallarta,+Jalisco,+C.P.+48310" target="_blank" data-i18n="contact-address">Calle Francia 140-B, Col. Versalles, Puerto Vallarta, Jal.</a>
                         </div>
                     </div>
                     <div class="contact-detail-item">
@@ -359,19 +368,19 @@
                     <div class="form-group-grid">
                         
                         <div class="form-group">
-                            <label class="form-label" for="booking-name">Nombre Completo *</label>
-                            <input class="form-input" type="text" id="booking-name" required placeholder="Ej. Alejandra Silva">
+                            <label class="form-label" for="booking-name" data-i18n="label-name">Nombre Completo *</label>
+                            <input class="form-input" type="text" id="booking-name" required placeholder="Ej. Alejandra Silva" data-i18n="placeholder-name">
                         </div>
                         
                         <div class="form-group">
-                            <label class="form-label" for="booking-phone">WhatsApp / Teléfono *</label>
-                            <input class="form-input" type="tel" id="booking-phone" required placeholder="Ej. 5512345678">
+                            <label class="form-label" for="booking-phone" data-i18n="label-phone">WhatsApp / Teléfono *</label>
+                            <input class="form-input" type="tel" id="booking-phone" required placeholder="Ej. 5512345678" data-i18n="placeholder-phone">
                         </div>
                         
                         <div class="form-group form-group-full">
-                            <label class="form-label" for="booking-service">Servicio Deseado *</label>
+                            <label class="form-label" for="booking-service" data-i18n="label-service">Servicio Deseado *</label>
                             <select class="form-select" id="booking-service" required>
-                                <option value="" disabled selected>Seleccione una Experiencia Elite</option>
+                                <option value="" disabled selected data-i18n="form-service-placeholder">Seleccione una Experiencia Elite</option>
                                 <optgroup label="Uñas Premium">
                                     <option value="Uñas Esculturales (Aplicación)">Uñas Esculturales - Aplicación ($650)</option>
                                     <option value="Uñas Esculturales (Mantenimiento)">Uñas Esculturales - Mantenimiento ($450)</option>
@@ -405,32 +414,32 @@
                         </div>
                         
                         <div class="form-group">
-                            <label class="form-label" for="booking-date">Fecha Solicitada *</label>
+                            <label class="form-label" for="booking-date" data-i18n="label-date">Fecha Solicitada *</label>
                             <input class="form-input" type="date" id="booking-date" required>
                         </div>
                         
                         <div class="form-group">
-                            <label class="form-label" for="booking-time">Hora Solicitada *</label>
+                            <label class="form-label" for="booking-time" data-i18n="label-time">Hora Solicitada *</label>
                             <input class="form-input" type="time" id="booking-time" required>
                         </div>
                         
                         <div class="form-group form-group-full">
-                            <label class="form-label" for="booking-notes">Notas Especiales / Preferencias</label>
-                            <textarea class="form-textarea" id="booking-notes" placeholder="Cuéntanos algún detalle o preferencia especial para tu sesión..."></textarea>
+                            <label class="form-label" for="booking-notes" data-i18n="label-notes">Notas Especiales / Preferencias</label>
+                            <textarea class="form-textarea" id="booking-notes" placeholder="Cuéntanos algún detalle o preferencia especial para tu sesión..." data-i18n="placeholder-notes"></textarea>
                         </div>
                         
                         <div class="form-group form-group-full">
-                            <label class="form-label" for="booking-payment-method">Método de Confirmación *</label>
+                            <label class="form-label" for="booking-payment-method" data-i18n="label-payment">Método de Confirmación *</label>
                             <select class="form-select" id="booking-payment-method" required>
-                                <option value="stripe" selected>Pago Seguro en Línea (Tarjeta de Crédito/Débito) 💳 [Recomendado]</option>
-                                <option value="whatsapp">Solo Agendar (Anticipo / Pago en Sucursal) 👑</option>
+                                <option value="stripe" selected data-i18n="option-stripe">Pago Seguro en Línea (Tarjeta de Crédito/Débito) 💳 [Recomendado]</option>
+                                <option value="whatsapp" data-i18n="option-whatsapp">Solo Agendar (Anticipo / Pago en Sucursal) 👑</option>
                             </select>
                         </div>
                         
                     </div>
                     
                     <button class="submit-btn" type="submit" id="booking-submit-btn">
-                        <span>Proceder al Pago Seguro</span> 💳
+                        <span data-i18n="btn-submit-stripe">Proceder al Pago Seguro</span> 💳
                     </button>
                 </form>
             </div>
@@ -441,17 +450,17 @@
     <!-- Footer -->
     <footer class="legal-footer" style="padding: 4rem 10% 3rem 10%; border-top: 1px solid rgba(255, 255, 255, 0.05); background: #050505; text-align: center;">
         <div class="footer-logo">DELINEARTE</div>
-        <p style="color: var(--text-secondary); font-size: 0.9rem; font-weight: 300; max-width: 600px; margin: 0 auto 1.5rem auto;">
+        <p style="color: var(--text-secondary); font-size: 0.9rem; font-weight: 300; max-width: 600px; margin: 0 auto 1.5rem auto;" data-i18n="footer-desc-home">
             Estética de autor, micropigmentación clínica avanzada y uñas de alta costura por Lucy González.
         </p>
         <div class="footer-legal-links" style="display: flex; justify-content: center; gap: 2rem; margin-top: 2rem; flex-wrap: wrap;">
-            <a href="/politica-privacidad" style="color: var(--text-secondary); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.05em; transition: var(--transition-fast);">Política de Privacidad</a>
-            <a href="/terminos-condiciones" style="color: var(--text-secondary); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.05em; transition: var(--transition-fast);">Términos de Servicio</a>
-            <a href="/trayectoria" style="color: var(--text-secondary); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.05em; transition: var(--transition-fast);">La Fundadora</a>
-            <a href="/faq" style="color: var(--text-secondary); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.05em; transition: var(--transition-fast);">Preguntas Frecuentes</a>
-            <a href="/contacto" style="color: var(--text-secondary); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.05em; transition: var(--transition-fast);">Contacto</a>
+            <a href="/politica-privacidad" style="color: var(--text-secondary); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.05em; transition: var(--transition-fast);" data-i18n="footer-privacy">Política de Privacidad</a>
+            <a href="/terminos-condiciones" style="color: var(--text-secondary); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.05em; transition: var(--transition-fast);" data-i18n="footer-terms-home">Términos de Servicio</a>
+            <a href="/trayectoria" style="color: var(--text-secondary); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.05em; transition: var(--transition-fast);" data-i18n="nav-career">La Fundadora</a>
+            <a href="/faq" style="color: var(--text-secondary); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.05em; transition: var(--transition-fast);" data-i18n="nav-faqs">Preguntas Frecuentes</a>
+            <a href="/contacto" style="color: var(--text-secondary); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.05em; transition: var(--transition-fast);" data-i18n="nav-contact">Contacto</a>
         </div>
-        <p class="copyright-text" style="color: #555; font-size: 0.75rem; margin-top: 2.5rem;">
+        <p class="copyright-text" style="color: #555; font-size: 0.75rem; margin-top: 2.5rem;" data-i18n="footer-copyright">
             &copy; 2026 Delinearte. Todos los derechos reservados. Diseñado bajo estándares de alta costura.
         </p>
     </footer>
@@ -472,9 +481,9 @@
         <button class="timeline-h-close-btn">&times;</button>
         <div class="timeline-h-container">
             <div class="timeline-h-header">
-                <span class="section-subtitle">Nuestra Trayectoria</span>
-                <h2 class="timeline-h-title-main">El Sendero de la Maestría</h2>
-                <p class="timeline-h-desc">Gira la rueda del mouse (scroll vertical) o desliza con el dedo hacia la izquierda para recorrer la historia de Lucy.</p>
+                <span class="section-subtitle" data-i18n="timeline-subtitle">Nuestra Trayectoria</span>
+                <h2 class="timeline-h-title-main" data-i18n="timeline-h-title">El Sendero de la Maestría</h2>
+                <p class="timeline-h-desc" data-i18n="timeline-h-desc">Gira la rueda del mouse (scroll vertical) o desliza con el dedo hacia la izquierda para recorrer la historia de Lucy.</p>
             </div>
             
             <div class="timeline-h-axis-wrapper">
@@ -488,8 +497,8 @@
                         <div class="timeline-h-node"></div>
                         <div class="timeline-h-card glass-panel">
                             <div class="timeline-h-card-body">
-                                <h3>El Origen de la Vocación</h3>
-                                <p>Lucy González inicia su viaje en el cuidado clínico en 1998 (Cosmiatría - Instituto Eduem). En el 2000 se gradúa como Master en Técnica Escultural de Uñas por O.P.I, marcando su enfoque en la precisión y salud natural.</p>
+                                <h3 data-i18n="timeline-h-title-1">El Origen de la Vocación</h3>
+                                <p data-i18n="timeline-h-desc-1">Lucy González inicia su viaje en el cuidado clínico en 1998 (Cosmiatría - Instituto Eduem). En el 2000 se gradúa como Master en Técnica Escultural de Uñas por O.P.I, marcando su enfoque en la precisión y salud natural.</p>
                             </div>
                         </div>
                     </div>
@@ -500,8 +509,8 @@
                         <div class="timeline-h-node"></div>
                         <div class="timeline-h-card glass-panel">
                             <div class="timeline-h-card-body">
-                                <h3>Fundación & Micropigmentación</h3>
-                                <p>Funda Delinearte Academia como un santuario estético exclusivo. Se certifica en Micropigmentación Avanzada por la Asociación Mexicana de Micropigmentación (2002) y Médica (2005), dominando el esculpido simétrico.</p>
+                                <h3 data-i18n="timeline-h-title-2">Fundación & Micropigmentación</h3>
+                                <p data-i18n="timeline-h-desc-2">Funda Delinearte Academia como un santuario estético exclusivo. Se certifica en Micropigmentación Avanzada por la Asociación Mexicana de Micropigmentación (2002) y Médica (2005), dominando el esculpido simétrico.</p>
                             </div>
                         </div>
                     </div>
@@ -512,8 +521,8 @@
                         <div class="timeline-h-node"></div>
                         <div class="timeline-h-card glass-panel">
                             <div class="timeline-h-card-body">
-                                <h3>Pionera en Lash Art & Microblading</h3>
-                                <p>Obtiene la certificación con la prestigiosa firma Minkys en Técnica Clásica (2012). En 2013 domina el Microblading & Brows por Micropigmentación Avanzada y en 2015 se especializa en remoción avanzada.</p>
+                                <h3 data-i18n="timeline-h-title-3">Pionera en Lash Art & Microblading</h3>
+                                <p data-i18n="timeline-h-desc-3">Obtiene la certificación con la prestigiosa firma Minkys en Técnica Clásica (2012). En 2013 domina el Microblading & Brows por Micropigmentación Avanzada y en 2015 se especializa en remoción avanzada.</p>
                             </div>
                         </div>
                     </div>
@@ -524,8 +533,8 @@
                         <div class="timeline-h-node"></div>
                         <div class="timeline-h-card glass-panel">
                             <div class="timeline-h-card-body">
-                                <h3>Campeona Nacional & Brow Strokes</h3>
-                                <p>Gana el 1er Lugar Nacional 🏆 en la prestigiada competencia Best Lashes Mx (Clásica Avanzada) y se certifica en la vanguardista técnica hiperrealista Brow Strokes bajo la tutela del reconocido Master Ugo Verni.</p>
+                                <h3 data-i18n="timeline-h-title-4">Campeona Nacional & Brow Strokes</h3>
+                                <p data-i18n="timeline-h-desc-4">Gana el 1er Lugar Nacional 🏆 en la prestigiada competencia Best Lashes Mx (Clásica Avanzada) y se certifica en la vanguardista técnica hiperrealista Brow Strokes bajo la tutela del reconocido Master Ugo Verni.</p>
                             </div>
                         </div>
                     </div>
@@ -536,8 +545,8 @@
                         <div class="timeline-h-node"></div>
                         <div class="timeline-h-card glass-panel">
                             <div class="timeline-h-card-body">
-                                <h3>Master Lash Trainer & SEP</h3>
-                                <p>Perfecciona Volumen Ruso y Tendencias en la academia Lady Minks. Obtiene la doble acreditación oficial SEP/CONOCER (EC0611) y se certifica como Master Lash Trainer por She Academy, consolidándose como mentora élite.</p>
+                                <h3 data-i18n="timeline-h-title-5">Master Lash Trainer & SEP</h3>
+                                <p data-i18n="timeline-h-desc-5">Perfecciona Volumen Ruso y Tendencias en la academia Lady Minks. Obtiene la doble acreditación oficial SEP/CONOCER (EC0611) y se certifica como Master Lash Trainer por She Academy, consolidándose como mentora élite.</p>
                             </div>
                         </div>
                     </div>
@@ -548,8 +557,8 @@
                         <div class="timeline-h-node"></div>
                         <div class="timeline-h-card glass-panel">
                             <div class="timeline-h-card-body">
-                                <h3>Trascendencia Global & Jueza</h3>
-                                <p>Condecorada con el Beauty Trainer Award AMEB 2023. Ejerce como Jueza Internacional en competencias élite como We Love Classic y Love Fantasy. Organiza además el taller y competencia de alto perfil Lashxxclusive.</p>
+                                <h3 data-i18n="timeline-h-title-6">Trascendencia Global & Jueza</h3>
+                                <p data-i18n="timeline-h-desc-6">Condecorada con el Beauty Trainer Award AMEB 2023. Ejerce como Jueza Internacional en competencias élite como We Love Classic y Love Fantasy. Organiza además el taller y competencia de alto perfil Lashxxclusive.</p>
                             </div>
                         </div>
                     </div>
@@ -560,8 +569,8 @@
                         <div class="timeline-h-node"></div>
                         <div class="timeline-h-card glass-panel">
                             <div class="timeline-h-card-body">
-                                <h3>Lash Maker del Año & Editorial</h3>
-                                <p>Galardonada con el 1er Lugar 🏆 como Lash Maker 2024 por Raev Awards. Crea la técnica original Universal Style y colabora en la edición europea de Lash Trend Magazine con su artículo "El arte de comunicar".</p>
+                                <h3 data-i18n="timeline-h-title-7">Lash Maker del Año & Editorial</h3>
+                                <p data-i18n="timeline-h-desc-7">Galardonada con el 1er Lugar 🏆 como Lash Maker 2024 por Raev Awards. Crea la técnica original Universal Style y colabora en la edición europea de Lash Trend Magazine con su artículo "El arte de comunicar".</p>
                             </div>
                         </div>
                     </div>
@@ -572,8 +581,8 @@
                         <div class="timeline-h-node"></div>
                         <div class="timeline-h-card glass-panel">
                             <div class="timeline-h-card-body">
-                                <h3>El Legado de Oro en Europa</h3>
-                                <p>Consagración global en el viejo continente. Ponente de honor en European Lash Master (España) y Jueza Internacional en prestigiosos campeonatos europeos: Dream Lash (Italia) y Global Beauty Cups (España).</p>
+                                <h3 data-i18n="timeline-h-title-8">El Legado de Oro en Europa</h3>
+                                <p data-i18n="timeline-h-desc-8">Consagración global en el viejo continente. Ponente de honor en European Lash Master (España) y Jueza Internacional en prestigiosos campeonatos europeos: Dream Lash (Italia) y Global Beauty Cups (España).</p>
                             </div>
                         </div>
                     </div>
@@ -582,7 +591,8 @@
         </div>
     </div>
 
-    <!-- Carga del Script Lógico -->
+    <!-- Carga del Script Lógico y Traducciones -->
+    <script src="translations.js?v=1.0" charset="UTF-8"></script>
     <script src="script.js?v=2.5" charset="UTF-8"></script>
 </body>
 </html>

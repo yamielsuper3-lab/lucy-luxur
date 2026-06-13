@@ -344,15 +344,22 @@
 </head>
 <body>
 
+    <!-- Selector de Idioma Flotante Premium -->
+    <div class="lang-selector" style="position: fixed; top: 2rem; right: 3rem; z-index: 100; margin-right: 0;">
+        <button class="lang-btn" data-lang="es" onclick="setLanguage('es')">ES</button>
+        <span class="lang-separator">|</span>
+        <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
+    </div>
+
     <!-- Botón Regresar -->
     <a href="/" class="back-btn">
-        <span>← Volver al Inicio</span>
+        <span data-i18n="back-home">← Volver al Inicio</span>
     </a>
 
     <!-- Héroe Contacto -->
     <section class="contacto-hero">
-        <span class="contacto-subtitle">Atención Exclusiva de Conserjería</span>
-        <h1 class="contacto-title">Contacto y Sucursal</h1>
+        <span class="contacto-subtitle" data-i18n="contact-pre-title">Atención Exclusiva de Conserjería</span>
+        <h1 class="contacto-title" data-i18n="contact-title">Contacto y Sucursal</h1>
     </section>
 
     <!-- Sección de Cuadrícula de Información & Formulario -->
@@ -362,33 +369,33 @@
         <div class="info-col">
             
             <div class="info-card">
-                <h3 class="info-card-title">La Boutique Versalles</h3>
+                <h3 class="info-card-title" data-i18n="contact-boutique-title">La Boutique Versalles</h3>
                 <ul class="info-detail-list">
                     <li class="info-detail-item">
-                        <strong>Dirección:</strong> <a href="https://maps.google.com/?q=Calle+Francia+140-B,+Col+Versalles,+Puerto+Vallarta,+Jalisco,+C.P.+48310" target="_blank">Calle Francia 140-B, Col. Versalles, Puerto Vallarta, Jalisco, C.P. 48310.</a>
+                        <strong data-i18n="contact-label-address">Dirección:</strong> <a href="https://maps.google.com/?q=Calle+Francia+140-B,+Col+Versalles,+Puerto+Vallarta,+Jalisco,+C.P.+48310" target="_blank">Calle Francia 140-B, Col. Versalles, Puerto Vallarta, Jalisco, C.P. 48310.</a>
                     </li>
                     <li class="info-detail-item">
-                        <strong>WhatsApp Concierge:</strong> <a href="https://wa.me/5213222629523" target="_blank">+52 1 322 262 9523</a>
+                        <strong data-i18n="contact-label-whatsapp">WhatsApp Concierge:</strong> <a href="https://wa.me/5213222629523" target="_blank">+52 1 322 262 9523</a>
                     </li>
                     <li class="info-detail-item">
-                        <strong>Correo General:</strong> <a href="mailto:info@delineartelucy.com">info@delineartelucy.com</a>
+                        <strong data-i18n="contact-label-email-general">Correo General:</strong> <a href="mailto:info@delineartelucy.com">info@delineartelucy.com</a>
                     </li>
                 </ul>
             </div>
 
             <div class="info-card">
-                <h3 class="info-card-title">Horarios de Autor</h3>
+                <h3 class="info-card-title" data-i18n="contact-hours-title">Horarios de Autor</h3>
                 <ul class="info-detail-list">
                     <li class="info-detail-item">
-                        <strong>Lunes a Viernes:</strong> 09:00 AM a 07:00 PM
+                        <strong data-i18n="contact-weekdays-label">Lunes a Viernes:</strong> 09:00 AM a 07:00 PM
                     </li>
                     <li class="info-detail-item">
-                        <strong>Sábados:</strong> 09:00 AM a 04:00 PM
+                        <strong data-i18n="contact-saturday-label">Sábados:</strong> 09:00 AM a 04:00 PM
                     </li>
                     <li class="info-detail-item">
-                        <strong>Domingos:</strong> Cerrado por descanso del personal
+                        <strong data-i18n="contact-sunday-label">Domingos:</strong> <span data-i18n="contact-closed-desc">Cerrado por descanso del personal</span>
                     </li>
-                    <li class="info-detail-item" style="margin-top: 0.8rem; font-size: 0.85rem; font-style: italic; color: var(--brushed-gold);">
+                    <li class="info-detail-item" style="margin-top: 0.8rem; font-size: 0.85rem; font-style: italic; color: var(--brushed-gold);" data-i18n="contact-notice">
                         * Las citas deben ser reservadas con depósito previo por Stripe o acordadas vía WhatsApp Concierge.
                     </li>
                 </ul>
@@ -402,32 +409,32 @@
                 
                 <div class="form-row-2">
                     <div class="form-input-group">
-                        <label for="contact-name">Nombre Completo *</label>
-                        <input type="text" id="contact-name" class="contacto-input" required placeholder="Ej: Alejandra Silva">
+                        <label for="contact-name" data-i18n="contact-label-name-input">Nombre Completo *</label>
+                        <input type="text" id="contact-name" class="contacto-input" required placeholder="Ej: Alejandra Silva" data-i18n="contact-placeholder-name">
                     </div>
                     <div class="form-input-group">
-                        <label for="contact-phone">Número de Teléfono *</label>
-                        <input type="tel" id="contact-phone" class="contacto-input" required placeholder="Ej: 55 1234 5678">
+                        <label for="contact-phone" data-i18n="contact-label-phone-input">Número de Teléfono *</label>
+                        <input type="tel" id="contact-phone" class="contacto-input" required placeholder="Ej: 55 1234 5678" data-i18n="contact-placeholder-phone">
                     </div>
                 </div>
 
                 <div class="form-input-group">
-                    <label for="contact-email">Correo Electrónico *</label>
-                    <input type="email" id="contact-email" class="contacto-input" required placeholder="Ej: alejandra@mail.com">
+                    <label for="contact-email" data-i18n="contact-label-email-input">Correo Electrónico *</label>
+                    <input type="email" id="contact-email" class="contacto-input" required placeholder="Ej: alejandra@mail.com" data-i18n="contact-placeholder-email">
                 </div>
 
                 <div class="form-input-group">
-                    <label for="contact-subject">Asunto o Tratamiento de Interés *</label>
-                    <input type="text" id="contact-subject" class="contacto-input" required placeholder="Ej: Información sobre Ceja Hiperrealista">
+                    <label for="contact-subject" data-i18n="contact-label-subject-input">Asunto o Tratamiento de Interés *</label>
+                    <input type="text" id="contact-subject" class="contacto-input" required placeholder="Ej: Información sobre Ceja Hiperrealista" data-i18n="contact-placeholder-subject">
                 </div>
 
                 <div class="form-input-group">
-                    <label for="contact-message">Mensaje / Requerimientos Especiales *</label>
-                    <textarea id="contact-message" class="contacto-input contacto-textarea" required placeholder="Describe detalladamente tus dudas o la fecha tentativa en la que deseas visitarnos..."></textarea>
+                    <label for="contact-message" data-i18n="contact-label-message-input">Mensaje / Requerimientos Especiales *</label>
+                    <textarea id="contact-message" class="contacto-input contacto-textarea" required placeholder="Describe detalladamente tus dudas o la fecha tentativa en la que deseas visitarnos..." data-i18n="contact-placeholder-message"></textarea>
                 </div>
 
                 <button type="submit" class="form-submit-btn" id="contact-submit-btn">
-                    <span>Enviar Mensaje</span> ✦
+                    <span data-i18n="contact-btn">Enviar Mensaje ✦</span>
                 </button>
 
             </form>
@@ -450,16 +457,16 @@
     <!-- Footer -->
     <footer class="contacto-footer">
         <div class="footer-logo">DELINEARTE</div>
-        <p style="color: var(--text-secondary); font-size: 0.9rem; font-weight: 300; max-width: 600px; margin: 0 auto 1.5rem auto;">
+        <p style="color: var(--text-secondary); font-size: 0.9rem; font-weight: 300; max-width: 600px; margin: 0 auto 1.5rem auto;" data-i18n="footer-desc-home">
             Estética de autor y micropigmentación clínica avanzada por Lucy González.
         </p>
         <div class="footer-legal-links">
-            <a href="/politica-privacidad">Política de Privacidad</a>
-            <a href="/terminos-condiciones">Términos de Servicio</a>
-            <a href="/trayectoria">La Fundadora</a>
-            <a href="/faq">Preguntas Frecuentes</a>
+            <a href="/politica-privacidad" data-i18n="footer-privacy">Política de Privacidad</a>
+            <a href="/terminos-condiciones" data-i18n="footer-terms-home">Términos de Servicio</a>
+            <a href="/trayectoria" data-i18n="nav-career">La Fundadora</a>
+            <a href="/faq" data-i18n="nav-faqs">Preguntas Frecuentes</a>
         </div>
-        <p class="copyright-text">
+        <p class="copyright-text" data-i18n="footer-copyright">
             &copy; 2026 Delinearte. Todos los derechos reservados. Diseñado bajo estándares de alta costura.
         </p>
     </footer>
@@ -467,10 +474,11 @@
     <!-- Toast flotante de éxito -->
     <div id="contact-success-toast" class="contact-toast">
         <span style="font-size: 1.5rem;">✅</span>
-        <span>¡Gracias! Tu mensaje ha sido enviado. Nos comunicaremos contigo a la brevedad.</span>
+        <span data-i18n="contact-toast-success">¡Gracias! Tu mensaje ha sido enviado. Nos comunicaremos contigo a la brevedad.</span>
     </div>
 
     <!-- Script del Formulario de Contacto -->
+    <script src="translations.js?v=1.0" charset="UTF-8"></script>
     <script>
         document.getElementById('client-contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -483,13 +491,16 @@
             
             const submitBtn = document.getElementById('contact-submit-btn');
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span>Enviando...</span>';
+            
+            const isEn = (typeof currentLanguage !== 'undefined' ? currentLanguage : (localStorage.getItem('lang') || 'es')) === 'en';
+            submitBtn.innerHTML = isEn ? '<span>Sending...</span>' : '<span>Enviando...</span>';
             
             // Simular envío de leads de contacto a WhatsApp o guardar en base
             // En un flujo VIP de alta gama, abrimos WhatsApp de forma pre-llenada o mostramos Toast de éxito inmediatamente.
             setTimeout(() => {
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = '<span>Enviar Mensaje</span> ✦';
+                const btnText = isEn ? 'Send Message ✦' : 'Enviar Mensaje ✦';
+                submitBtn.innerHTML = `<span>${btnText}</span>`;
                 
                 // Mostrar Toast
                 const toast = document.getElementById('contact-success-toast');

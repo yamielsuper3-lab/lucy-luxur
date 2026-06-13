@@ -63,15 +63,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const serviceSelect = document.getElementById('booking-service');
     const submitBtn = document.getElementById('booking-submit-btn');
 
-    // Cambiar dinámicamente el botón de envío según método de pago
+    // Cambiar dinámicamente el botón de envío según método de pago y lenguaje
+    function updateSubmitButtonText() {
+        const isEn = (typeof currentLanguage !== 'undefined' ? currentLanguage : (localStorage.getItem('lang') || 'es')) === 'en';
+        if (!paymentMethodSelect || !submitBtn) return;
+        
+        if (paymentMethodSelect.value === 'stripe') {
+            submitBtn.innerHTML = isEn ? '<span>Proceed to Secure Payment</span> 💳' : '<span>Proceder al Pago Seguro</span> 💳';
+        } else {
+            submitBtn.innerHTML = isEn ? '<span>Book via WhatsApp</span> 👑' : '<span>Reservar por WhatsApp</span> 👑';
+        }
+    }
+
     if (paymentMethodSelect && submitBtn) {
-        paymentMethodSelect.addEventListener('change', () => {
-            if (paymentMethodSelect.value === 'stripe') {
-                submitBtn.innerHTML = '<span>Proceder al Pago Seguro</span> 💳';
-            } else {
-                submitBtn.innerHTML = '<span>Reservar por WhatsApp</span> 👑';
-            }
-        });
+        paymentMethodSelect.addEventListener('change', updateSubmitButtonText);
     }
 
     // Gestionar servicios gratuitos (no requieren pago en línea)
@@ -82,12 +87,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (freeServices.includes(serviceSelect.value)) {
                 paymentMethodSelect.value = 'whatsapp';
                 if (stripeOption) stripeOption.disabled = true;
-                if (submitBtn) submitBtn.innerHTML = '<span>Reservar por WhatsApp</span> 👑';
             } else {
                 if (stripeOption) stripeOption.disabled = false;
                 paymentMethodSelect.value = 'stripe';
-                if (submitBtn) submitBtn.innerHTML = '<span>Proceder al Pago Seguro</span> 💳';
             }
+            updateSubmitButtonText();
         });
     }
 
@@ -105,25 +109,27 @@ document.addEventListener('DOMContentLoaded', () => {
         bookingForm.addEventListener('submit', async (e) => {
             e.preventDefault(); // Evitar el comportamiento estándar de recarga
             
+            const isEn = (typeof currentLanguage !== 'undefined' ? currentLanguage : (localStorage.getItem('lang') || 'es')) === 'en';
+            
             // Obtener valores del formulario
             const name = document.getElementById('booking-name').value.trim();
             const phone = document.getElementById('booking-phone').value.trim();
             const service = serviceSelect.value;
             const date = document.getElementById('booking-date').value;
             const time = document.getElementById('booking-time').value;
-            const notes = document.getElementById('booking-notes').value.trim() || 'Sin notas adicionales';
+            const notes = document.getElementById('booking-notes').value.trim() || (isEn ? 'No additional notes' : 'Sin notas adicionales');
             const paymentMethod = paymentMethodSelect ? paymentMethodSelect.value : 'stripe';
             
             // Validaciones básicas
             if (!name || !phone || !service || !date || !time) {
-                alert('Por favor, rellene todos los campos obligatorios para su reserva.');
+                alert(isEn ? 'Please fill out all required fields for your reservation.' : 'Por favor, rellene todos los campos obligatorios para su reserva.');
                 return;
             }
             
             if (paymentMethod === 'stripe') {
                 // FLUJO STRIPE (PAGO EN LÍNEA)
                 if (submitBtn) {
-                    submitBtn.innerHTML = '<span>Iniciando Pago Seguro...</span>';
+                    submitBtn.innerHTML = isEn ? '<span>Initiating Secure Payment...</span>' : '<span>Iniciando Pago Seguro...</span>';
                     submitBtn.disabled = true;
                     submitBtn.style.opacity = '0.7';
                 }
@@ -153,18 +159,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // Redirigir a Stripe Checkout
                     if (submitBtn) {
-                        submitBtn.innerHTML = '<span>Redirigiendo a Stripe...</span> 🔒';
+                        submitBtn.innerHTML = isEn ? '<span>Redirecting to Stripe...</span> 🔒' : '<span>Redirigiendo a Stripe...</span> 🔒';
                     }
                     window.location.href = data.url;
                 } catch (err) {
                     console.error('[Stripe Redirect Error]', err);
-                    alert(`Lo sentimos, no pudimos procesar el pago con tarjeta: ${err.message}. Intentando agendar por WhatsApp de respaldo.`);
+                    alert(isEn ? `Sorry, we could not process card payment: ${err.message}. Attempting to book via WhatsApp fallback.` : `Lo sentimos, no pudimos procesar el pago con tarjeta: ${err.message}. Intentando agendar por WhatsApp de respaldo.`);
                     
                     // Volver a habilitar botón
                     if (submitBtn) {
                         submitBtn.disabled = false;
                         submitBtn.style.opacity = '1';
-                        submitBtn.innerHTML = '<span>Proceder al Pago Seguro</span> 💳';
+                        updateSubmitButtonText();
                     }
                 }
             } else {
@@ -176,36 +182,51 @@ document.addEventListener('DOMContentLoaded', () => {
                 const leadId = 'LL-' + Math.floor(1000 + Math.random() * 9000);
                 
                 // Formatear mensaje para WhatsApp
-                const message = `\u2728 *DELINEARTE - NUEVA RESERVA (SUCURSAL)* \u2728\n\n` +
-                                `\uD83D\uDC51 *Cliente:* ${name}\n` +
-                                `\uD83D\uDCDE *Tel\u00E9fono:* ${phone}\n` +
-                                `\uD83D\uDC85 *Servicio:* ${service}\n` +
-                                `\uD83D\uDCC5 *Fecha:* ${date}\n` +
-                                `\u23F0 *Hora:* ${time}\n` +
-                                `\uD83D\uDCDD *Notas:* ${notes}\n\n` +
-                                `---------------------------------\n` +
-                                `\uD83D\uDD17 *C\u00F3digo de Lead:* ${leadId}\n` +
-                                `\uD83D\uDD16 *Atribuci\u00F3n:* REF-${referralCode}\n` +
-                                `\u2728 _Solicitud de cita para pago en boutique_`;
+                let message = '';
+                if (isEn) {
+                    message = `\u2728 *DELINEARTE - NEW BOOKING (BOUTIQUE)* \u2728\n\n` +
+                              `\uD83D\uDC51 *Client:* ${name}\n` +
+                              `\uD83D\uDCDE *Phone:* ${phone}\n` +
+                              `\uD83D\uDC85 *Service:* ${service}\n` +
+                              `\uD83D\uDCC5 *Date:* ${date}\n` +
+                              `\u23F0 *Time:* ${time}\n` +
+                              `\uD83D\uDCDD *Notes:* ${notes}\n\n` +
+                              `---------------------------------\n` +
+                              `\uD83D\uDD17 *Lead Code:* ${leadId}\n` +
+                              `\uD83D\uDD16 *Attribution:* REF-${referralCode}\n` +
+                              `\u2728 _Appointment request for in-boutique payment_`;
+                } else {
+                    message = `\u2728 *DELINEARTE - NUEVA RESERVA (SUCURSAL)* \u2728\n\n` +
+                              `\uD83D\uDC51 *Cliente:* ${name}\n` +
+                              `\uD83D\uDCDE *Tel\u00E9fono:* ${phone}\n` +
+                              `\uD83D\uDC85 *Servicio:* ${service}\n` +
+                              `\uD83D\uDCC5 *Fecha:* ${date}\n` +
+                              `\u23F0 *Hora:* ${time}\n` +
+                              `\uD83D\uDCDD *Notas:* ${notes}\n\n` +
+                              `---------------------------------\n` +
+                              `\uD83D\uDD17 *C\u00F3digo de Lead:* ${leadId}\n` +
+                              `\uD83D\uDD16 *Atribuci\u00F3n:* REF-${referralCode}\n` +
+                              `\u2728 _Solicitud de cita para pago en boutique_`;
+                }
                 
                 // Codificar el texto para URL
                 const encodedText = encodeURIComponent(message);
                 const whatsappUrl = `https://wa.me/${CONFIG.whatsappPhone}?text=${encodedText}`;
                 
-                
                 if (submitBtn) {
                     const originalText = submitBtn.innerHTML;
-                    submitBtn.innerHTML = '<span>Generando Enlace...</span>';
+                    submitBtn.innerHTML = isEn ? '<span>Generating Link...</span>' : '<span>Generando Enlace...</span>';
                     submitBtn.style.opacity = '0.7';
                     
                     setTimeout(() => {
-                        submitBtn.innerHTML = '<span>¡Redirigiendo a WhatsApp!</span>';
+                        submitBtn.innerHTML = isEn ? '<span>Redirecting to WhatsApp!</span>' : '<span>¡Redirigiendo a WhatsApp!</span>';
                         window.open(whatsappUrl, '_blank');
                         
                         setTimeout(() => {
                             submitBtn.innerHTML = originalText;
                             submitBtn.style.opacity = '1';
                             bookingForm.reset();
+                            updateSubmitButtonText();
                         }, 2000);
                     }, 1000);
                 } else {
@@ -266,6 +287,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const paginationContainer = document.getElementById('hero-pagination');
         if (!slidesContainer || !paginationContainer) return;
 
+        const isEn = (typeof currentLanguage !== 'undefined' ? currentLanguage : (localStorage.getItem('lang') || 'es')) === 'en';
+
         try {
             const res = await fetch('/api/hero-slides');
             const slidesData = await res.json();
@@ -276,6 +299,30 @@ document.addEventListener('DOMContentLoaded', () => {
             paginationContainer.innerHTML = '';
 
             slidesData.forEach((s, idx) => {
+                let title = s.title;
+                let subtitle = s.subtitle;
+                let body = s.body;
+                let ctaText = s.cta_text;
+
+                if (isEn) {
+                    if (s.title === 'Ceja Hiperrealista') {
+                        subtitle = "The Art of the Gaze";
+                        title = "Hyperrealistic Eyebrows";
+                        body = "Organic design and micropigmentation of eyebrows and lips adapted to the unique symmetry and harmony of your face.";
+                        ctaText = "Book Assessment";
+                    } else if (s.title === 'Uñas Élite') {
+                        subtitle = "Signature Sculpting";
+                        title = "Elite Nails";
+                        body = "Fine signature sculpting and premium extensions custom designed with top quality materials that respect your natural health.";
+                        ctaText = "View Nails Menu";
+                    } else if (s.title === 'Faciales Clínicos') {
+                        subtitle = "Signature Treatments";
+                        title = "Clinical Facials";
+                        body = "Advanced cellular nutrition and cutting-edge technology to reveal the true luminosity and youth of your skin.";
+                        ctaText = "Explore Facials";
+                    }
+                }
+
                 // Build slide element
                 const div = document.createElement('div');
                 div.className = 'hero-slide' + (idx === 0 ? ' active' : '');
@@ -284,13 +331,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 div.innerHTML = `
                     <div class="slide-overlay-shade"></div>
                     <div class="slide-content">
-                        ${s.subtitle ? `<span class="slide-subtitle">${s.subtitle}</span>` : ''}
-                        <h1 class="slide-title">${s.title}</h1>
-                        ${s.body ? `<p class="slide-text">${s.body}</p>` : ''}
+                        ${subtitle ? `<span class="slide-subtitle">${subtitle}</span>` : ''}
+                        <h1 class="slide-title">${title}</h1>
+                        ${body ? `<p class="slide-text">${body}</p>` : ''}
                         <a href="${s.cta_href || '#servicios'}" class="more-info-link">
                             <div class="arrow-line"></div>
                             <div class="arrow-head"></div>
-                            <span class="more-info-text">${s.cta_text || 'Ver Más'}</span>
+                            <span class="more-info-text">${ctaText || (isEn ? 'View More' : 'Ver Más')}</span>
                         </a>
                     </div>
                 `;
@@ -477,6 +524,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function loadCarouselVideos() {
+        const isEn = (typeof currentLanguage !== 'undefined' ? currentLanguage : (localStorage.getItem('lang') || 'es')) === 'en';
         try {
             const response = await fetch('/api/videos');
             if (!response.ok) throw new Error('Error al obtener los videos del carrusel');
@@ -489,6 +537,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
                 </svg>
             `;
+
+            const tagsEn = {
+                "Mirada": "Eyes",
+                "Estética": "Aesthetics",
+                "Bienestar": "Wellness",
+                "Cosmética": "Cosmetics"
+            };
+            const namesEn = {
+                "Cejas de Autor": "Signature Brows",
+                "Micropigmentación": "Micropigmentation",
+                "Spa Corporal": "Body Spa",
+                "Lucy Luxury": "Lucy Luxury"
+            };
 
             videos.forEach(video => {
                 const card = document.createElement('div');
@@ -505,6 +566,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     visualBlock = `<img src="${video.poster || ''}" alt="${video.name || ''}" class="carousel-card-img">`;
                 }
 
+                let tag = video.tag || '';
+                let name = video.name || '';
+                if (isEn) {
+                    tag = tagsEn[tag] || tag;
+                    name = namesEn[name] || name;
+                }
+
                 card.innerHTML = `
                     <div class="card-image-container">
                         ${visualBlock}
@@ -512,9 +580,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="card-content-overlay">
                         <span class="card-tag">
                             ${(video.instagram_link && video.instagram_link.trim() !== '') ? instagramIcon : ''}
-                            ${video.tag || ''}
+                            ${tag}
                         </span>
-                        <h4 class="card-name">${video.name || ''}</h4>
+                        <h4 class="card-name">${name}</h4>
                     </div>
                 `;
 
@@ -535,7 +603,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('[Carousel Load Error]', error);
             carouselWrapper.innerHTML = `
                 <div style="width:100%; text-align:center; padding: 2rem; color: var(--brushed-gold);">
-                    Error al cargar los reels del carrusel.
+                    ${isEn ? 'Error loading carousel reels.' : 'Error al cargar los reels del carrusel.'}
                 </div>
             `;
         }
@@ -746,13 +814,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const container = document.getElementById('services-categories-container');
         if (!container) return;
 
+        const isEn = (typeof currentLanguage !== 'undefined' ? currentLanguage : (localStorage.getItem('lang') || 'es')) === 'en';
+
         try {
             const response = await fetch('/api/services');
             if (!response.ok) throw new Error('Error al obtener servicios de la base de datos');
             const categories = await response.json();
 
             // Mapeo de nombres estéticos de categorías
-            const categoryTitles = {
+            const categoryTitlesEn = {
+                mirada: 'Signature Eyes & Micropigmentation',
+                faciales: 'Clinical Skin Care',
+                unas: 'Luxury Nails'
+            };
+            const categoryTitlesEs = {
                 mirada: 'Diseño de la Mirada & Micropigmentación',
                 faciales: 'Cuidado Clínico de la Piel',
                 unas: 'Aplicaciones de Uñas de Lujo'
@@ -763,7 +838,7 @@ document.addEventListener('DOMContentLoaded', () => {
             for (const [catKey, services] of Object.entries(categories)) {
                 if (!services || services.length === 0) continue;
 
-                const catTitle = categoryTitles[catKey] || catKey;
+                const catTitle = isEn ? (categoryTitlesEn[catKey] || catKey) : (categoryTitlesEs[catKey] || catKey);
                 
                 htmlContent += `
                     <div class="services-category-block glass-panel">
@@ -772,61 +847,93 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
 
                 services.forEach(service => {
+                    const s = { ...service };
+                    const translation = (typeof TRANSLATIONS_SERVICES !== 'undefined' && TRANSLATIONS_SERVICES[s.id]) ? TRANSLATIONS_SERVICES[s.id] : null;
+                    if (isEn && translation) {
+                        s.title = translation.title || s.title;
+                        s.description = translation.description || s.description;
+                        s.price = translation.price || s.price;
+                        s.duration = translation.duration || s.duration;
+                        s.frequency = translation.frequency || s.frequency;
+                    }
+
                     // Generar etiquetas de precios dinámicas
                     let priceTagsHtml = '';
-                    const priceStr = service.price || '';
+                    const priceStr = s.price || '';
                     
-                    if (service.id === 'ceja-hiperrealista' || priceStr.toLowerCase().includes('valoración gratis')) {
-                        priceTagsHtml = `
-                            <div class="price-tag">
-                                <span class="price-label">Valoración</span>
-                                <span>Gratis</span>
-                            </div>
-                            <div class="price-tag">
-                                <span class="price-label">Diseño</span>
-                                <span>$3,500</span>
-                            </div>
-                        `;
+                    if (s.id === 'ceja-hiperrealista' || priceStr.toLowerCase().includes('valoración gratis') || priceStr.toLowerCase().includes('free assessment')) {
+                        if (isEn) {
+                            priceTagsHtml = `
+                                <div class="price-tag">
+                                    <span class="price-label">Assessment</span>
+                                    <span>Free</span>
+                                </div>
+                                <div class="price-tag">
+                                    <span class="price-label">Design</span>
+                                    <span>$3,500</span>
+                                </div>
+                            `;
+                        } else {
+                            priceTagsHtml = `
+                                <div class="price-tag">
+                                    <span class="price-label">Valoración</span>
+                                    <span>Gratis</span>
+                                </div>
+                                <div class="price-tag">
+                                    <span class="price-label">Diseño</span>
+                                    <span>$3,500</span>
+                                </div>
+                            `;
+                        }
                     } else {
                         const parenMatch = priceStr.match(/^\s*(\$[\d,]+)\s*\(([^)]+)\)\s*$/);
                         if (parenMatch) {
                             const val = parenMatch[1];
                             const label = parenMatch[2];
+                            
+                            let translatedLabel = label;
+                            if (isEn) {
+                                if (label.toLowerCase() === 'aplicación') translatedLabel = 'Application';
+                                else if (label.toLowerCase() === 'mantenimiento') translatedLabel = 'Maintenance';
+                                else if (label.toLowerCase() === 'retoque') translatedLabel = 'Touch-up';
+                                else if (label.toLowerCase() === 'sesión') translatedLabel = 'Session';
+                            }
+                            
                             priceTagsHtml = `
                                 <div class="price-tag">
-                                    <span class="price-label">${label}</span>
+                                    <span class="price-label">${translatedLabel}</span>
                                     <span>${val}</span>
                                 </div>
                             `;
                             
                             // Añadir precio de mantenimiento para las categorías específicas
-                            if (service.id === 'unas-esculturales' || service.id === 'poligel-premium' || service.id === 'soft-gel') {
+                            if (s.id === 'unas-esculturales' || s.id === 'poligel-premium' || s.id === 'soft-gel') {
                                 priceTagsHtml += `
                                     <div class="price-tag">
-                                        <span class="price-label">Mantenimiento</span>
+                                        <span class="price-label">${isEn ? 'Maintenance' : 'Mantenimiento'}</span>
                                         <span>$450</span>
                                     </div>
                                 `;
-                            } else if (service.id === 'ruber-base') {
+                            } else if (s.id === 'ruber-base') {
                                 priceTagsHtml += `
                                     <div class="price-tag">
-                                        <span class="price-label">Mantenimiento</span>
+                                        <span class="price-label">${isEn ? 'Maintenance' : 'Mantenimiento'}</span>
                                         <span>$250</span>
                                     </div>
                                 `;
                             }
                         } else if (priceStr.startsWith('$')) {
-                            const label = service.category === 'unas' ? 'Aplicación' : 'Sesión';
+                            const defaultLabel = s.category === 'unas' ? (isEn ? 'Application' : 'Aplicación') : (isEn ? 'Session' : 'Sesión');
                             priceTagsHtml = `
                                 <div class="price-tag">
-                                    <span class="price-label">${label}</span>
+                                    <span class="price-label">${defaultLabel}</span>
                                     <span>${priceStr}</span>
                                 </div>
                             `;
                         } else {
                             priceTagsHtml = `
                                 <div class="price-tag">
-                                    <span class="price-label">Precio</span>
+                                    <span class="price-label">${isEn ? 'Price' : 'Precio'}</span>
                                     <span>${priceStr}</span>
                                 </div>
                             `;
@@ -835,37 +942,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // Generar meta pills dinámicos
                     let pillsHtml = '';
-                    if (service.id === 'ceja-hiperrealista') {
-                        pillsHtml += `<span class="meta-pill">✦ Técnica Orgánica</span>`;
+                    if (s.id === 'ceja-hiperrealista') {
+                        pillsHtml += `<span class="meta-pill">✦ ${isEn ? 'Organic Technique' : 'Técnica Orgánica'}</span>`;
                         pillsHtml += `<span class="meta-pill">⏱ 2.5 Hrs</span>`;
                     } else {
-                        if (service.duration) {
-                            const dur = service.duration.split('(')[0].trim();
+                        if (s.duration) {
+                            const dur = s.duration.split('(')[0].trim();
                             pillsHtml += `<span class="meta-pill">⏱ ${dur}</span>`;
                         }
-                        if (service.frequency) {
-                            let freq = service.frequency.toLowerCase();
-                            if (freq.includes('cada')) {
-                                freq = freq.split('cada')[1].trim();
-                            } else if (freq.includes('recomendado')) {
-                                freq = freq.replace('recomendado', '').trim();
+                        if (s.frequency) {
+                            let freq = s.frequency.toLowerCase();
+                            if (isEn) {
+                                if (freq.includes('cada')) {
+                                    freq = freq.split('cada')[1].trim();
+                                    freq = `Every ${freq}`;
+                                } else if (freq.includes('recomendado')) {
+                                    freq = freq.replace('recomendado', '').trim();
+                                    freq = `${freq} recommended`;
+                                }
+                            } else {
+                                if (freq.includes('cada')) {
+                                    freq = freq.split('cada')[1].trim();
+                                } else if (freq.includes('recomendado')) {
+                                    freq = freq.replace('recomendado', '').trim();
+                                }
+                                freq = freq.charAt(0).toUpperCase() + freq.slice(1);
                             }
-                            freq = freq.charAt(0).toUpperCase() + freq.slice(1);
                             pillsHtml += `<span class="meta-pill">🗓 ${freq}</span>`;
                         }
                     }
 
                     htmlContent += `
-                        <a href="servicio.html?id=${service.id}" class="service-item">
+                        <a href="servicio.html?id=${s.id}" class="service-item">
                             <div class="service-main-row">
-                                <h4 class="service-item-name">${service.title}</h4>
+                                <h4 class="service-item-name">${s.title}</h4>
                                 <div class="service-dots"></div>
                                 <div class="service-prices">
                                     ${priceTagsHtml}
                                 </div>
                             </div>
                             <div class="service-details">
-                                <p class="service-description">${service.description}</p>
+                                <p class="service-description">${s.description}</p>
                                 <div class="service-meta-info">
                                     ${pillsHtml}
                                 </div>
@@ -886,7 +1003,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('[Services Dynamic Loading Error]', error);
             container.innerHTML = `
                 <div class="glass-panel" style="padding: 2rem; text-align: center; color: var(--brushed-gold);">
-                    <p>Lo sentimos, no pudimos cargar el catálogo de servicios en este momento.</p>
+                    <p>${isEn ? 'Sorry, we could not load the services catalog at this moment.' : 'Lo sentimos, no pudimos cargar el catálogo de servicios en este momento.'}</p>
                 </div>
             `;
         }
@@ -966,5 +1083,74 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // ==========================================
+    // 13. IDIOMAS Y TRADUCCIONES
+    // ==========================================
+    function translateBookingSelect(isEn) {
+        const select = document.getElementById('booking-service');
+        if (!select) return;
+
+        const optgroups = select.querySelectorAll('optgroup');
+        if (optgroups.length >= 3) {
+            optgroups[0].label = isEn ? "Premium Nails" : "Uñas Premium";
+            optgroups[1].label = isEn ? "Clinical Facials" : "Faciales Clínicos";
+            optgroups[2].label = isEn ? "Eyes & Lashes" : "Mirada & Pestañas";
+        }
+
+        const placeholder = select.querySelector('option[value=""]');
+        if (placeholder) {
+            placeholder.textContent = isEn ? "Select an Elite Experience" : "Seleccione una Experiencia Elite";
+        }
+
+        const optionsMap = {
+            "Uñas Esculturales (Aplicación)": { es: "Uñas Esculturales - Aplicación ($650)", en: "Sculptured Nails - Application ($650)" },
+            "Uñas Esculturales (Mantenimiento)": { es: "Uñas Esculturales - Mantenimiento ($450)", en: "Sculptured Nails - Maintenance ($450)" },
+            "Poligel Premium (Aplicación)": { es: "Poligel Premium - Aplicación ($650)", en: "Premium Poligel - Application ($650)" },
+            "Soft Gel (Aplicación)": { es: "Soft Gel - Aplicación ($650)", en: "Soft Gel - Application ($650)" },
+            "Ruber Base (Aplicación)": { es: "Ruber Base - Aplicación ($350)", en: "Ruber Base - Application ($350)" },
+            "Gel Semipermanente": { es: "Gel Semipermanente ($250)", en: "Gel Polish ($250)" },
+            "Tratamiento Vitamina E": { es: "Tratamiento Vitamina E ($150)", en: "Vitamin E Treatment ($150)" },
+            "Facial Limpieza Profunda": { es: "Facial Limpieza Profunda ($800)", en: "Deep Facial Cleansing ($800)" },
+            "Facial Hidratante": { es: "Facial Hidratante ($1,200)", en: "Hydrating Facial ($1,200)" },
+            "Facial Despigmentante": { es: "Facial Despigmentante ($1,200)", en: "Depigmenting Facial ($1,200)" },
+            "Facial Anti-Edad Premium": { es: "Facial Anti-Edad Premium ($1,300)", en: "Premium Anti-Aging Facial ($1,300)" },
+            "Plasma Fibroblast": { es: "Plasma Fibroblast (Valoración Gratis)", en: "Plasma Fibroblast (Free Assessment)" },
+            "Micropigmentación de Cejas": { es: "Valoración Micropigmentación Cejas (Gratis)", en: "Eyebrow Micropigmentation Assessment (Free)" },
+            "Aquarela Lips": { es: "Valoración Aquarela Lips (Gratis)", en: "Aquarela Lips Assessment (Free)" },
+            "Full Lips": { es: "Valoración Full Lips (Gratis)", en: "Full Lips Assessment (Free)" },
+            "Eyeliner": { es: "Valoración Eyeliner (Gratis)", en: "Eyeliner Assessment (Free)" },
+            "Laminación de Cejas": { es: "Laminación de Cejas ($350)", en: "Eyebrow Lamination ($350)" },
+            "Cejas HD": { es: "Cejas HD ($250)", en: "HD Eyebrows ($250)" },
+            "Lifting de Pestañas": { es: "Lifting de Pestañas ($450)", en: "Lash Lift ($450)" },
+            "Extensión de Pestañas Clásica": { es: "Extensión Pestañas Clásica ($650)", en: "Classic Lash Extensions ($650)" },
+            "Extensión de Pestañas Volumen Soft": { es: "Extensión Pestañas Volumen Soft ($750)", en: "Soft Volume Lash Extensions ($750)" },
+            "Extensión de Pestañas Volumen Intense": { es: "Extensión Pestañas Volumen Intense ($850)", en: "Intense Volume Lash Extensions ($850)" },
+            "Extensión de Pestañas Volumen Ruso": { es: "Extensión Pestañas Volumen Ruso ($800)", en: "Mega Volume Lash Extensions ($800)" }
+        };
+
+        select.querySelectorAll('option').forEach(opt => {
+            const val = opt.value;
+            if (optionsMap[val]) {
+                opt.textContent = isEn ? optionsMap[val].en : optionsMap[val].es;
+            }
+        });
+    }
+
+    // Traducir formulario inicialmente
+    const initialIsEn = (typeof currentLanguage !== 'undefined' ? currentLanguage : (localStorage.getItem('lang') || 'es')) === 'en';
+    translateBookingSelect(initialIsEn);
+    updateSubmitButtonText();
+
+    // Escuchar el cambio de idioma
+    window.addEventListener('languageChanged', (e) => {
+        const lang = e.detail.language;
+        const isEn = lang === 'en';
+        translateBookingSelect(isEn);
+        updateSubmitButtonText();
+        loadDynamicServices();
+        initHeroSlideshow();
+        loadCarouselVideos();
+    });
 });
 
