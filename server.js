@@ -1,3 +1,7 @@
+// Cargar variables de entorno desde .env (entorno local)
+// En Easypanel las variables se configuran directamente en el panel del contenedor
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -48,7 +52,13 @@ const upload = multer({
 });
 
 // Configuración de Stripe
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY || 'sk_test_51PMkLpRp87eWf768xyz');
+// La clave secreta se lee desde la variable de entorno STRIPE_SECRET_KEY
+// Nunca hardcodear claves reales en el código fuente
+if (!process.env.STRIPE_SECRET_KEY) {
+    console.warn('[Stripe] ⚠️  ADVERTENCIA: No se encontró STRIPE_SECRET_KEY en las variables de entorno.');
+    console.warn('[Stripe] Los pagos en línea no funcionarán hasta que se configure esta variable.');
+}
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder_no_configurado');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -456,7 +466,12 @@ app.delete('/api/hero-slides/:id', async (req, res) => {
     }
 });
 
-// 3. Crear sesión de pago en Stripe (Checkout)
+// 3a. Exponer la clave PÚBLICA de Stripe al frontend (la secreta nunca sale del servidor)
+app.get('/api/stripe-config', (req, res) => {
+    res.json({ publishableKey: process.env.STRIPE_PUBLISHABLE_KEY || '' });
+});
+
+// 3b. Crear sesión de pago en Stripe (Checkout)
 app.post('/api/create-checkout-session', async (req, res) => {
     try {
         const { name, phone, service, date, time, notes, origin } = req.body;
