@@ -53,12 +53,14 @@ const upload = multer({
 
 // Configuración de Stripe
 // La clave secreta se lee desde la variable de entorno STRIPE_SECRET_KEY
-// Nunca hardcodear claves reales en el código fuente
-if (!process.env.STRIPE_SECRET_KEY) {
-    console.warn('[Stripe] ⚠️  ADVERTENCIA: No se encontró STRIPE_SECRET_KEY en las variables de entorno.');
-    console.warn('[Stripe] Los pagos en línea no funcionarán hasta que se configure esta variable.');
+const stripeKey = process.env.STRIPE_SECRET_KEY;
+if (!stripeKey) {
+    console.error('[Stripe] ❌ CRÍTICO: No se encontró STRIPE_SECRET_KEY en las variables de entorno.');
+    console.error('[Stripe] Variables disponibles:', Object.keys(process.env).filter(k => !k.includes('npm') && !k.includes('PATH')).join(', '));
+} else {
+    console.log(`[Stripe] ✅ Clave cargada correctamente. Prefijo: ${stripeKey.substring(0, 12)}...`);
 }
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder_no_configurado');
+const stripe = require('stripe')(stripeKey || 'sk_test_placeholder_no_configurado');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -464,6 +466,19 @@ app.delete('/api/hero-slides/:id', async (req, res) => {
         console.error('[API Error] Error al eliminar banner:', error);
         res.status(500).json({ error: 'Error al eliminar el banner.' });
     }
+});
+
+// DIAGNÓSTICO TEMPORAL: Ver si las variables de entorno están cargadas en producción
+app.get('/api/health', (req, res) => {
+    const stripeLoaded = !!(process.env.STRIPE_SECRET_KEY);
+    const stripePrefix = process.env.STRIPE_SECRET_KEY ? process.env.STRIPE_SECRET_KEY.substring(0, 12) + '...' : 'NO ENCONTRADA';
+    res.json({
+        status: 'ok',
+        stripe_key_loaded: stripeLoaded,
+        stripe_key_prefix: stripePrefix,
+        node_env: process.env.NODE_ENV || 'no definido',
+        port: process.env.PORT || '3000 (default)'
+    });
 });
 
 // 3a. Exponer la clave PÚBLICA de Stripe al frontend (la secreta nunca sale del servidor)
