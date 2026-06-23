@@ -480,6 +480,8 @@ app.get('/api/health', (req, res) => {
         node_env: process.env.NODE_ENV || 'no definido',
         port: process.env.PORT || '3000 (default)'
     });
+});
+
 // RESPALDO EXPORT: Comprime y descarga la base de datos y archivos subidos en producción
 app.get('/api/backup', basicAuth, (req, res) => {
     const { exec } = require('child_process');
