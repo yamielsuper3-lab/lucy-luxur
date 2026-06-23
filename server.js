@@ -480,6 +480,28 @@ app.get('/api/health', (req, res) => {
         node_env: process.env.NODE_ENV || 'no definido',
         port: process.env.PORT || '3000 (default)'
     });
+// RESPALDO EXPORT: Comprime y descarga la base de datos y archivos subidos en producción
+app.get('/api/backup', basicAuth, (req, res) => {
+    const { exec } = require('child_process');
+    const backupFile = path.join(__dirname, 'delinearte_backup.tar.gz');
+    
+    // Comprime la base de datos sqlite y los archivos que empiecen con 'uploaded_*'
+    exec(`tar -czf "${backupFile}" data public/uploaded_* 2>/dev/null || tar -czf "${backupFile}" data`, (err) => {
+        if (err) {
+            console.error('[Backup Error] Falló al comprimir:', err);
+            return res.status(500).send('Error al generar copia de seguridad.');
+        }
+        
+        res.download(backupFile, 'delinearte_backup.tar.gz', (downloadErr) => {
+            if (downloadErr) {
+                console.error('[Backup Error] Falló al descargar:', downloadErr);
+            }
+            // Eliminar el archivo temporal del disco
+            if (fs.existsSync(backupFile)) {
+                fs.unlinkSync(backupFile);
+            }
+        });
+    });
 });
 
 // 3a. Exponer la clave PÚBLICA de Stripe al frontend (la secreta nunca sale del servidor)
