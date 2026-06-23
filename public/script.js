@@ -134,6 +134,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     submitBtn.style.opacity = '0.7';
                 }
                 
+                // Meta Pixel: Registrar inicio de proceso de pago
+                if (typeof fbq !== 'undefined') {
+                    fbq('track', 'InitiateCheckout', {
+                        content_name: service,
+                        content_category: 'Service Booking'
+                    });
+                }
+                
                 try {
                     const response = await fetch('/api/create-checkout-session', {
                         method: 'POST',

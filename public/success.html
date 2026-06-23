@@ -130,6 +130,23 @@
             transform: translateY(-2px);
         }
     </style>
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '4199649283678536');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=4199649283678536&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
 </head>
 <body>
 
@@ -195,6 +212,39 @@
             const notes = params.get('notes') || 'Sin notas';
             const sessionId = params.get('session_id') || 'ST-CHECKOUT';
             
+            // Registrar compra en el Meta Pixel
+            if (sessionId && sessionId !== 'ST-CHECKOUT') {
+                const servicePrices = {
+                    "Uñas Esculturales (Aplicación)": 650,
+                    "Uñas Esculturales (Mantenimiento)": 450,
+                    "Poligel Premium (Aplicación)": 650,
+                    "Soft Gel (Aplicación)": 650,
+                    "Ruber Base (Aplicación)": 350,
+                    "Gel Semipermanente": 250,
+                    "Tratamiento Vitamina E": 150,
+                    "Facial Limpieza Profunda": 800,
+                    "Facial Hidratante": 1200,
+                    "Facial Despigmentante": 1200,
+                    "Facial Anti-Edad Premium": 1300,
+                    "Laminación de Cejas": 350,
+                    "Cejas HD": 250,
+                    "Lifting de Pestañas": 450,
+                    "Extensión de Pestañas Clásica": 650,
+                    "Extensión de Pestañas Volumen Soft": 750,
+                    "Extensión de Pestañas Volumen Intense": 850,
+                    "Extensión de Pestañas Volumen Ruso": 800
+                };
+                const price = servicePrices[service] || 0;
+                if (typeof fbq !== 'undefined') {
+                    fbq('track', 'Purchase', {
+                        value: price,
+                        currency: 'MXN',
+                        content_name: service,
+                        content_type: 'product'
+                    });
+                }
+            }
+
             // Recortar ID de sesión para legibilidad
             const shortSessionId = sessionId.length > 25 ? sessionId.substring(0, 15) + '...' + sessionId.substring(sessionId.length - 8) : sessionId;
  
