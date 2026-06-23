@@ -259,21 +259,40 @@ async function initDatabase() {
         console.error('[Database] Error al sembrar la tabla de videos:', error);
     }
 
-    // 4. Migración para base de datos persistentes: asegurar que los videos predeterminados tengan sus rutas
+    // 4. Migración para base de datos persistentes: asegurar que los videos predeterminados existan y tengan sus rutas
     try {
-        await database.run(`
-            UPDATE videos 
-            SET url = 'whatsapp_video_2.mp4' 
-            WHERE name = 'The Telegraph' AND (url IS NULL OR url = '')
-        `);
-        await database.run(`
-            UPDATE videos 
-            SET url = 'diseno_cejas_visagismo.mp4' 
-            WHERE name = 'Masaje de Autor' AND (url IS NULL OR url = '')
-        `);
-        console.log('[Database] Migración de URLs de videos predeterminados realizada con éxito.');
+        const telegraph = await database.get("SELECT * FROM videos WHERE name = 'The Telegraph'");
+        if (!telegraph) {
+            console.log("[Database] Re-insertando video 'The Telegraph' faltante...");
+            await database.run(`
+                INSERT INTO videos (tag, name, url, poster, instagram_link)
+                VALUES (?, ?, ?, ?, ?)
+            `, ["Prensa", "The Telegraph", "whatsapp_video_2.mp4", "Captura de pantalla 2026-05-29 211828.png", ""]);
+        } else if (!telegraph.url || telegraph.url === '') {
+            await database.run(`
+                UPDATE videos 
+                SET url = 'whatsapp_video_2.mp4' 
+                WHERE name = 'The Telegraph'
+            `);
+        }
+
+        const masaje = await database.get("SELECT * FROM videos WHERE name = 'Masaje de Autor'");
+        if (!masaje) {
+            console.log("[Database] Re-insertando video 'Masaje de Autor' faltante...");
+            await database.run(`
+                INSERT INTO videos (tag, name, url, poster, instagram_link)
+                VALUES (?, ?, ?, ?, ?)
+            `, ["Facial", "Masaje de Autor", "diseno_cejas_visagismo.mp4", "Captura de pantalla 2026-05-29 212043.png", ""]);
+        } else if (!masaje.url || masaje.url === '') {
+            await database.run(`
+                UPDATE videos 
+                SET url = 'diseno_cejas_visagismo.mp4' 
+                WHERE name = 'Masaje de Autor'
+            `);
+        }
+        console.log('[Database] Migración de videos predeterminados finalizada.');
     } catch (error) {
-        console.error('[Database] Error al migrar URLs de videos vacías:', error);
+        console.error('[Database] Error al migrar o restaurar videos predeterminados:', error);
     }
 
     // 5. Semilla para la tabla hero_slides
