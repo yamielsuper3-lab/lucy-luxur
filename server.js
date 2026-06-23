@@ -139,6 +139,7 @@ const SERVICE_PRICES = {
     "Extensión de Pestañas Volumen Soft": 750,
     "Extensión de Pestañas Volumen Intense": 850,
     "Extensión de Pestañas Volumen Ruso": 800,
+    "Prueba de Sistema": 5,
     "Micropigmentación de Cejas": 0, // Valoración gratuita, se gestiona por WhatsApp sin pago
     "Plasma Fibroblast": 0,
     "Aquarela Lips": 0,
