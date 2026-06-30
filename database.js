@@ -99,6 +99,15 @@ async function initDatabase() {
             cta_text TEXT,
             cta_href TEXT
         );
+
+        CREATE TABLE IF NOT EXISTS leads (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            contact TEXT NOT NULL,
+            goals TEXT NOT NULL,
+            recommended_service TEXT,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
     `);
     
     // 2. Semilla (Seeding) si la base de datos está vacía
@@ -295,6 +304,30 @@ async function initDatabase() {
         console.error('[Database] Error al migrar o restaurar videos predeterminados:', error);
     }
 
+    // 4.5. Migración para dividir la categoría de Mirada y Micropigmentación de Autor
+    try {
+        // Actualizar servicios de micropigmentación a su nueva categoría
+        const microServices = ['ceja-hiperrealista', 'aquarela-lips', 'full-lips', 'eyeliner'];
+        for (const serviceId of microServices) {
+            await database.run(`
+                UPDATE services 
+                SET category = 'micropigmentacion' 
+                WHERE id = ?
+            `, [serviceId]);
+        }
+
+        // Corregir Extensión de Pestañas Volumen Soft (que estaba en unas) a mirada
+        await database.run(`
+            UPDATE services 
+            SET category = 'mirada' 
+            WHERE id = 'pestanas-volumen-soft'
+        `);
+
+        console.log('[Database] Migración de categorías de servicios (Mirada vs Micropigmentación) finalizada.');
+    } catch (error) {
+        console.error('[Database] Error al migrar categorías de servicios:', error);
+    }
+
     // 5. Semilla para la tabla hero_slides
     try {
         const slideCount = await database.get('SELECT COUNT(*) as count FROM hero_slides');
@@ -354,9 +387,15 @@ async function initDatabase() {
                 // Determinar categoría basada en el ID
                 let category = 'mirada';
                 if (id.startsWith('unas') || id.includes('poligel') || id.includes('soft') || id.includes('ruber') || id.includes('gel') || id.includes('vitamina')) {
-                    category = 'unas';
+                    if (id === 'pestanas-volumen-soft') {
+                        category = 'mirada';
+                    } else {
+                        category = 'unas';
+                    }
                 } else if (id.startsWith('facial') || id.includes('fibroblast')) {
                     category = 'faciales';
+                } else if (id.includes('lips') || id.includes('eyeliner') || id === 'ceja-hiperrealista') {
+                    category = 'micropigmentacion';
                 }
 
                 // Insertar servicio principal

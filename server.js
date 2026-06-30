@@ -159,6 +159,7 @@ app.get('/api/services', async (req, res) => {
         
         const grouped = {
             mirada: services.filter(s => s.category === 'mirada'),
+            micropigmentacion: services.filter(s => s.category === 'micropigmentacion'),
             faciales: services.filter(s => s.category === 'faciales'),
             unas: services.filter(s => s.category === 'unas')
         };
@@ -592,6 +593,52 @@ app.get('/politica-privacidad', (req, res) => {
 
 app.get('/terminos-condiciones', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'terminos-condiciones.html'));
+});
+
+// 3c. Guardar un nuevo lead de consulta de IA
+app.post('/api/leads', async (req, res) => {
+    try {
+        const { name, contact, goals, recommended_service } = req.body;
+        if (!name || !contact || !goals) {
+            return res.status(400).json({ error: 'Faltan campos obligatorios (nombre, contacto o metas).' });
+        }
+        
+        const db = await getDatabase();
+        await db.run(`
+            INSERT INTO leads (name, contact, goals, recommended_service)
+            VALUES (?, ?, ?, ?)
+        `, [name, contact, goals, recommended_service || '']);
+        
+        res.json({ success: true, message: 'Consulta registrada con éxito.' });
+    } catch (error) {
+        console.error('[API Error] Error al crear lead:', error);
+        res.status(500).json({ error: 'Error al registrar la consulta.' });
+    }
+});
+
+// 3d. Obtener todos los leads (Protegido - Admin)
+app.get('/api/leads', basicAuth, async (req, res) => {
+    try {
+        const db = await getDatabase();
+        const leads = await db.all('SELECT * FROM leads ORDER BY created_at DESC');
+        res.json(leads);
+    } catch (error) {
+        console.error('[API Error] Error al obtener leads:', error);
+        res.status(500).json({ error: 'Error al obtener la lista de consultas.' });
+    }
+});
+
+// 3e. Eliminar un lead por ID (Protegido - Admin)
+app.delete('/api/leads/:id', basicAuth, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const db = await getDatabase();
+        await db.run('DELETE FROM leads WHERE id = ?', [id]);
+        res.json({ success: true, message: 'Consulta eliminada con éxito.' });
+    } catch (error) {
+        console.error('[API Error] Error al eliminar lead:', error);
+        res.status(500).json({ error: 'Error al eliminar la consulta.' });
+    }
 });
 
 // Comodín para redirigir cualquier otra petición de frontend a la página principal

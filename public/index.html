@@ -116,10 +116,15 @@
                             </ul>
                         </div>
                         <div class="mega-category">
-                            <h3 data-i18n="mega-mirada">Mirada</h3>
+                            <h3 data-i18n="tab-mirada">Diseño de Mirada</h3>
                             <ul>
-                                <li><a href="#servicios" data-i18n="mega-item-micropigmentacion">Micropigmentación</a></li>
-                                <li><a href="#servicios" data-i18n="mega-item-diseno">Diseño de Cejas</a></li>
+                                <li><a href="#servicios" data-i18n="mega-item-diseno">Cejas y Pestañas</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-category">
+                            <h3 data-i18n="tab-micropigmentacion">Micropigmentación</h3>
+                            <ul>
+                                <li><a href="#servicios" data-i18n="mega-item-micropigmentacion">Micropigmentación de Autor</a></li>
                             </ul>
                         </div>
                     </div>
@@ -290,6 +295,87 @@
         </div>
     </section>
 
+    <!-- Sección Asesora IA: Encontrar Servicio Ideal (¡NUEVO!) -->
+    <section class="ai-finder-section" id="asesora-ia" style="padding: 5rem 0; border-bottom: 1px solid rgba(197, 160, 89, 0.12); position: relative;">
+        <div class="ai-finder-container" style="max-width: 900px; margin: 0 auto; padding: 0 1.5rem;">
+            <div class="ai-finder-content glass-panel" style="padding: 4rem 3rem; border-radius: 8px; border: 1px solid rgba(197, 160, 89, 0.2); background: rgba(0, 0, 0, 0.65); box-shadow: 0 20px 50px rgba(0,0,0,0.8);">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <span class="section-subtitle" data-i18n="ai-finder-subtitle" style="display: block; font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.2em; color: var(--brushed-gold); font-size: 0.85rem; margin-bottom: 0.75rem;">¿No sabes qué estás buscando?</span>
+                    <h2 class="ai-finder-title" data-i18n="ai-finder-title" style="font-family: var(--font-serif); font-size: 2.2rem; color: #ffffff; font-weight: 300; letter-spacing: 0.05em; margin: 0;">Asesora de Belleza IA ✦</h2>
+                    <div style="width: 50px; height: 1px; background: var(--brushed-gold); margin: 1.5rem auto 0 auto; opacity: 0.6;"></div>
+                </div>
+                
+                <p class="ai-finder-text" data-i18n="ai-finder-desc" style="color: #a0a0a0; text-align: center; font-size: 0.95rem; line-height: 1.8; margin-bottom: 3rem; font-family: var(--font-sans);">
+                    Nuestra asesora de IA te guiará para elegir la experiencia perfecta para tu rostro. Describe qué deseas lograr (cejas perfectas, uñas elegantes, rejuvenecimiento facial, etc.) y nuestro agente especializado se pondrá en contacto contigo de inmediato.
+                </p>
+                
+                <form id="ai-advisor-form" class="ai-advisor-form" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div class="form-group" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <label class="form-label" for="ai-name" data-i18n="label-name" style="font-family: var(--font-sans); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--brushed-gold); font-weight: 600;">Nombre Completo *</label>
+                        <input class="form-input" type="text" id="ai-name" required placeholder="Ej. Alejandra Silva" data-i18n="placeholder-name" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 1rem; color: #ffffff; font-family: var(--font-sans); font-size: 0.95rem; transition: border-color 0.3s ease;">
+                    </div>
+                    
+                    <div class="form-group" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <label class="form-label" for="ai-contact" data-i18n="ai-finder-contact-label" style="font-family: var(--font-sans); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--brushed-gold); font-weight: 600;">Tu WhatsApp o Correo Electrónico *</label>
+                        <input class="form-input" type="text" id="ai-contact" required placeholder="Ej. 322 123 4567 o cliente@mail.com" data-i18n="ai-finder-contact-placeholder" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 1rem; color: #ffffff; font-family: var(--font-sans); font-size: 0.95rem; transition: border-color 0.3s ease;">
+                    </div>
+                    
+                    <div class="form-group form-group-full" style="grid-column: 1 / span 2; display: flex; flex-direction: column; gap: 0.75rem;">
+                        <label class="form-label" for="ai-goals" data-i18n="ai-finder-goals-label" style="font-family: var(--font-sans); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--brushed-gold); font-weight: 600;">¿Qué deseas lograr en tu rostro, cejas o uñas? *</label>
+                        <textarea class="form-textarea" id="ai-goals" required placeholder="Ej: Quisiera cejas más abundantes pero de aspecto muy natural, y no me gusta sentir dolor." data-i18n="ai-finder-goals-placeholder" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 1rem; color: #ffffff; font-family: var(--font-sans); font-size: 0.95rem; min-height: 120px; resize: vertical; transition: border-color 0.3s ease;"></textarea>
+                    </div>
+                    
+                    <div class="form-group form-group-full" style="grid-column: 1 / span 2; text-align: center; margin-top: 1rem;">
+                        <button type="submit" class="cta-button" id="ai-submit-btn" style="position: relative; overflow: hidden; z-index: 1; padding: 1.2rem 4rem; border-radius: 4px; font-weight: 700; font-size: 1rem; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; background: transparent; color: var(--brushed-gold); border: 1px solid var(--brushed-gold); box-shadow: 0 6px 20px rgba(197, 160, 89, 0.15); transition: all 0.4s ease; width: 100%;">
+                            <span data-i18n="ai-finder-submit">Consultar con Asesora de IA ✦</span>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Área de Resultados y Carga -->
+                <div id="ai-result-container" class="ai-result-container" style="display: none; margin-top: 3rem; border-top: 1px solid rgba(197, 160, 89, 0.15); padding-top: 3rem;">
+                    <!-- Caja de Carga -->
+                    <div class="ai-loading-box" id="ai-loading-box" style="display: none; text-align: center; padding: 2rem;">
+                        <div class="ai-spinner" style="width: 40px; height: 40px; border: 2px solid rgba(197, 160, 89, 0.1); border-left-color: var(--brushed-gold); border-radius: 50%; display: inline-block; animation: spin 1s linear infinite; margin-bottom: 1.5rem;"></div>
+                        <p id="ai-loading-text" data-i18n="ai-finder-analyzing" style="color: var(--brushed-gold); font-family: var(--font-serif); font-size: 1.1rem; letter-spacing: 0.05em; font-style: italic; margin: 0;">Analizando fisonomía y preferencias...</p>
+                    </div>
+                    
+                    <!-- Tarjeta de Recomendación -->
+                    <div class="ai-recommendation-card" id="ai-rec-card" style="display: none; text-align: center;">
+                        <h4 class="ai-rec-header" data-i18n="ai-finder-rec-title" style="font-family: var(--font-sans); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.15em; color: var(--brushed-gold); margin-bottom: 1.5rem;">Tratamiento Recomendado para Ti:</h4>
+                        
+                        <div class="ai-service-card glass-panel" style="padding: 2.5rem; border-radius: 6px; border: 1px solid rgba(197, 160, 89, 0.3); background: rgba(255, 255, 255, 0.02); display: inline-block; width: 100%; box-shadow: inset 0 0 20px rgba(197, 160, 89, 0.05); margin-bottom: 2.5rem;">
+                            <h3 class="ai-service-title" id="ai-rec-service-title" style="font-family: var(--font-serif); font-size: 1.8rem; color: #ffffff; font-weight: 300; margin-bottom: 1rem; letter-spacing: 0.05em;">Ceja Hiperrealista</h3>
+                            <p class="ai-service-desc" id="ai-rec-service-desc" style="color: #a0a0a0; font-size: 0.95rem; line-height: 1.7; max-width: 600px; margin: 0 auto 1.5rem auto; font-family: var(--font-sans);">Descripción recomendada.</p>
+                            <div class="ai-service-price-box" style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem;">
+                                <span class="ai-service-price" id="ai-rec-service-price" style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--brushed-gold); font-weight: 400;">$3,500</span>
+                            </div>
+                        </div>
+                        
+                        <div class="ai-action-buttons" style="display: flex; flex-direction: column; gap: 1rem; max-width: 500px; margin: 0 auto;">
+                            <a href="#" id="ai-whatsapp-btn" class="ai-whatsapp-btn" target="_blank" data-i18n="ai-finder-whatsapp-send" style="background: var(--brushed-gold); color: var(--oled-black); border-radius: 4px; padding: 1.2rem; font-weight: 700; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 0.5rem; box-shadow: 0 10px 25px rgba(197, 160, 89, 0.25); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                                Enviar consulta y reservar por WhatsApp 💬
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Keyframe animation for spinner -->
+    <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .ai-whatsapp-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(197, 160, 89, 0.4);
+        }
+    </style>
+
 
 
     <!-- Sección de Políticas y Cuidados Posteriores -->
@@ -414,11 +500,9 @@
                                     <option value="Facial Anti-Edad Premium">Facial Anti-Edad Premium ($1,300)</option>
                                     <option value="Plasma Fibroblast">Plasma Fibroblast (Valoración Gratis)</option>
                                 </optgroup>
-                                <optgroup label="Mirada & Pestañas">
-                                    <option value="Micropigmentación de Cejas">Valoración Micropigmentación Cejas (Gratis)</option>
-                                    <option value="Aquarela Lips">Valoración Aquarela Lips (Gratis)</option>
-                                    <option value="Full Lips">Valoración Full Lips (Gratis)</option>
-                                    <option value="Eyeliner">Valoración Eyeliner (Gratis)</option>
+                                <optgroup label="Diseño de Mirada" data-i18n-label="optgroup-mirada">
+                                    <option value="Diseño & Perfilado de Cejas">Diseño & Perfilado de Cejas ($250)</option>
+                                    <option value="Planchado de Cejas">Planchado de Cejas ($350)</option>
                                     <option value="Laminación de Cejas">Laminación de Cejas ($350)</option>
                                     <option value="Cejas HD">Cejas HD ($250)</option>
                                     <option value="Lifting de Pestañas">Lifting de Pestañas ($450)</option>
@@ -426,6 +510,12 @@
                                     <option value="Extensión de Pestañas Volumen Soft">Extensión Pestañas Volumen Soft ($750)</option>
                                     <option value="Extensión de Pestañas Volumen Intense">Extensión Pestañas Volumen Intense ($850)</option>
                                     <option value="Extensión de Pestañas Volumen Ruso">Extensión Pestañas Volumen Ruso ($800)</option>
+                                </optgroup>
+                                <optgroup label="Micropigmentación de Autor" data-i18n-label="optgroup-micropigmentacion">
+                                    <option value="Micropigmentación de Cejas">Valoración Micropigmentación Cejas (Gratis)</option>
+                                    <option value="Aquarela Lips">Valoración Aquarela Lips (Gratis)</option>
+                                    <option value="Full Lips">Valoración Full Lips (Gratis)</option>
+                                    <option value="Eyeliner">Valoración Eyeliner (Gratis)</option>
                                 </optgroup>
                                 <optgroup label="Pruebas de Sistema">
                                     <option value="Prueba de Sistema">Prueba de Sistema ($10)</option>

@@ -80,6 +80,7 @@ const TRANSLATIONS_UI = {
     "contact-label-message": "Mensaje",
     "contact-btn": "Enviar Mensaje ✦",
     "back-home": "← Volver al Inicio",
+    "back-menu": "← Volver al Menú",
     "contact-pre-title": "Atención Exclusiva de Conserjería",
     "contact-boutique-title": "La Boutique Versalles",
     "contact-label-address": "Dirección:",
@@ -236,7 +237,21 @@ const TRANSLATIONS_UI = {
     "faq-a8": "Entendemos que pueden surgir imprevistos. Aceptamos cancelaciones o reprogramaciones con un mínimo de **24 horas de anticipación** sin penalización. Si cancelas o reprogramas con menos de 24 horas de antelación, o no asistes a tu cita, el depósito de reserva no podrá ser reembolsado. Esto nos ayuda a compensar el tiempo asignado de la especialista y a ofrecer el espacio a otras clientas en lista de espera.",
     "faq-q9": "¿Tienen tolerancia de retrasos para las citas?",
     "faq-a9": "Sí, contamos con una tolerancia máxima de **15 minutos**. Si llegas después de este tiempo, nos reservamos el derecho de cancelar la sesión o de recortar el tiempo de tu tratamiento para no retrasar a las clientas subsecuentes, considerándose como cita no asistida bajo nuestra política de cancelación.",
-    "faq-footer-desc": "Respuestas directas y transparencia en alta estética de autor."
+    "faq-footer-desc": "Respuestas directas y transparencia en alta estética de autor.",
+    "mega-micropigmentacion": "Micropigmentación",
+    "tab-mirada": "Diseño de Mirada",
+    "tab-micropigmentacion": "Micropigmentación de Autor",
+    "ai-finder-title": "Asesora de Belleza IA ✦",
+    "ai-finder-subtitle": "¿No sabes qué estás buscando?",
+    "ai-finder-desc": "Nuestra asesora de IA te guiará para elegir la experiencia perfecta para tu rostro. Describe qué deseas lograr (cejas perfectas, uñas elegantes, rejuvenecimiento facial, etc.) y nuestro agente especializado se pondrá en contacto contigo de inmediato.",
+    "ai-finder-goals-label": "¿Qué deseas lograr en tu rostro, cejas o uñas?",
+    "ai-finder-goals-placeholder": "Ej: Quisiera cejas más abundantes pero de aspecto muy natural, y no me gusta sentir dolor.",
+    "ai-finder-contact-label": "Tu WhatsApp o Correo Electrónico",
+    "ai-finder-contact-placeholder": "Ej: 322 123 4567 o cliente@mail.com",
+    "ai-finder-submit": "Consultar con Asesora de IA ✦",
+    "ai-finder-analyzing": "Analizando fisonomía y preferencias...",
+    "ai-finder-rec-title": "Tratamiento Recomendado para Ti:",
+    "ai-finder-whatsapp-send": "Enviar consulta y reservar por WhatsApp 💬"
   },
   "en": {
     "nav-home": "Home",
@@ -318,6 +333,7 @@ const TRANSLATIONS_UI = {
     "contact-label-message": "Message",
     "contact-btn": "Send Message ✦",
     "back-home": "← Back to Home",
+    "back-menu": "← Back to Menu",
     "contact-pre-title": "Exclusive Concierge Attention",
     "contact-boutique-title": "The Versalles Boutique",
     "contact-label-address": "Address:",
@@ -474,7 +490,21 @@ const TRANSLATIONS_UI = {
     "faq-a8": "We understand that unforeseen events can arise. We accept cancellations or rescheduling with a minimum of **24 hours notice** without penalty. If you cancel or reschedule with less than 24 hours notice, or do not attend your appointment, the reservation deposit cannot be refunded. This helps us compensate the specialist's assigned time and offer the slot to other clients on the waiting list.",
     "faq-q9": "Do you have a late arrival tolerance for appointments?",
     "faq-a9": "Yes, we have a maximum late tolerance of **15 minutes**. If you arrive after this time, we reserve the right to cancel the session or shorten your treatment time so as not to delay subsequent clients, which is considered a no-show under our cancellation policy.",
-    "faq-footer-desc": "Direct answers and transparency in high signature aesthetics."
+    "faq-footer-desc": "Direct answers and transparency in high signature aesthetics.",
+    "mega-micropigmentacion": "Micropigmentation",
+    "tab-mirada": "Eye & Lash Design",
+    "tab-micropigmentacion": "Signature Micropigmentation",
+    "ai-finder-title": "AI Beauty Advisor ✦",
+    "ai-finder-subtitle": "Not sure what you are looking for?",
+    "ai-finder-desc": "Our AI advisor will guide you in choosing the perfect experience for your face. Describe what you want to achieve (perfect brows, elegant nails, skin rejuvenation) and our specialist will get in touch with you immediately.",
+    "ai-finder-goals-label": "What would you like to achieve for your face, brows, or nails?",
+    "ai-finder-goals-placeholder": "e.g., I want fuller brows but with a very natural look, and I don't like pain.",
+    "ai-finder-contact-label": "Your WhatsApp or Email",
+    "ai-finder-contact-placeholder": "e.g., +1 555 123 4567 or email@example.com",
+    "ai-finder-submit": "Consult with AI Advisor ✦",
+    "ai-finder-analyzing": "Analyzing facial features and preferences...",
+    "ai-finder-rec-title": "Recommended Treatment for You:",
+    "ai-finder-whatsapp-send": "Send inquiry & book via WhatsApp 💬"
   }
 };
 const TRANSLATIONS_SERVICES = {

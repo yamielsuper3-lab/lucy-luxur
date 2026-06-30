@@ -462,6 +462,7 @@
                 <div class="sidebar-tab active" id="tab-services" onclick="switchTab('services')">Servicios</div>
                 <div class="sidebar-tab" id="tab-videos" onclick="switchTab('videos')">Videos</div>
                 <div class="sidebar-tab" id="tab-banners" onclick="switchTab('banners')">Banners Hero</div>
+                <div class="sidebar-tab" id="tab-leads" onclick="switchTab('leads')">Prospectos IA</div>
             </div>
             
             <div class="services-list-scroll" id="sidebar-list-container">
@@ -534,6 +535,9 @@
             } else if (tab === 'banners') {
                 document.getElementById('tab-banners').classList.add('active');
                 await fetchSidebarBanners();
+            } else if (tab === 'leads') {
+                document.getElementById('tab-leads').classList.add('active');
+                await fetchAndRenderLeads();
             }
         }
 
@@ -557,7 +561,8 @@
                 sidebarContainer.innerHTML = '';
 
                 const categoryTitles = {
-                    mirada: 'Mirada y Cejas',
+                    mirada: 'Diseño de Mirada',
+                    micropigmentacion: 'Micropigmentación de Autor',
                     faciales: 'Faciales Clínicos',
                     unas: 'Uñas de Lujo'
                 };
@@ -745,7 +750,8 @@
                                 <div class="input-group">
                                     <label for="edit-category">Categoría de Catálogo *</label>
                                     <select id="edit-category" class="admin-select" required>
-                                        <option value="mirada" ${data.category === 'mirada' ? 'selected' : ''}>Mirada y Micropigmentación</option>
+                                        <option value="mirada" ${data.category === 'mirada' ? 'selected' : ''}>Diseño de la Mirada</option>
+                                        <option value="micropigmentacion" ${data.category === 'micropigmentacion' ? 'selected' : ''}>Micropigmentación de Autor</option>
                                         <option value="faciales" ${data.category === 'faciales' ? 'selected' : ''}>Cuidado Clínico de la Piel</option>
                                         <option value="unas" ${data.category === 'unas' ? 'selected' : ''}>Aplicación de Uñas de Lujo</option>
                                     </select>
@@ -1531,6 +1537,131 @@
                 toast.classList.remove('show');
             }, 4000);
         }
+
+        // ==========================================
+        // CRM Y VISTA DE PROSPECTOS/LEADS DE IA (¡NUEVO!)
+        // ==========================================
+        async function fetchAndRenderLeads() {
+            const sidebarContainer = document.getElementById('sidebar-list-container');
+            sidebarContainer.innerHTML = `
+                <div style="padding: 2rem; text-align: center; color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6;">
+                    🎯 Leads del Asesor IA.<br>Las consultas recopiladas se muestran en la sección central.
+                </div>
+            `;
+            
+            const wrapper = document.getElementById('editor-wrapper');
+            wrapper.innerHTML = `
+                <div class="editor-card glass-panel" style="padding: 2.5rem;">
+                    <h3 style="font-family: var(--font-serif); color: var(--brushed-gold); font-size: 1.8rem; margin-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 1rem;">
+                        Prospectos y Consultas IA Recibidas
+                    </h3>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; color: #e0e0e0;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.15); color: var(--brushed-gold-light);">
+                                    <th style="padding: 1rem;">Fecha</th>
+                                    <th style="padding: 1rem;">Nombre</th>
+                                    <th style="padding: 1rem;">Contacto</th>
+                                    <th style="padding: 1rem;">Objetivo / Necesidad</th>
+                                    <th style="padding: 1rem;">Recomendado</th>
+                                    <th style="padding: 1rem; text-align: center;">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leads-table-body">
+                                <tr>
+                                    <td colspan="6" style="padding: 2rem; text-align: center; color: var(--text-secondary);">Cargando consultas...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+            
+            try {
+                const response = await fetch('/api/leads');
+                if (!response.ok) throw new Error('No autorizado o error al cargar leads');
+                const leads = await response.json();
+                
+                const tbody = document.getElementById('leads-table-body');
+                tbody.innerHTML = '';
+                
+                if (leads.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="6" style="padding: 2rem; text-align: center; color: var(--text-secondary);">No se han recibido consultas de la asesora de IA aún.</td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                leads.forEach(lead => {
+                    const row = document.createElement('tr');
+                    row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+                    
+                    const dateStr = new Date(lead.created_at).toLocaleDateString('es-MX', {
+                        day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit'
+                    });
+                    
+                    row.innerHTML = `
+                        <td style="padding: 1.2rem 1rem; color: #a0a0a0; white-space: nowrap;">${dateStr}</td>
+                        <td style="padding: 1.2rem 1rem; font-weight: 600; color: #ffffff;">${escapeHtml(lead.name)}</td>
+                        <td style="padding: 1.2rem 1rem; color: var(--brushed-gold-light); font-weight: 500; white-space: nowrap;">
+                            <span style="cursor: pointer; border-bottom: 1px dashed rgba(197,160,89,0.4);" onclick="copyToClipboard('${escapeJs(lead.contact)}')">${escapeHtml(lead.contact)} 📋</span>
+                        </td>
+                        <td style="padding: 1.2rem 1rem; color: #d0d0d0; max-width: 300px; white-space: normal; line-height: 1.5;">${escapeHtml(lead.goals)}</td>
+                        <td style="padding: 1.2rem 1rem; color: #ffffff; font-style: italic; font-weight: 600;">${escapeHtml(lead.recommended_service)}</td>
+                        <td style="padding: 1.2rem 1rem; text-align: center;">
+                            <button onclick="deleteLead(${lead.id})" class="delete-btn" style="background: rgba(255,85,85,0.1); border: 1px solid rgba(255,85,85,0.3); color: #ff5555; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; transition: all 0.3s; font-size: 0.8rem; text-transform: uppercase; font-weight: 700;">Eliminar</button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (err) {
+                console.error(err);
+                document.getElementById('leads-table-body').innerHTML = `
+                    <tr>
+                        <td colspan="6" style="padding: 2rem; text-align: center; color: #ff5555;">Error al cargar leads: ${err.message}</td>
+                    </tr>
+                `;
+            }
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+        
+        function escapeJs(text) {
+            if (!text) return '';
+            return text.replace(/'/g, "\\'");
+        }
+        
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+            showToast('📋 Contacto copiado al portapapeles.');
+        }
+
+        async function deleteLead(id) {
+            if (!confirm('¿Seguro que deseas eliminar esta consulta?')) return;
+            try {
+                const response = await fetch(`/api/leads/${id}`, { method: 'DELETE' });
+                if (!response.ok) throw new Error('Error al eliminar');
+                showToast('✅ Consulta de prospecto eliminada.');
+                await fetchAndRenderLeads();
+            } catch (err) {
+                showToast('❌ Error al eliminar la consulta.', true);
+            }
+        }
+        
+        // CSS rules for delete hover inside table
+        const styleEl = document.createElement('style');
+        styleEl.innerHTML = `
+            .delete-btn:hover {
+                background: rgba(255,85,85,0.3) !important;
+                box-shadow: 0 0 10px rgba(255,85,85,0.2);
+            }
+        `;
+        document.head.appendChild(styleEl);
     </script>
 </body>
 </html>

@@ -485,8 +485,8 @@
     </div>
 
     <!-- Botón Regresar -->
-    <a href="/" class="back-btn">
-        <span data-i18n="back-home">← Volver al Inicio</span>
+    <a href="/#servicios" class="back-btn">
+        <span data-i18n="back-menu">← Volver al Menú</span>
     </a>
 
     <!-- Héroe Biográfico -->
@@ -710,6 +710,47 @@
         </div>
 
     </section>
+
+    <!-- Fila CTA para regresar al menú (¡NUEVO!) -->
+    <div class="trayectoria-cta-row">
+        <a href="/#servicios" class="trayectoria-cta-btn">
+            <span data-i18n="back-menu">← Volver al Menú</span> 👑
+        </a>
+    </div>
+
+    <style>
+        .trayectoria-cta-row {
+            text-align: center;
+            margin: 5rem 0 3rem 0;
+        }
+        .trayectoria-cta-btn {
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            padding: 1.2rem 4rem;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: transparent;
+            color: var(--brushed-gold);
+            border: 1px solid var(--brushed-gold);
+            box-shadow: 0 6px 20px rgba(197, 160, 89, 0.15);
+            transition: all 0.4s ease;
+        }
+        .trayectoria-cta-btn:hover {
+            color: var(--oled-black);
+            background: var(--brushed-gold);
+            box-shadow: 0 8px 30px rgba(197, 160, 89, 0.55);
+            transform: translateY(-3px);
+        }
+    </style>
 
     <!-- Footer -->
     <footer class="trayectoria-footer">

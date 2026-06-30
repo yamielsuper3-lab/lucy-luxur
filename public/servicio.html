@@ -699,7 +699,7 @@
     </div>
 
     <!-- Regresar a la Boutique -->
-    <a href="/" class="back-nav-btn">
+    <a href="/#servicios" class="back-nav-btn">
         <span data-i18n="detail-back">← Volver al Catálogo</span>
     </a>
 
@@ -976,6 +976,7 @@
                     
                     allServicesList = [
                         ...(groupedServices.mirada || []),
+                        ...(groupedServices.micropigmentacion || []),
                         ...(groupedServices.faciales || []),
                         ...(groupedServices.unas || [])
                     ];
@@ -1057,7 +1058,12 @@
                     'extension_pestanas_tecnica_clasica.jpeg',
                     'extension_pestanas_volumen.jpeg',
                     'extension_pestanas_volumen_soft.jpeg',
-                    'lifting_pestanas.jpeg',
+                    'lifting_pestanas.jpeg'
+                ],
+                micropigmentacion: [
+                    'microblading.jpeg',
+                    'microblading_2.jpeg',
+                    'powder_brows.jpeg',
                     'aquarela_lips_micropigmentacion.jpeg',
                     'hidratante_lips.jpeg'
                 ],

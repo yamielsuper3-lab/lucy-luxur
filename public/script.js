@@ -831,12 +831,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Mapeo de nombres estéticos de categorías
             const categoryTitlesEn = {
-                mirada: 'Signature Eyes & Micropigmentation',
+                mirada: 'Signature Eye & Lash Design',
+                micropigmentacion: 'Signature Micropigmentation',
                 faciales: 'Clinical Skin Care',
                 unas: 'Luxury Nails'
             };
             const categoryTitlesEs = {
-                mirada: 'Diseño de la Mirada & Micropigmentación',
+                mirada: 'Diseño de Mirada',
+                micropigmentacion: 'Micropigmentación de Autor',
                 faciales: 'Cuidado Clínico de la Piel',
                 unas: 'Aplicaciones de Uñas de Lujo'
             };
@@ -849,9 +851,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 const catTitle = isEn ? (categoryTitlesEn[catKey] || catKey) : (categoryTitlesEs[catKey] || catKey);
                 
                 htmlContent += `
-                    <div class="services-category-block glass-panel">
-                        <h3 class="category-title">${catTitle}</h3>
-                        <div class="services-list">
+                    <div class="services-category-block glass-panel collapsed" data-category="${catKey}" style="margin-bottom: 2rem; overflow: hidden; border-radius: 8px; border: 1px solid rgba(197, 160, 89, 0.15); transition: border-color 0.4s ease;">
+                        <div class="category-header" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; padding: 1.8rem 2.2rem; background: rgba(0, 0, 0, 0.4); user-select: none; transition: background 0.3s ease;">
+                            <h3 class="category-title" style="margin: 0; font-family: var(--font-serif); font-size: 1.5rem; color: #ffffff; letter-spacing: 0.05em; font-weight: 300; display: flex; align-items: center; gap: 1rem;">
+                                ${catTitle}
+                            </h3>
+                            <span class="category-chevron" style="color: var(--brushed-gold); font-size: 0.9rem; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); transform: rotate(0deg);">▼</span>
+                        </div>
+                        <div class="services-list" style="max-height: 0; overflow: hidden; transition: max-height 0.6s cubic-bezier(0.25, 1, 0.5, 1); padding: 0 2.2rem;">
+                            <div style="height: 1.5rem;"></div> <!-- Spacing inside collapsed container -->
                 `;
 
                 services.forEach(service => {
@@ -1000,12 +1008,44 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 htmlContent += `
+                            <div style="height: 1.5rem;"></div>
                         </div>
                     </div>
                 `;
             }
 
             container.innerHTML = htmlContent;
+
+            // Configurar los acordeones desplegables
+            document.querySelectorAll('.services-category-block').forEach(block => {
+                const header = block.querySelector('.category-header');
+                const list = block.querySelector('.services-list');
+                const chevron = block.querySelector('.category-chevron');
+
+                // Hover style enhancements
+                header.addEventListener('mouseenter', () => {
+                    header.style.background = 'rgba(197, 160, 89, 0.06)';
+                });
+                header.addEventListener('mouseleave', () => {
+                    header.style.background = 'rgba(0, 0, 0, 0.4)';
+                });
+                
+                header.addEventListener('click', () => {
+                    const isCollapsed = block.classList.contains('collapsed');
+                    
+                    if (isCollapsed) {
+                        block.classList.remove('collapsed');
+                        block.style.borderColor = 'rgba(197, 160, 89, 0.4)';
+                        list.style.maxHeight = (list.scrollHeight + 50) + 'px';
+                        chevron.style.transform = 'rotate(180deg)';
+                    } else {
+                        block.classList.add('collapsed');
+                        block.style.borderColor = 'rgba(197, 160, 89, 0.15)';
+                        list.style.maxHeight = '0px';
+                        chevron.style.transform = 'rotate(0deg)';
+                    }
+                });
+            });
 
         } catch (error) {
             console.error('[Services Dynamic Loading Error]', error);
@@ -1128,6 +1168,8 @@ document.addEventListener('DOMContentLoaded', () => {
             "Aquarela Lips": { es: "Valoración Aquarela Lips (Gratis)", en: "Aquarela Lips Assessment (Free)" },
             "Full Lips": { es: "Valoración Full Lips (Gratis)", en: "Full Lips Assessment (Free)" },
             "Eyeliner": { es: "Valoración Eyeliner (Gratis)", en: "Eyeliner Assessment (Free)" },
+            "Diseño & Perfilado de Cejas": { es: "Diseño & Perfilado de Cejas ($250)", en: "Eyebrow Design & Shaping ($250)" },
+            "Planchado de Cejas": { es: "Planchado de Cejas ($350)", en: "Eyebrow Grooming / Straightening ($350)" },
             "Laminación de Cejas": { es: "Laminación de Cejas ($350)", en: "Eyebrow Lamination ($350)" },
             "Cejas HD": { es: "Cejas HD ($250)", en: "HD Eyebrows ($250)" },
             "Lifting de Pestañas": { es: "Lifting de Pestañas ($450)", en: "Lash Lift ($450)" },
@@ -1137,10 +1179,22 @@ document.addEventListener('DOMContentLoaded', () => {
             "Extensión de Pestañas Volumen Ruso": { es: "Extensión Pestañas Volumen Ruso ($800)", en: "Mega Volume Lash Extensions ($800)" }
         };
 
+        const optgroupsMap = {
+            "optgroup-mirada": { es: "Diseño de Mirada", en: "Eye & Lash Design" },
+            "optgroup-micropigmentacion": { es: "Micropigmentación de Autor", en: "Signature Micropigmentation" }
+        };
+
         select.querySelectorAll('option').forEach(opt => {
             const val = opt.value;
             if (optionsMap[val]) {
                 opt.textContent = isEn ? optionsMap[val].en : optionsMap[val].es;
+            }
+        });
+
+        select.querySelectorAll('optgroup').forEach(group => {
+            const i18nLabel = group.getAttribute('data-i18n-label');
+            if (i18nLabel && optgroupsMap[i18nLabel]) {
+                group.label = isEn ? optgroupsMap[i18nLabel].en : optgroupsMap[i18nLabel].es;
             }
         });
     }
@@ -1160,5 +1214,128 @@ document.addEventListener('DOMContentLoaded', () => {
         initHeroSlideshow();
         loadCarouselVideos();
     });
+
+    // ==========================================
+    // 12. LOGICA DEL RECOMENDADOR DE BELLEZA IA (¡NUEVO!)
+    // ==========================================
+    const aiForm = document.getElementById('ai-advisor-form');
+    if (aiForm) {
+        aiForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const isEn = (typeof currentLanguage !== 'undefined' ? currentLanguage : (localStorage.getItem('lang') || 'es')) === 'en';
+            const name = document.getElementById('ai-name').value.trim();
+            const contact = document.getElementById('ai-contact').value.trim();
+            const goals = document.getElementById('ai-goals').value.trim();
+            
+            const resultContainer = document.getElementById('ai-result-container');
+            const loadingBox = document.getElementById('ai-loading-box');
+            const recCard = document.getElementById('ai-rec-card');
+            
+            // Mostrar contenedor y spinner
+            resultContainer.style.display = 'block';
+            loadingBox.style.display = 'block';
+            recCard.style.display = 'none';
+            
+            // Scroll suave hacia los resultados
+            resultContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            
+            // Simular análisis inteligente de visagismo
+            await new Promise(resolve => setTimeout(resolve, 2500));
+            
+            // Algoritmo de recomendación fisonómica
+            const goalsLower = goals.toLowerCase();
+            let recId = 'ceja-hiperrealista'; // Default
+            
+            if (goalsLower.includes('uñas') || goalsLower.includes('nails') || goalsLower.includes('manos') || goalsLower.includes('poligel') || goalsLower.includes('gel')) {
+                recId = 'unas-esculturales';
+            } else if (goalsLower.includes('hidratar') || goalsLower.includes('hidratación') || goalsLower.includes('seca')) {
+                recId = 'facial-hidratante';
+            } else if (goalsLower.includes('limpieza') || goalsLower.includes('acné') || goalsLower.includes('granitos') || goalsLower.includes('puntos negros')) {
+                recId = 'facial-limpieza';
+            } else if (goalsLower.includes('manchas') || goalsLower.includes('tono') || goalsLower.includes('despigmentar') || goalsLower.includes('aclarar')) {
+                recId = 'facial-despigmentante';
+            } else if (goalsLower.includes('arrugas') || goalsLower.includes('edad') || goalsLower.includes('rejuvenecer') || goalsLower.includes('colágeno') || goalsLower.includes('flacidez')) {
+                recId = 'facial-antiedad';
+            } else if (goalsLower.includes('labios') || goalsLower.includes('lips') || goalsLower.includes('boca') || goalsLower.includes('aquarela')) {
+                recId = 'aquarela-lips';
+            } else if (goalsLower.includes('pestañas') || goalsLower.includes('lashes') || goalsLower.includes('lifting') || goalsLower.includes('rímel')) {
+                if (goalsLower.includes('volumen') || goalsLower.includes('extensiones')) {
+                    recId = 'pestanas-volumen-soft';
+                } else {
+                    recId = 'lifting-pestanas';
+                }
+            } else if (goalsLower.includes('eyeliner') || goalsLower.includes('delineado') || goalsLower.includes('ojos')) {
+                recId = 'eyeliner';
+            } else if (goalsLower.includes('cejas') || goalsLower.includes('brows') || goalsLower.includes('microblading') || goalsLower.includes('pelo a pelo')) {
+                if (goalsLower.includes('laminación') || goalsLower.includes('laminado') || goalsLower.includes('laminacion')) {
+                    recId = 'laminacion-cejas';
+                } else {
+                    recId = 'ceja-hiperrealista';
+                }
+            }
+
+            // Consultar datos reales de la API
+            try {
+                const response = await fetch(`/api/services/${recId}`);
+                if (!response.ok) throw new Error('Error al consultar servicio recomendado');
+                const serviceData = await response.json();
+                
+                const translation = (typeof TRANSLATIONS_SERVICES !== 'undefined' && TRANSLATIONS_SERVICES[recId]) ? TRANSLATIONS_SERVICES[recId] : null;
+                const recTitle = isEn && translation ? (translation.title || serviceData.title) : serviceData.title;
+                const recDesc = isEn && translation ? (translation.description || serviceData.description) : serviceData.description;
+                const recPrice = isEn && translation ? (translation.price || serviceData.price) : serviceData.price;
+                
+                // Actualizar interfaz
+                document.getElementById('ai-rec-service-title').textContent = recTitle;
+                document.getElementById('ai-rec-service-desc').textContent = recDesc;
+                document.getElementById('ai-rec-service-price').textContent = recPrice;
+                
+                // Enviar lead al backend
+                try {
+                    await fetch('/api/leads', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            name,
+                            contact,
+                            goals,
+                            recommended_service: recTitle
+                        })
+                    });
+                } catch (leadErr) {
+                    console.error('Error al guardar lead:', leadErr);
+                }
+                
+                // Configurar botón de WhatsApp
+                const whatsappMsg = isEn ?
+                    `✨ *DELINEARTE - AI BEAUTY INQUIRY* ✨\n\n` +
+                    `👑 *Name:* ${name}\n` +
+                    `📞 *Contact:* ${contact}\n` +
+                    `🎯 *Goal:* ${goals}\n\n` +
+                    `💡 *AI Recommended Service:* ${recTitle} (${recPrice})\n\n` +
+                    `✨ _I want to schedule a session/consultation for this treatment._` :
+                    
+                    `✨ *DELINEARTE - CONSULTA DE ASESORA IA* ✨\n\n` +
+                    `👑 *Nombre:* ${name}\n` +
+                    `📞 *Contacto:* ${contact}\n` +
+                    `🎯 *Objetivo:* ${goals}\n\n` +
+                    `💡 *Servicio Recomendado por IA:* ${recTitle} (${recPrice})\n\n` +
+                    `✨ _Deseo agendar una sesión/valoración para este tratamiento._`;
+                
+                const whatsappBtn = document.getElementById('ai-whatsapp-btn');
+                whatsappBtn.href = `https://wa.me/${CONFIG.whatsappPhone}?text=${encodeURIComponent(whatsappMsg)}`;
+                
+                // Ocultar carga y mostrar resultado
+                loadingBox.style.display = 'none';
+                recCard.style.display = 'block';
+                
+            } catch (err) {
+                console.error(err);
+                loadingBox.style.display = 'none';
+                alert(isEn ? 'Sorry, we could not generate a recommendation at this moment. Please contact us via WhatsApp.' : 'Lo sentimos, no pudimos generar una recomendación en este momento. Por favor contáctanos directamente por WhatsApp.');
+            }
+        });
+    }
 });
 
