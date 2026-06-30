@@ -2491,3 +2491,134 @@ body.body-no-scroll {
     box-shadow: 0 8px 30px rgba(197, 160, 89, 0.55);
     transform: translateY(-3px);
 }
+
+/* --- Modal de Retención de Usuario (Exit-Intent / Inactividad) (¡NUEVO!) --- */
+.retention-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    animation: fadeIn 0.4s ease;
+}
+
+.retention-content {
+    background: rgba(10, 10, 10, 0.85);
+    border: 1px solid rgba(197, 160, 89, 0.25);
+    border-radius: 8px;
+    max-width: 600px;
+    width: 100%;
+    padding: 2.5rem;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(197, 160, 89, 0.05);
+    text-align: center;
+}
+
+.retention-close-btn {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 2.2rem;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.3s ease;
+}
+
+.retention-close-btn:hover {
+    color: var(--brushed-gold);
+}
+
+.retention-subtitle {
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--brushed-gold);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.retention-title {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    color: #ffffff;
+    font-weight: 300;
+    margin: 0 0 0.8rem 0;
+    letter-spacing: 0.05em;
+}
+
+.retention-desc {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0 0 2rem 0;
+    font-weight: 300;
+}
+
+.retention-video-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid rgba(197, 160, 89, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    margin-bottom: 2rem;
+    background: #000;
+}
+
+.retention-video-wrapper video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.retention-action-btn {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    padding: 1.1rem 3rem;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: transparent;
+    color: var(--brushed-gold);
+    border: 1px solid var(--brushed-gold);
+    box-shadow: 0 6px 20px rgba(197, 160, 89, 0.15);
+    transition: all 0.4s ease;
+    width: 100%;
+}
+
+.retention-action-btn:hover {
+    color: var(--oled-black);
+    background: var(--brushed-gold);
+    box-shadow: 0 8px 30px rgba(197, 160, 89, 0.5);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 650px) {
+    .retention-content {
+        padding: 1.5rem;
+    }
+    .retention-title {
+        font-size: 1.5rem;
+    }
+    .retention-desc {
+        font-size: 0.85rem;
+        margin-bottom: 1.5rem;
+    }
+}

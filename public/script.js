@@ -1337,5 +1337,106 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // ==========================================
+    // 11. MODAL DE RETENCIÓN DE USUARIO (EXIT-INTENT & INACTIVIDAD) (¡NUEVO!)
+    // ==========================================
+    const retentionModal = document.getElementById('retention-tutorial-modal');
+    const retentionClose = document.querySelector('.retention-close-btn');
+    const retentionVideo = document.getElementById('retention-video');
+    
+    if (retentionModal && retentionClose) {
+        let hasShown = false;
+        let idleTimer = null;
+        const IDLE_TIME_MS = 45000; // 45 segundos de inactividad
+
+        // Función para abrir el modal
+        const showRetentionModal = () => {
+            if (hasShown) return;
+            hasShown = true;
+            
+            // Detener el temporizador de inactividad
+            clearTimeout(idleTimer);
+            stopTrackingActivity();
+            
+            // Mostrar modal
+            retentionModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            // Reproducir video automáticamente
+            if (retentionVideo) {
+                retentionVideo.currentTime = 0;
+                retentionVideo.play().catch(err => {
+                    console.log('Auto-play blocked by browser policy, waiting for user click.');
+                });
+            }
+        };
+
+        // Función para cerrar el modal
+        const closeRetentionModal = () => {
+            retentionModal.style.display = 'none';
+            document.body.style.overflow = '';
+            if (retentionVideo) {
+                retentionVideo.pause();
+            }
+        };
+
+        retentionClose.addEventListener('click', closeRetentionModal);
+        
+        // Cerrar al pulsar Escape
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && retentionModal.style.display === 'flex') {
+                closeRetentionModal();
+            }
+        });
+
+        // 1. Detectar Exit-Intent (El cursor sale por la parte superior)
+        document.addEventListener('mouseleave', (e) => {
+            if (e.clientY < 20) {
+                showRetentionModal();
+            }
+        });
+
+        // 2. Detectar Inactividad (Idle)
+        const resetIdleTimer = () => {
+            clearTimeout(idleTimer);
+            if (!hasShown) {
+                idleTimer = setTimeout(showRetentionModal, IDLE_TIME_MS);
+            }
+        };
+
+        // Escuchar eventos del usuario para reiniciar el temporizador de inactividad
+        const activityEvents = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
+        
+        const startTrackingActivity = () => {
+            activityEvents.forEach(evt => {
+                document.addEventListener(evt, resetIdleTimer, true);
+            });
+            resetIdleTimer();
+        };
+
+        const stopTrackingActivity = () => {
+            activityEvents.forEach(evt => {
+                document.removeEventListener(evt, resetIdleTimer, true);
+            });
+        };
+
+        // Iniciar rastreo de actividad
+        startTrackingActivity();
+
+        // Exponer globalmente la función de cerrar y enfocar para el botón de acción
+        window.closeRetentionModalAndFocus = () => {
+            closeRetentionModal();
+            
+            const aiSection = document.getElementById('ai-advisor-form');
+            if (aiSection) {
+                aiSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                setTimeout(() => {
+                    const nameInput = document.getElementById('ai-name');
+                    if (nameInput) nameInput.focus();
+                }, 800);
+            }
+        };
+    }
 });
 

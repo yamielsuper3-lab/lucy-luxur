@@ -251,7 +251,11 @@ const TRANSLATIONS_UI = {
     "ai-finder-submit": "Consultar con Asesora de IA ✦",
     "ai-finder-analyzing": "Analizando fisonomía y preferencias...",
     "ai-finder-rec-title": "Tratamiento Recomendado para Ti:",
-    "ai-finder-whatsapp-send": "Enviar consulta y reservar por WhatsApp 💬"
+    "ai-finder-whatsapp-send": "Enviar consulta y reservar por WhatsApp 💬",
+    "retention-subtitle": "Boutique de Autor",
+    "retention-title": "¿Tienes dudas de cómo agendar tu cita?",
+    "retention-desc": "Te explico en 1 minuto lo sencillo que es reservar y elegir tu tratamiento ideal.",
+    "retention-btn-consult": "Consultar con Asesora IA ✦"
   },
   "en": {
     "nav-home": "Home",
@@ -504,7 +508,11 @@ const TRANSLATIONS_UI = {
     "ai-finder-submit": "Consult with AI Advisor ✦",
     "ai-finder-analyzing": "Analyzing facial features and preferences...",
     "ai-finder-rec-title": "Recommended Treatment for You:",
-    "ai-finder-whatsapp-send": "Send inquiry & book via WhatsApp 💬"
+    "ai-finder-whatsapp-send": "Send inquiry & book via WhatsApp 💬",
+    "retention-subtitle": "Signature Boutique",
+    "retention-title": "Do you have questions about booking your appointment?",
+    "retention-desc": "I will explain in 1 minute how simple it is to book and choose your ideal treatment.",
+    "retention-btn-consult": "Consult with AI Advisor ✦"
   }
 };
 const TRANSLATIONS_SERVICES = {

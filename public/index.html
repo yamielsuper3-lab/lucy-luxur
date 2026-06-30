@@ -708,6 +708,30 @@
         </div>
     </div>
 
+    <!-- Modal de Retención y Tutorial de Reserva (Exit Intent & Inactividad) (¡NUEVO!) -->
+    <div id="retention-tutorial-modal" class="retention-modal" style="display: none;">
+        <div class="retention-content glass-panel animate-fade-in">
+            <button class="retention-close-btn">&times;</button>
+            <div class="retention-header">
+                <span class="retention-subtitle" data-i18n="retention-subtitle">Boutique de Autor</span>
+                <h3 class="retention-title" data-i18n="retention-title">¿Tienes dudas de cómo agendar tu cita?</h3>
+                <p class="retention-desc" data-i18n="retention-desc">Te explico en 1 minuto lo sencillo que es reservar y elegir tu tratamiento ideal.</p>
+            </div>
+            <div class="retention-video-wrapper">
+                <video id="retention-video" controls playsinline preload="auto">
+                    <source src="uploaded_tutorial_reserva.mp4" type="video/mp4">
+                    <source src="diseno_cejas_visagismo.mp4" type="video/mp4">
+                    Tu navegador no soporta video.
+                </video>
+            </div>
+            <div class="retention-actions">
+                <button class="retention-action-btn primary-gold" onclick="closeRetentionModalAndFocus();" data-i18n="retention-btn-consult">
+                    Consultar con Asesora IA ✦
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Carga del Script Lógico y Traducciones -->
     <script src="translations.js?v=1.0" charset="UTF-8"></script>
     <script src="script.js?v=2.5" charset="UTF-8"></script>
