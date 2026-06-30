@@ -2461,3 +2461,33 @@ body.body-no-scroll {
     padding-top: 1.5rem;
     padding-bottom: 2rem;
 }
+
+/* --- Botón final para cerrar la línea de tiempo horizontal (¡NUEVO!) --- */
+.timeline-h-close-cta-btn {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    padding: 1.2rem 2.5rem;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: transparent;
+    color: var(--brushed-gold);
+    border: 1px solid var(--brushed-gold);
+    box-shadow: 0 6px 20px rgba(197, 160, 89, 0.15);
+    transition: all 0.4s ease;
+}
+
+.timeline-h-close-cta-btn:hover {
+    color: var(--oled-black);
+    background: var(--brushed-gold);
+    box-shadow: 0 8px 30px rgba(197, 160, 89, 0.55);
+    transform: translateY(-3px);
+}
