@@ -1,29 +1,29 @@
 # Análisis de Conversión & Estrategia de Pauta Local
 ## Proyecto: Delinearte by Lucy González
 **Preparado para:** Yamiel (para presentar en el grupo de WhatsApp con Lucy y Dali)  
-**Objetivo:** Analizar el rendimiento de visitas con las métricas reales, identificar las fallas de conversión y proponer el plan de acción comercial en Puerto Vallarta.
+**Objetivo:** Analizar el rendimiento de visitas con las métricas reales, proponer hipótesis técnicas de optimización y alinear la estrategia de conversión con Dali y Lucy en Puerto Vallarta.
 
 ---
 
-## PARTE 1: Análisis Técnico del Embudo (Pesos Mexicanos MXN)
+## PARTE 1: Análisis Técnico del Embudo (Hipótesis y Métricas MXN)
 
-### 1. El Diagnóstico del Tráfico (25/06 al 07/07)
-A partir de las métricas reales compartidas por Dali (en pesos mexicanos MXN):
+### 1. Las Métricas del Tráfico (25/06 al 07/07)
+A partir de las métricas reales provistas en pesos mexicanos (MXN):
 *   **Inversión Total:** **$595.40 MXN** en 13 días.
 *   **Inversión Diaria Promedio:** **~$45.80 MXN al día** (aprox. $300 MXN a la semana).
 *   **Visitas Reales (Visualizaciones de Página de Destino):** **1,835 visitas únicas** en total (~141 personas al día).
 *   **Costo por Visita (CPC de Destino):** **$0.32 MXN por visita**.
 *   **Resultado de Conversión:** 0 leads (mensajes a WhatsApp) y 0 citas concretadas.
 
-### 2. ¿Por qué tuvimos 0 leads con 1,835 visitas?
-Con una inversión de apenas **$45.80 MXN al día**, conseguir **1,835 visitas** significa que el costo por visita es extremadamente bajo ($0.32 MXN). En marketing, esto revela una fuga crítica:
+### 2. Hipótesis del Embudo (A validar técnicamente con Dali)
+Con un volumen de 1,835 visitas a la web y 0 registros, planteamos las siguientes hipótesis técnicas para revisar de la mano con Dali:
 
-1.  **Tráfico de Baja Calidad (Clics accidentales):**
-    Un costo de $0.32 MXN por visita en Puerto Vallarta es demasiado barato para ser tráfico calificado. Esto ocurre porque la campaña está optimizada para *"Tráfico / Visualizaciones de la página de destino"*. Para conseguir visitas tan baratas, Meta muestra los anuncios en ubicaciones secundarias (como Audience Network o juegos móviles) donde la gente da clic por error y se sale de inmediato sin leer nada.
-2.  **Fricción de Pago en la Web (Antes de las Mejoras):**
-    Anteriormente, la página obligaba a las personas a meter su tarjeta de crédito/débito para pagar por Stripe para agendar. Eso mataba cualquier mínima intención de ese tráfico.
-3.  **Bajo Presupuesto Real:**
-    Aunque 1,835 visitas parece mucho, la inversión de $45.80 MXN diarios es muy baja para competir por clientes de alto ticket. Necesitamos pautar con un objetivo de conversión para atraer tráfico que realmente consuma servicios estéticos.
+1.  **Hipótesis de Ubicaciones (Audience Network):**
+    Un costo por visita de $0.32 MXN es sumamente económico para el mercado local de belleza en Puerto Vallarta. Esto suele ocurrir cuando Meta optimiza en automático mostrando los anuncios en aplicaciones secundarias de su red (como Audience Network o banners de juegos móviles) donde los usuarios hacen clic por accidente al usar su teléfono. Queremos validar si esta opción está activa para perfilarla de manera más selectiva.
+2.  **Hipótesis de Optimización (Tráfico vs. Mensajes):**
+    Si la campaña está optimizada para *"Visualizaciones de la página de destino"*, el algoritmo busca la mayor cantidad de clics rápidos. Si la cambiamos junto con Dali a *"Clientes Potenciales (Leads)"* enfocada en iniciar conversaciones de WhatsApp, el costo por clic subirá un poco, pero Meta seleccionará activamente a usuarias con perfil real de compra en la zona.
+3.  **Fricción de Pago en la Web (Ya solucionado):**
+    Anteriormente, la página requería tarjeta de crédito/débito para pagar un anticipo por Stripe para poder agendar. Para tráfico nuevo en redes, esto generaba resistencia. Ahora ya permitimos agendar cita directamente a WhatsApp sin cobro inicial forzado.
 
 ---
 
@@ -34,30 +34,27 @@ Con una inversión de apenas **$45.80 MXN al día**, conseguir **1,835 visitas**
 
 **¡Hola Lucy y Dali! Buenas tardes 🌸✨**
 
-Muchas gracias por compartir las métricas reales de la campaña de estas últimas dos semanas (del 25 de junio al 7 de julio). Ya crucé los datos técnicos de la plataforma con los del Píxel de Meta y les preparé un diagnóstico claro de dónde está la fuga de clientes y cómo la vamos a solucionar de inmediato:
+Muchas gracias por compartir las métricas reales de la campaña de estas últimas dos semanas (del 25 de junio al 7 de julio). Ya crucé los datos técnicos de la plataforma con los del Píxel de Meta. 
 
-### 📊 El Diagnóstico de las Cifras:
-*   **Inversión Total:** **$595.40 MXN** en total (~**$45.80 MXN al día**).
+Les preparé un breve análisis con algunas **hipótesis técnicas** para que las validemos juntos, especialmente con la guía y experiencia de Dali, y así orientar el flujo de la web hacia el mayor número de citas agendadas:
+
+### 📊 Las Cifras del Reporte:
+*   **Inversión Total:** **$595.40 MXN** (~**$45.80 MXN al día**).
 *   **Tráfico a la Web:** **1,835 visitas** (~141 visitas diarias).
 *   **Costo por Visita (CPC):** **$0.32 MXN**.
 *   **Ventas/Leads actuales:** 0.
 
-### 🔍 ¿Por qué no se generaron citas con 1,835 visitas?
-Analizando los datos, tenemos un costo por visita extremadamente bajo ($0.32 pesos). En el mercado local de belleza en Vallarta, esto nos indica dos cosas:
+### 🔍 Hipótesis Técnicas a Confirmar (Para revisar con Dali):
+Dado que tenemos un costo por visita súper económico de 32 centavos y 141 visitas diarias, pero aún no se reflejan mensajes de reserva, planteo estas hipótesis para que Dali nos ayude a confirmar la configuración en el Administrador de Anuncios:
 
-1.  **Calidad del tráfico (Clics por error):** Conseguir visitas a 32 centavos significa que Meta, al buscar la opción más barata bajo el objetivo de *"Visualizaciones de la página"*, muestra el anuncio en juegos móviles o banners de aplicaciones donde la gente da clic por accidente y cierra la página de inmediato.
-2.  **Fricción en la reserva (Stripe):** Antes de las modificaciones, la web exigía pagar por Stripe de inmediato para agendar. Para el tráfico frío que entraba rápido, esto era una barrera insalvable.
-3.  **Presupuesto:** La inversión de $45.80 MXN diarios es muy ajustada. Necesitamos enfocar ese presupuesto en personas con intención de compra real en lugar de cantidad de clics.
+1.  **Ubicaciones de los anuncios:** Con un costo por visita tan bajo ($0.32 MXN), es probable que Meta esté auto-optimizando el presupuesto mostrándolo en ubicaciones externas de aplicaciones (Audience Network o juegos móviles) donde hay muchos clics accidentales. ¿Valdría la pena desactivar esta opción y dejar solo Instagram y Facebook (Feeds/Reels) para captar tráfico con mayor atención?
+2.  **Objetivo de Optimización:** ¿Actualmente la campaña está optimizada para *"Visualizaciones de la página"*? Si es así, podríamos planear junto con Dali cambiar el objetivo a *"Mensajes de WhatsApp / Clientes Potenciales"*. Aunque el costo por visita suba un poco, Meta buscará personas con un perfil activo de cotización y reserva en Vallarta.
+3.  **Fricción del Stripe (Ya corregida):** Anteriormente, la web obligaba a pagar un anticipo con tarjeta para agendar. Para gente que nos ve por primera vez en redes, eso generaba desconfianza. Ya retiramos esa barrera: ahora pueden agendar directo a WhatsApp sin pago forzado previo.
 
-### 🛠️ Plan de Acción (¡Para activar las citas ya!):
+### 🛠️ Próximos pasos en la Web:
+Ya dejamos la web 100% optimizada para recibir clientas: integramos el botón directo de WhatsApp, la Asesora de Belleza IA para resolver dudas y un modal de video tutorial tipo Reel vertical si intentan salirse de la página. 
 
-*   **Paso 1: Cambiar la optimización de Meta Ads (Dali 🎯):** Cambiar el objetivo de la campaña a **"Clientes Potenciales" (Leads / Conversiones)**, optimizando para que la gente envíe mensajes directos a **WhatsApp** o interactúe con nuestra nueva **Asesora de Belleza IA**. Así Meta dejará de buscar clics accidentales baratos y buscará personas interesadas en Vallarta.
-*   **Paso 2: Enlaces específicos a Servicios:** Asegurarnos de que si el anuncio vende *Microblading*, el botón del anuncio mande directo a la sección de micropigmentación de la web, y si vende *Uñas*, mande a la sección de uñas.
-*   **Paso 3: Aprovechar las nuevas herramientas:** Ya integramos a la web un botón de WhatsApp directo en "Reservar Cita", la Asesora de Belleza con Inteligencia Artificial para cotizaciones rápidas, y el modal de video tutorial adaptado para móviles que se dispara automáticamente si una clienta intenta salirse de la página.
-
-¡La web ya está 100% optimizada para retener y convencer! Si alineamos este pequeño ajuste en los anuncios de Meta para buscar mensajes en lugar de clics baratos, empezaremos a ver citas esta misma semana.
-
-¿Cómo ven si agendamos una llamada rápida de 5 minutos mañana para revisar los enlaces y reactivar las campañas con este nuevo enfoque? 🚀✨
+¿Cómo ven si mañana agendamos una llamada rápida de 5 minutos para revisar estas hipótesis con Dali y ajustar los anuncios para ver las primeras reservas esta misma semana? 🚀✨
 
 Un abrazo,
 **[Tu Nombre / Yamiel]**
