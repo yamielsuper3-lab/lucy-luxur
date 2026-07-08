@@ -1,67 +1,63 @@
 # Análisis de Conversión & Estrategia de Pauta Local
 ## Proyecto: Delinearte by Lucy González
 **Preparado para:** Yamiel (para presentar en el grupo de WhatsApp con Lucy y Dali)  
-**Objetivo:** Analizar el rendimiento de visitas, explicar las diferencias métricas y proponer un plan de acción comercial para reactivar leads y citas en Puerto Vallarta.
+**Objetivo:** Analizar el rendimiento de visitas con las métricas reales, identificar las fallas de conversión y proponer el plan de acción comercial en Puerto Vallarta.
 
 ---
 
-> [!NOTE]
-> **Instrucciones para Yamiel:** Este documento está dividido en dos partes. La primera es el análisis técnico para tu respaldo, y la segunda es una **plantilla de mensaje para copiar y pegar en el grupo de WhatsApp** (con corchetes `[ ]` para que llenes con la información real de inversión una vez que la tengas).
+## PARTE 1: Análisis Técnico del Embudo (Métricas Reales)
 
----
+### 1. El Diagnóstico del Tráfico (25/06 al 07/07)
+A partir de las métricas compartidas por Dali, desglosamos los números reales del embudo:
+*   **Inversión Total:** $595.40 USD (aprox. **$10,420 MXN** en 13 días).
+*   **Inversión Diaria Promedio:** ~$45.80 USD (aprox. **$800 MXN al día**).
+*   **Visitas Reales (Visualizaciones de Página de Destino):** **1,835 visitas únicas** en total (~141 personas al día).
+*   **Costo por Visita (CPC de Destino):** $0.32 USD (aprox. **$5.60 MXN por visita**).
+*   **Resultado de Conversión:** 0 leads (mensajes a WhatsApp) y 0 citas concretadas.
 
-## PARTE 1: Análisis Técnico del Embudo (Para tu uso y consulta)
+### 2. ¿Por qué tuvimos 0 leads con 1,835 visitas?
+Con un presupuesto saludable de $800 MXN diarios y 141 visitas al día, **deberíamos haber recibido entre 90 y 180 mensajes de WhatsApp** (5% a 10% de conversión). El hecho de tener 0 contactos se debe a tres fugas críticas:
 
-### 1. Desglose del Tráfico: Eventos vs. Visitantes Únicos
-Cuando el panel de Meta indica **1,800 eventos**, significa que el píxel ha registrado acciones en total, no usuarios distintos.
-*   **La conversión real:** 1 usuario interesado suele disparar al menos 3 eventos (`PageView` de entrada, `Scroll` al leer los servicios, `Click` en algún tratamiento, y `PageView` al abrir el detalle).
-*   **Volumen estimado:** De esos 1,800 eventos, el volumen real de **visitantes únicos** (personas físicas que vieron la web) oscila entre **700 y 850 personas** en estas dos semanas.
-
-### 2. El Cuello de Botella del Presupuesto (Matemática del Ad Spend)
-El principal limitante detectado es la inversión baja en pauta. Si la inversión es de **$300 MXN semanales** ($42 MXN diarios):
-
-$$\text{Presupuesto Diario} = \$42\text{ MXN}$$
-$$\text{Costo por Clic (CPC) estimado} = \$4.00 - \$5.50\text{ MXN}$$
-$$\text{Visitas Diarias} = 8\text{ a }10\text{ personas}$$
-
-*   **¿Qué significa esto?** Con 10 visitas al día, aunque la página web sea del más alto nivel, la probabilidad estadística indica que recibirás un prospecto en WhatsApp cada 3 o 4 días. Para lograr cerrar un servicio de alto ticket (como micropigmentación), el proceso puede tomar de 15 a 20 días por cada venta directa.
-*   **El Diagnóstico:** La web no tiene un problema de diseño o funcionalidad, sino un **problema de volumen de tráfico calificado (visibilidad)**.
+1.  **Optimización por "Visualización de Página de Destino" (Tráfico):**
+    Aunque la campaña esté en la categoría de "Conversiones", optimizar para que las personas solo "vean la página de destino" hace que Meta busque a los usuarios que dan clics por error o por curiosidad en apps móviles, pero que no tienen un historial de compra o cotización.
+2.  **Fricción de Pago en la Web (Antes de las Mejoras):**
+    Anteriormente, la página obligaba a las personas a meter su tarjeta de crédito/débito para pagar un anticipo por Stripe para agendar. Eso mataba el interés del tráfico frío que apenas conocía la marca.
+3.  **Desconexión del Anuncio:**
+    Si los anuncios hablaban de servicios específicos (como cejas o faciales) y el enlace los mandaba a la página de inicio genérica, las personas rebotaban al no ver de inmediato lo prometido en el anuncio.
 
 ---
 
 ## PARTE 2: Plantilla de Mensaje para el Grupo de WhatsApp
-*Puedes copiar el texto de abajo, sustituir los datos entre corchetes y enviarlo directamente al grupo con Lucy y Dali.*
+*Copia y pega este mensaje en el grupo con Lucy y Dali:*
 
 ***
 
-**¡Hola Lucy y Dali! Buenos días/tardes 🌸✨**
+**¡Hola Lucy y Dali! Buenas tardes 🌸✨**
 
-Espero que se encuentren de lo mejor. 
+Muchas gracias por compartir las métricas reales de la campaña de estas últimas dos semanas (del 25 de junio al 7 de julio). Ya crucé los datos técnicos de la plataforma con los del Píxel de Meta y les preparé un diagnóstico claro de dónde está la fuga de clientes y cómo la vamos a solucionar de inmediato:
 
-Estuve haciendo una auditoría a fondo de la página web de Delinearte cruzando los datos técnicos del servidor con el Píxel de Meta, para analizar por qué no se han reflejado ventas o registros directos a pesar del buen flujo de eventos que muestra el panel.
+### 📊 El Diagnóstico de las Cifras:
+*   **Inversión Total:** $595.40 USD (aprox. **$10,420 MXN** en total / **$800 MXN diarios**).
+*   **Tráfico Real a la Web:** **1,835 personas reales** entraron a la página (~141 visitas diarias).
+*   **Costo por Visita:** $0.32 USD (aprox. **$5.60 MXN por persona**).
+*   **Ventas/Leads actuales:** 0.
 
-Quiero compartirles un breve análisis con soluciones muy sencillas para que podamos abrir la llave de las reservas y aprovechar al 100% la nueva plataforma:
+### 🔍 ¿Por qué no se generaron citas con 1,835 visitas?
+El presupuesto de $800 MXN diarios y el volumen de 141 visitas al día es **excelente** para un negocio local. Por estadística de la industria, con ese tráfico deberíamos tener entre **90 y 180 clientas interesadas** escribiéndonos. Si tuvimos 0, se debe a tres puntos:
 
-### 1. La realidad de las visitas: Eventos vs. Personas Reales
-El panel de Meta muestra **1.8 mil eventos**. Es súper importante aclarar que "eventos" no equivale a personas. Cada usuario que entra dispara entre 3 y 4 eventos (cuando lee servicios, interactúa con el menú, etc.). 
-* Estimamos que la web ha tenido en total unas **[700 a 800] visitas de personas reales** en estas dos semanas.
+1.  **Fricción en la reserva (El checkout de Stripe):** Antes de las modificaciones, la web exigía pagar por Stripe para agendar. Para tráfico frío (gente de Vallarta que nos ve por primera vez en un anuncio), poner la tarjeta de inmediato genera desconfianza y prefieren salirse.
+2.  **Optimización de Campaña:** La campaña está optimizada para *"Visualizaciones de la página de destino"*. Meta se enfoca en buscar personas que den clic rápido y abran la página, pero que rara vez interactúan o compran.
+3.  **Destino Genérico:** Si el anuncio vende cejas o faciales pero los manda a la página de inicio general, las clientas se confunden al no ver de inmediato lo que clicaron y se salen.
 
-### 2. El volumen diario y el presupuesto (Matemática de la pauta)
-Actualmente, con el presupuesto de pauta de **$[monto diario, ej: $42 MXN] al día** ($[monto semanal] a la semana), y un costo por clic promedio de la industria de $[costo promedio, ej: $4.50 MXN], estamos comprando apenas unas **[8 a 10] visitas al día** para la página.
+### 🛠️ Plan de Acción (¡Para activar las citas ya!):
 
-Aunque la página web es muy persuasiva, con 10 personas al día el goteo de prospectos es muy lento por pura estadística:
-* De cada 100 personas que entran, normalmente de 5 a 10 interactúan.
-* Para conseguir una clienta que agende micropigmentación o pestañas, con este presupuesto, nos tomaría varios días de goteo conseguir ese contacto calificado.
+*   **Paso 1: Cambiar la optimización de Meta Ads (Dali 🎯):** Cambiar el objetivo de la campaña a **"Clientes Potenciales" (Leads)**, optimizando para que la gente envíe mensajes directos a **WhatsApp** o interactúe con nuestra nueva **Asesora de Belleza IA**. Así Meta buscará personas con un perfil real de compra en Vallarta.
+*   **Paso 2: Enlaces específicos a Servicios:** Asegurarnos de que si el anuncio vende *Microblading*, el botón del anuncio mande directo a la sección de micropigmentación de la web, y si vende *Uñas*, mande a la sección de uñas.
+*   **Paso 3: Aprovechar las nuevas herramientas:** Ya integramos a la web un botón de WhatsApp directo en "Reservar Cita", la Asesora de Belleza con Inteligencia Artificial para cotizaciones rápidas, y el modal de video tutorial adaptado para móviles (estilo Reel vertical) que se dispara automáticamente si una clienta intenta salirse de la página. 
 
-### 3. Propuestas de Mejora (¡Para ganar clientas ya!):
+¡La web ya está 100% optimizada para retener y convencer a ese flujo de 141 personas diarias! Solo nos falta alinear este pequeño ajuste en los anuncios de Meta para empezar a ver el flujo de citas agendadas esta misma semana.
 
-*   **Paso 1: Cambiar el Objetivo de Campaña en Meta Ads (Dali 🎯):** Si la campaña actual está configurada para "Tráfico", Meta busca clics baratos (que a veces son bots o clics por error). Sugiero cambiar el objetivo de la campaña a **"Clientes Potenciales" (Conversiones)**, optimizando para que la gente envíe mensajes directos por WhatsApp o complete la consulta en nuestra nueva **Asesora de Belleza IA**.
-*   **Paso 2: Enlaces específicos a los Servicios (No a la Home):** Si anunciamos un servicio específico (ej: cejas masculinas o uñas), el anuncio debe llevar directo al enlace de ese tratamiento y no a la página de inicio genérica, para que la persona no se pierda y se salga de inmediato.
-*   **Paso 3: Campaña de Lanzamiento Local (Aumento Progresivo):** Si logramos subir la pauta a unos **$100 o $120 MXN diarios** ($3,000 MXN al mes de inversión de anuncios de Lucy), compraremos unas 30 visitas diarias. Eso activará la IA y el WhatsApp con 2 a 4 mensajes de clientas interesadas todos los días.
-
-¡Ya implementamos en la web herramientas de retención espectaculares (como una ventana emergente de video tutorial gigante para las personas que intenten salirse o duren inactivas, y un atajo directo a la Asesora IA en móviles)!
-
-Quedo a su entera disposición si quieren que nos conectemos a una breve llamada para revisar estos puntos y alinear la estrategia de anuncios con la web. ¡La máquina ya está lista, solo nos falta meterle más gasolina para que empiece a dar citas! 🚀✨
+¿Cómo ven si agendamos una llamada rápida de 5 minutos mañana para revisar los enlaces y reactivar las campañas con este nuevo enfoque? 🚀✨
 
 Un abrazo,
 **[Tu Nombre / Yamiel]**
