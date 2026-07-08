@@ -2619,17 +2619,29 @@ body.body-no-scroll {
     .retention-content {
         width: 95vw;
         padding: 1.5rem;
-        max-height: 90vh;
+        max-height: 94vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
     .retention-title {
-        font-size: 1.4rem;
+        font-size: 1.35rem;
     }
     .retention-desc {
-        font-size: 0.85rem;
-        margin-bottom: 1.2rem;
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+        line-height: 1.4;
     }
     .retention-video-wrapper {
         margin-bottom: 1.2rem;
-        max-height: 40vh;
+        max-height: 48vh;
+        width: 100%;
+        max-width: 250px; /* Cap width on mobile to maintain vertical format proportions */
+        aspect-ratio: 9/16; /* 9:16 Reel aspect ratio on mobile */
+    }
+    .retention-video-wrapper video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Cover format like TikTok/Reels */
     }
 }

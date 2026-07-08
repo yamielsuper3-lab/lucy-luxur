@@ -1397,6 +1397,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+        // 1b. Interceptar Botón de Atrás / Gesto de Deslizar para salir en Teléfonos (Android / iOS) (¡NUEVO!)
+        if (window.history && window.history.pushState) {
+            // Empujar un estado inicial en el historial para retener la navegación
+            window.history.pushState({ retentionActive: true }, '');
+            
+            window.addEventListener('popstate', (e) => {
+                if (!hasShown) {
+                    // Re-inyectamos el estado de retención para que no se salga de la página
+                    window.history.pushState({ retentionActive: true }, '');
+                    showRetentionModal();
+                }
+            });
+        }
+
         // 2. Detectar Inactividad (Idle)
         const resetIdleTimer = () => {
             clearTimeout(idleTimer);
