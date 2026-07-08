@@ -2647,10 +2647,53 @@ body.body-no-scroll {
 }
 
 /* --- Estilo de Redes Sociales en el Header (¡NUEVO!) --- */
-.header-social-icon:hover {
-    color: var(--brushed-gold) !important;
-    transform: translateY(-2px);
+.header-social-icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end; /* Icon on the right, text slides to the left */
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    overflow: hidden;
+    max-width: 32px; /* Fit icon only initially */
+    white-space: nowrap;
+    padding: 6px;
+    border-radius: 20px;
+    background: transparent;
 }
+
+.header-social-icon i {
+    font-size: 1.25rem;
+    min-width: 20px;
+    text-align: center;
+}
+
+.header-social-icon .social-text {
+    font-size: 0.75rem;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    margin-right: 0;
+    opacity: 0;
+    max-width: 0;
+    transition: opacity 0.3s ease, margin-right 0.3s ease, max-width 0.4s ease;
+    color: var(--brushed-gold);
+}
+
+.header-social-icon:hover {
+    max-width: 180px; /* Expand dynamically */
+    background: rgba(197, 160, 89, 0.08);
+    padding: 6px 12px;
+    color: var(--brushed-gold) !important;
+}
+
+.header-social-icon:hover .social-text {
+    opacity: 1;
+    max-width: 140px;
+    margin-right: 8px;
+}
+
 .lang-btn:hover svg {
     transform: scale(1.15);
     border-color: rgba(197, 160, 89, 0.4) !important;
