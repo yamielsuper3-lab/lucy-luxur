@@ -2645,3 +2645,13 @@ body.body-no-scroll {
         object-fit: cover; /* Cover format like TikTok/Reels */
     }
 }
+
+/* --- Estilo de Redes Sociales en el Header (¡NUEVO!) --- */
+.header-social-icon:hover {
+    color: var(--brushed-gold) !important;
+    transform: translateY(-2px);
+}
+.lang-btn:hover svg {
+    transform: scale(1.15);
+    border-color: rgba(197, 160, 89, 0.4) !important;
+}

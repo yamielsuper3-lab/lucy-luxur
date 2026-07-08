@@ -63,6 +63,7 @@
     
     <!-- Hojas de Estilo -->
     <link rel="stylesheet" href="style.css?v=2.3">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Fuentes Tipográficas Premium -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -92,42 +93,8 @@
     <header class="header">
         <div class="nav-container">
             <ul class="nav-links">
-                <li class="nav-item has-mega-menu">
+                <li class="nav-item">
                     <a href="#servicios" class="nav-link" data-i18n="nav-services">Servicios</a>
-                    
-                    <!-- Mega Menú de Lujo -->
-                    <div class="mega-menu glass-panel">
-                        <div class="mega-category">
-                            <h3 data-i18n="mega-unas">Uñas Élite</h3>
-                            <ul>
-                                <li><a href="#servicios" data-i18n="mega-item-unas-esculturales">Uñas Esculturales</a></li>
-                                <li><a href="#servicios" data-i18n="mega-item-poligel">Poligel Premium</a></li>
-                                <li><a href="#servicios" data-i18n="mega-item-soft-gel">Soft Gel & Ruber Base</a></li>
-                                <li><a href="#servicios" data-i18n="mega-item-gel">Gel Semipermanente</a></li>
-                            </ul>
-                        </div>
-                        <div class="mega-category">
-                            <h3 data-i18n="mega-faciales">Faciales</h3>
-                            <ul>
-                                <li><a href="#servicios" data-i18n="mega-item-limpieza">Limpieza Profunda</a></li>
-                                <li><a href="#servicios" data-i18n="mega-item-hidratante">Facial Hidratante</a></li>
-                                <li><a href="#servicios" data-i18n="mega-item-despigmentante">Despigmentante Avanzado</a></li>
-                                <li><a href="#servicios" data-i18n="mega-item-antiedad">Anti-Edad Colágeno</a></li>
-                            </ul>
-                        </div>
-                        <div class="mega-category">
-                            <h3 data-i18n="tab-mirada">Diseño de Mirada</h3>
-                            <ul>
-                                <li><a href="#servicios" data-i18n="mega-item-diseno">Cejas y Pestañas</a></li>
-                            </ul>
-                        </div>
-                        <div class="mega-category">
-                            <h3 data-i18n="tab-micropigmentacion">Micropigmentación</h3>
-                            <ul>
-                                <li><a href="#servicios" data-i18n="mega-item-micropigmentacion">Micropigmentación de Autor</a></li>
-                            </ul>
-                        </div>
-                    </div>
                 </li>
                 <li class="nav-item"><a href="/trayectoria" class="nav-link" data-i18n="nav-career">La Fundadora</a></li>
                 <li class="nav-item"><a href="/faq" class="nav-link" data-i18n="nav-faqs">Preguntas Frecuentes</a></li>
@@ -143,11 +110,48 @@
         </div>
         
         <div class="header-right">
+            <!-- Redes Sociales en el Header (¡NUEVO!) -->
+            <div class="header-social-links" style="display: flex; gap: 0.95rem; margin-right: 1.5rem; align-items: center;">
+                <a href="https://wa.me/5213222629523" target="_blank" class="header-social-icon" aria-label="WhatsApp" style="color: var(--text-secondary); font-size: 1.15rem; display: flex; align-items: center; transition: all 0.3s ease;">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="https://www.instagram.com/delineartelucy" target="_blank" class="header-social-icon" aria-label="Instagram" style="color: var(--text-secondary); font-size: 1.15rem; display: flex; align-items: center; transition: all 0.3s ease;">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.facebook.com/delineartelucy" target="_blank" class="header-social-icon" aria-label="Facebook" style="color: var(--text-secondary); font-size: 1.15rem; display: flex; align-items: center; transition: all 0.3s ease;">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+            </div>
             <!-- Language Selector -->
-            <div class="lang-selector">
-                <button class="lang-btn active" data-lang="es" onclick="setLanguage('es')">ES</button>
-                <span class="lang-separator">|</span>
-                <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
+            <div class="lang-selector" style="margin-right: 1.2rem;">
+                <button class="lang-btn active" data-lang="es" onclick="setLanguage('es')" style="padding: 0; display: inline-flex; align-items: center; border: none; background: transparent; cursor: pointer; transition: transform 0.2s;" title="Español">
+                    <svg width="20" height="20" viewBox="0 0 30 30" style="border-radius: 50%; display: block; border: 1px solid rgba(255,255,255,0.15);">
+                        <rect width="10" height="30" fill="#006847"/>
+                        <rect x="10" width="10" height="30" fill="#FFFFFF"/>
+                        <rect x="20" width="10" height="30" fill="#C8102E"/>
+                        <circle cx="15" cy="15" r="2" fill="#B38F00"/>
+                    </svg>
+                </button>
+                <span class="lang-separator" style="margin: 0 0.3rem;">|</span>
+                <button class="lang-btn" data-lang="en" onclick="setLanguage('en')" style="padding: 0; display: inline-flex; align-items: center; border: none; background: transparent; cursor: pointer; transition: transform 0.2s;" title="English">
+                    <svg width="20" height="20" viewBox="0 0 30 30" style="border-radius: 50%; display: block; border: 1px solid rgba(255,255,255,0.15);">
+                        <rect width="30" height="30" fill="#B22234"/>
+                        <rect y="3" width="30" height="3" fill="#FFFFFF"/>
+                        <rect y="9" width="30" height="3" fill="#FFFFFF"/>
+                        <rect y="15" width="30" height="3" fill="#FFFFFF"/>
+                        <rect y="21" width="30" height="3" fill="#FFFFFF"/>
+                        <rect y="27" width="30" height="3" fill="#FFFFFF"/>
+                        <rect width="14" height="15" fill="#3C3B6E"/>
+                        <circle cx="3" cy="3" r="0.6" fill="#FFFFFF"/>
+                        <circle cx="7" cy="3" r="0.6" fill="#FFFFFF"/>
+                        <circle cx="11" cy="3" r="0.6" fill="#FFFFFF"/>
+                        <circle cx="5" cy="7" r="0.6" fill="#FFFFFF"/>
+                        <circle cx="9" cy="7" r="0.6" fill="#FFFFFF"/>
+                        <circle cx="3" cy="11" r="0.6" fill="#FFFFFF"/>
+                        <circle cx="7" cy="11" r="0.6" fill="#FFFFFF"/>
+                        <circle cx="11" cy="11" r="0.6" fill="#FFFFFF"/>
+                    </svg>
+                </button>
             </div>
             <a href="#reservas" class="cta-button-nav" data-i18n="nav-cta">Reservar Cita</a>
             <button class="mobile-menu-toggle" aria-label="Abrir Menú">
@@ -164,9 +168,34 @@
             <div class="mobile-menu-logo">DELINEARTE</div>
             <!-- Language Selector Mobile -->
             <div class="lang-selector-mobile">
-                <button class="lang-btn active" data-lang="es" onclick="setLanguage('es')">ES</button>
+                <button class="lang-btn active" data-lang="es" onclick="setLanguage('es')" style="padding: 0; display: inline-flex; align-items: center; border: none; background: transparent; cursor: pointer;" title="Español">
+                    <svg width="20" height="20" viewBox="0 0 30 30" style="border-radius: 50%; display: block; border: 1px solid rgba(255,255,255,0.15);">
+                        <rect width="10" height="30" fill="#006847"/>
+                        <rect x="10" width="10" height="30" fill="#FFFFFF"/>
+                        <rect x="20" width="10" height="30" fill="#C8102E"/>
+                        <circle cx="15" cy="15" r="2" fill="#B38F00"/>
+                    </svg>
+                </button>
                 <span class="lang-separator">|</span>
-                <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
+                <button class="lang-btn" data-lang="en" onclick="setLanguage('en')" style="padding: 0; display: inline-flex; align-items: center; border: none; background: transparent; cursor: pointer;" title="English">
+                    <svg width="20" height="20" viewBox="0 0 30 30" style="border-radius: 50%; display: block; border: 1px solid rgba(255,255,255,0.15);">
+                        <rect width="30" height="30" fill="#B22234"/>
+                        <rect y="3" width="30" height="3" fill="#FFFFFF"/>
+                        <rect y="9" width="30" height="3" fill="#FFFFFF"/>
+                        <rect y="15" width="30" height="3" fill="#FFFFFF"/>
+                        <rect y="21" width="30" height="3" fill="#FFFFFF"/>
+                        <rect y="27" width="30" height="3" fill="#FFFFFF"/>
+                        <rect width="14" height="15" fill="#3C3B6E"/>
+                        <circle cx="3" cy="3" r="0.6" fill="#FFFFFF"/>
+                        <circle cx="7" cy="3" r="0.6" fill="#FFFFFF"/>
+                        <circle cx="11" cy="3" r="0.6" fill="#FFFFFF"/>
+                        <circle cx="5" cy="7" r="0.6" fill="#FFFFFF"/>
+                        <circle cx="9" cy="7" r="0.6" fill="#FFFFFF"/>
+                        <circle cx="3" cy="11" r="0.6" fill="#FFFFFF"/>
+                        <circle cx="7" cy="11" r="0.6" fill="#FFFFFF"/>
+                        <circle cx="11" cy="11" r="0.6" fill="#FFFFFF"/>
+                    </svg>
+                </button>
             </div>
             <ul class="mobile-nav-links">
                 <li><a href="#servicios" class="mobile-nav-link" data-i18n="nav-services">Servicios</a></li>
