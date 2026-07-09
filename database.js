@@ -108,6 +108,12 @@ async function initDatabase() {
             recommended_service TEXT,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         );
+
+        CREATE TABLE IF NOT EXISTS whatsapp_clicks (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            service_name TEXT NOT NULL,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
     `);
     
     // 2. Semilla (Seeding) si la base de datos está vacía

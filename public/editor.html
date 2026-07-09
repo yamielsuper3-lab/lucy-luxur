@@ -1551,9 +1551,24 @@
             
             const wrapper = document.getElementById('editor-wrapper');
             wrapper.innerHTML = `
-                <div class="editor-card glass-panel" style="padding: 2.5rem;">
-                    <h3 style="font-family: var(--font-serif); color: var(--brushed-gold); font-size: 1.8rem; margin-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 1rem;">
-                        Prospectos y Consultas IA Recibidas
+                <!-- Panel de KPIs y Métricas de Conversión -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem;">
+                    <div class="glass-panel" style="padding: 2rem; border-radius: 8px; border: var(--hairline-border); text-align: center; background: rgba(255,255,255,0.01);">
+                        <h4 style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.15em; margin: 0 0 0.8rem 0;">Prospectos Asesora IA</h4>
+                        <div id="metric-ia-count" style="font-size: 3rem; font-weight: 700; color: var(--brushed-gold-light); line-height: 1;">-</div>
+                        <p style="font-size: 0.72rem; color: var(--text-secondary); margin: 0.8rem 0 0 0;">Conversaciones completadas con la IA</p>
+                    </div>
+                    <div class="glass-panel" style="padding: 2rem; border-radius: 8px; border: var(--hairline-border); text-align: center; background: rgba(255,255,255,0.01);">
+                        <h4 style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.15em; margin: 0 0 0.8rem 0;">Clics a WhatsApp Lucy</h4>
+                        <div id="metric-wa-count" style="font-size: 3rem; font-weight: 700; color: var(--brushed-gold-light); line-height: 1;">-</div>
+                        <p style="font-size: 0.72rem; color: var(--text-secondary); margin: 0.8rem 0 0 0;">Redirecciones totales al chat de Lucy</p>
+                    </div>
+                </div>
+
+                <!-- Sección 1: Prospectos de la Asesora IA -->
+                <div class="editor-card glass-panel" style="padding: 2.5rem; margin-bottom: 2.5rem;">
+                    <h3 style="font-family: var(--font-serif); color: var(--brushed-gold); font-size: 1.6rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.8rem;">
+                        Conversaciones de Prospectos IA
                     </h3>
                     <div style="overflow-x: auto;">
                         <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; color: #e0e0e0;">
@@ -1569,7 +1584,30 @@
                             </thead>
                             <tbody id="leads-table-body">
                                 <tr>
-                                    <td colspan="6" style="padding: 2rem; text-align: center; color: var(--text-secondary);">Cargando consultas...</td>
+                                    <td colspan="6" style="padding: 2rem; text-align: center; color: var(--text-secondary);">Cargando...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Sección 2: Historial de Clics a WhatsApp -->
+                <div class="editor-card glass-panel" style="padding: 2.5rem;">
+                    <h3 style="font-family: var(--font-serif); color: var(--brushed-gold); font-size: 1.6rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.8rem;">
+                        Registro de Redirecciones a WhatsApp
+                    </h3>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; color: #e0e0e0;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.15); color: var(--brushed-gold-light);">
+                                    <th style="padding: 1rem;">Fecha y Hora</th>
+                                    <th style="padding: 1rem;">Contexto / Origen del Clic</th>
+                                    <th style="padding: 1rem; text-align: center;">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="clicks-table-body">
+                                <tr>
+                                    <td colspan="3" style="padding: 2rem; text-align: center; color: var(--text-secondary);">Cargando clics...</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1577,10 +1615,13 @@
                 </div>
             `;
             
+            // 1. Cargar Leads de Asesora IA
+            let leadsCount = 0;
             try {
                 const response = await fetch('/api/leads');
                 if (!response.ok) throw new Error('No autorizado o error al cargar leads');
                 const leads = await response.json();
+                leadsCount = leads.length;
                 
                 const tbody = document.getElementById('leads-table-body');
                 tbody.innerHTML = '';
@@ -1591,36 +1632,84 @@
                             <td colspan="6" style="padding: 2rem; text-align: center; color: var(--text-secondary);">No se han recibido consultas de la asesora de IA aún.</td>
                         </tr>
                     `;
-                    return;
+                } else {
+                    leads.forEach(lead => {
+                        const row = document.createElement('tr');
+                        row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+                        
+                        const dateStr = new Date(lead.created_at).toLocaleDateString('es-MX', {
+                            day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit'
+                        });
+                        
+                        row.innerHTML = `
+                            <td style="padding: 1.2rem 1rem; color: #a0a0a0; white-space: nowrap;">${dateStr}</td>
+                            <td style="padding: 1.2rem 1rem; font-weight: 600; color: #ffffff;">${escapeHtml(lead.name)}</td>
+                            <td style="padding: 1.2rem 1rem; color: var(--brushed-gold-light); font-weight: 500; white-space: nowrap;">
+                                <span style="cursor: pointer; border-bottom: 1px dashed rgba(197,160,89,0.4);" onclick="copyToClipboard('${escapeJs(lead.contact)}')">${escapeHtml(lead.contact)} 📋</span>
+                            </td>
+                            <td style="padding: 1.2rem 1rem; color: #d0d0d0; max-width: 300px; white-space: normal; line-height: 1.5;">${escapeHtml(lead.goals)}</td>
+                            <td style="padding: 1.2rem 1rem; color: #ffffff; font-style: italic; font-weight: 600;">${escapeHtml(lead.recommended_service)}</td>
+                            <td style="padding: 1.2rem 1rem; text-align: center;">
+                                <button onclick="deleteLead(${lead.id})" class="delete-btn" style="background: rgba(255,85,85,0.1); border: 1px solid rgba(255,85,85,0.3); color: #ff5555; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; transition: all 0.3s; font-size: 0.8rem; text-transform: uppercase; font-weight: 700;">Eliminar</button>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
                 }
                 
-                leads.forEach(lead => {
-                    const row = document.createElement('tr');
-                    row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
-                    
-                    const dateStr = new Date(lead.created_at).toLocaleDateString('es-MX', {
-                        day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit'
-                    });
-                    
-                    row.innerHTML = `
-                        <td style="padding: 1.2rem 1rem; color: #a0a0a0; white-space: nowrap;">${dateStr}</td>
-                        <td style="padding: 1.2rem 1rem; font-weight: 600; color: #ffffff;">${escapeHtml(lead.name)}</td>
-                        <td style="padding: 1.2rem 1rem; color: var(--brushed-gold-light); font-weight: 500; white-space: nowrap;">
-                            <span style="cursor: pointer; border-bottom: 1px dashed rgba(197,160,89,0.4);" onclick="copyToClipboard('${escapeJs(lead.contact)}')">${escapeHtml(lead.contact)} 📋</span>
-                        </td>
-                        <td style="padding: 1.2rem 1rem; color: #d0d0d0; max-width: 300px; white-space: normal; line-height: 1.5;">${escapeHtml(lead.goals)}</td>
-                        <td style="padding: 1.2rem 1rem; color: #ffffff; font-style: italic; font-weight: 600;">${escapeHtml(lead.recommended_service)}</td>
-                        <td style="padding: 1.2rem 1rem; text-align: center;">
-                            <button onclick="deleteLead(${lead.id})" class="delete-btn" style="background: rgba(255,85,85,0.1); border: 1px solid rgba(255,85,85,0.3); color: #ff5555; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; transition: all 0.3s; font-size: 0.8rem; text-transform: uppercase; font-weight: 700;">Eliminar</button>
-                        </td>
-                    `;
-                    tbody.appendChild(row);
-                });
+                document.getElementById('metric-ia-count').textContent = leadsCount;
             } catch (err) {
                 console.error(err);
                 document.getElementById('leads-table-body').innerHTML = `
                     <tr>
                         <td colspan="6" style="padding: 2rem; text-align: center; color: #ff5555;">Error al cargar leads: ${err.message}</td>
+                    </tr>
+                `;
+            }
+
+            // 2. Cargar Clics a WhatsApp
+            let clicksCount = 0;
+            try {
+                const response = await fetch('/api/whatsapp-clicks');
+                if (!response.ok) throw new Error('No autorizado o error al cargar clics');
+                const clicks = await response.json();
+                clicksCount = clicks.length;
+                
+                const tbodyClicks = document.getElementById('clicks-table-body');
+                tbodyClicks.innerHTML = '';
+                
+                if (clicks.length === 0) {
+                    tbodyClicks.innerHTML = `
+                        <tr>
+                            <td colspan="3" style="padding: 2rem; text-align: center; color: var(--text-secondary);">No se registran clics redireccionados a WhatsApp aún.</td>
+                        </tr>
+                    `;
+                } else {
+                    clicks.forEach(click => {
+                        const row = document.createElement('tr');
+                        row.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+                        
+                        const dateStr = new Date(click.created_at).toLocaleDateString('es-MX', {
+                            day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'
+                        });
+                        
+                        row.innerHTML = `
+                            <td style="padding: 1.2rem 1rem; color: #a0a0a0; white-space: nowrap;">${dateStr}</td>
+                            <td style="padding: 1.2rem 1rem; font-weight: 600; color: #ffffff;">${escapeHtml(click.service_name)}</td>
+                            <td style="padding: 1.2rem 1rem; text-align: center;">
+                                <button onclick="deleteClick(${click.id})" class="delete-btn" style="background: rgba(255,85,85,0.1); border: 1px solid rgba(255,85,85,0.3); color: #ff5555; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; transition: all 0.3s; font-size: 0.8rem; text-transform: uppercase; font-weight: 700;">Eliminar</button>
+                            </td>
+                        `;
+                        tbodyClicks.appendChild(row);
+                    });
+                }
+                
+                document.getElementById('metric-wa-count').textContent = clicksCount;
+            } catch (err) {
+                console.error(err);
+                document.getElementById('clicks-table-body').innerHTML = `
+                    <tr>
+                        <td colspan="3" style="padding: 2rem; text-align: center; color: #ff5555;">Error al cargar clics: ${err.message}</td>
                     </tr>
                 `;
             }
@@ -1650,6 +1739,18 @@
                 await fetchAndRenderLeads();
             } catch (err) {
                 showToast('❌ Error al eliminar la consulta.', true);
+            }
+        }
+
+        async function deleteClick(id) {
+            if (!confirm('¿Seguro que deseas eliminar este registro de clic?')) return;
+            try {
+                const response = await fetch(`/api/whatsapp-clicks/${id}`, { method: 'DELETE' });
+                if (!response.ok) throw new Error('Error al eliminar');
+                showToast('✅ Registro de clic de WhatsApp eliminado.');
+                await fetchAndRenderLeads();
+            } catch (err) {
+                showToast('❌ Error al eliminar el registro.', true);
             }
         }
         
