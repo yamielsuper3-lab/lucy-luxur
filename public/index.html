@@ -86,8 +86,38 @@
     src="https://www.facebook.com/tr?id=4199649283678536&ev=PageView&noscript=1"
     /></noscript>
     <!-- End Meta Pixel Code -->
+    <!-- GSAP & AttrPlugin CDN (Intro Rombo) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap-attr-plugin.min.js"></script>
 </head>
 <body>
+
+    <!-- CAPA SUPERIOR: Pantalla de carga (Loader con SVG mask) -->
+    <div class="loader-screen" id="loaderScreen">
+      <div class="loader-content" id="loaderContent">
+        <!-- Logo circular centrado -->
+        <div class="diamond-center">
+          <img src="delinearte_academia_logo.jpg" alt="Delinearte Academia" class="loader-circular-logo" id="diamondLogo">
+        </div>
+        <!-- Porcentaje y barra de progreso -->
+        <div class="loader-bottom">
+          <div class="percentage" id="percentage">0%</div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="progressFill"></div>
+          </div>
+          <div class="loader-tagline" data-i18n="loader-tagline">Cargando experiencia de autor...</div>
+        </div>
+      </div>
+    
+      <!-- SVG con máscara: rect blanco = visible, polygon negro = hoyo transparente -->
+      <svg class="loader-svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+        <mask id="diamond-mask">
+          <rect width="100" height="100" fill="white"/>
+          <polygon id="mask-hole" points="50,50 50,50 50,50 50,50" fill="black"/>
+        </mask>
+        <rect width="100" height="100" fill="#070605" mask="url(#diamond-mask)"/>
+      </svg>
+    </div>
 
     <!-- Encabezado & Barra de Navegación Crystal (Glassmorphism) -->
     <header class="header">
@@ -772,7 +802,11 @@
                 modal.classList.remove('active');
                 setTimeout(() => {
                     modal.style.display = 'none';
-                    document.body.style.overflow = '';
+                    // RESTABLECER OVERFLOW SOLO SI EL LOADER NO ESTÁ ACTIVO
+                    const loader = document.getElementById('loaderScreen');
+                    if (!loader || loader.style.display === 'none') {
+                        document.body.style.overflow = '';
+                    }
                 }, 400);
             }
 
@@ -800,6 +834,78 @@
                     }
                 }
             });
+        });
+    </script>
+
+    <!-- Script del Loader Inmersivo Diamond Portal (GSAP) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Bloquear scroll inmediatamente al iniciar la carga
+            document.body.style.overflow = 'hidden';
+
+            const loader        = document.getElementById('loaderScreen');
+            const loaderContent = document.getElementById('loaderContent');
+            const diamond       = document.getElementById('diamondLogo');
+            const pctEl         = document.getElementById('percentage');
+            const fillEl        = document.getElementById('progressFill');
+            const maskHole      = document.getElementById('mask-hole');
+            
+            if (!loader || !maskHole) return;
+
+            const counter = { val: 0 };
+            const tl = gsap.timeline();
+
+            // 1. Rotación del rombo central (Logo Circular de la Academia) - Súper lenta y elegante
+            gsap.to(diamond, {
+              rotation: 360,
+              duration: 25,
+              repeat: -1,
+              ease: 'none'
+            });
+
+            // 2. Efecto pulso de brillo y escala en el logo circular
+            gsap.to(diamond, {
+              scale: 1.05,
+              boxShadow: '0 0 50px rgba(197, 160, 89, 0.7), 0 0 100px rgba(197, 160, 89, 0.35)',
+              duration: 1.8,
+              repeat: -1,
+              yoyo: true,
+              ease: 'sine.inOut'
+            });
+
+            // 3. Progreso del porcentaje 0% -> 100%
+            tl.to(counter, {
+              val: 100,
+              duration: 2.2,
+              ease: 'power1.inOut',
+              onUpdate() {
+                const v = Math.round(counter.val);
+                if (pctEl) pctEl.textContent  = v + '%';
+                if (fillEl) fillEl.style.width = v + '%';
+              }
+            });
+
+            // 4. Pausa de completado
+            tl.to({}, { duration: 0.25 });
+
+            // 5. Encoger y desvanecer textos/logo del loader
+            tl.to(loaderContent, {
+              opacity: 0,
+              scale: 0.85,
+              duration: 0.35,
+              ease: 'power2.in'
+            });
+
+            // 6. Transición de Portal SVG Mask (Rombo abriéndose hacia afuera)
+            tl.to(maskHole, {
+              attr: { points: '50,-50 150,50 50,150 -50,50' },
+              duration: 1.25,
+              ease: 'expo.inOut'
+            }, '-=0.1');
+
+            // 7. Ocultar el loader completo y liberar scroll
+            tl.set(loader, { display: 'none' });
+            tl.set(document.body, { overflow: '' });
         });
     </script>
 
