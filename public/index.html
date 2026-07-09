@@ -855,12 +855,13 @@
             const counter = { val: 0 };
             const tl = gsap.timeline();
 
-            // 1. Rotación del rombo central (Logo Circular de la Academia) - Súper lenta y elegante
+            // 1. Balanceo péndulo sutil izquierda-derecha (Logo Circular de la Academia)
             gsap.to(diamond, {
-              rotation: 360,
-              duration: 25,
+              rotation: 4, // Apenas 4 grados para mantener legibilidad del texto
+              duration: 3.5,
               repeat: -1,
-              ease: 'none'
+              yoyo: true,
+              ease: 'sine.inOut'
             });
 
             // 2. Efecto pulso de brillo y escala en el logo circular
