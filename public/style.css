@@ -2700,3 +2700,10 @@ body.body-no-scroll {
     transform: scale(1.15);
     border-color: rgba(197, 160, 89, 0.4) !important;
 }
+
+/* --- Lógica Responsiva de Formulario en Servicio --- */
+@media (max-width: 768px) {
+    #servicio-reservas-section {
+        display: none !important;
+    }
+}

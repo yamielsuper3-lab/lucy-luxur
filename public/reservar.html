@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservar Cita - Delinearte by Lucy González</title>
+    
+    <!-- CSS y Fuentes Premium -->
+    <link rel="stylesheet" href="style.css?v=2.3">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            background-color: #070605;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            font-family: var(--font-sans);
+        }
+        
+        /* Navbar Minimalista de Reservas */
+        .reserva-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 10%;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .reserva-logo {
+            font-family: var(--font-serif);
+            font-size: 1.6rem;
+            letter-spacing: 0.15em;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        .reserva-logo:hover {
+            color: var(--brushed-gold);
+        }
+        
+        .nav-back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+        
+        .nav-back-link:hover {
+            color: var(--brushed-gold);
+        }
+        
+        /* Layout del Formulario Dedicado */
+        .reserva-hero-section {
+            padding: 4rem 10% 6rem 10%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .reserva-layout-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 4rem;
+            align-items: start;
+            margin-top: 3rem;
+        }
+        
+        .reserva-info-panel {
+            background: rgba(255, 255, 255, 0.02);
+            border: var(--hairline-border);
+            border-radius: 8px;
+            padding: 2.5rem;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .reserva-info-title {
+            font-family: var(--font-serif);
+            font-size: 2.2rem;
+            color: var(--brushed-gold);
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+        }
+        
+        .reserva-info-desc {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+        
+        .reserva-contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .reserva-contact-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .reserva-icon {
+            font-size: 1.25rem;
+            color: var(--brushed-gold);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(197, 160, 89, 0.1);
+            border-radius: 50%;
+        }
+        
+        .reserva-text a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+        
+        .reserva-text a:hover {
+            color: var(--brushed-gold);
+        }
+        
+        .reserva-map-wrapper {
+            margin-top: 2rem;
+            border-radius: 8px;
+            overflow: hidden;
+            border: var(--hairline-border);
+            height: 250px;
+        }
+        
+        .reserva-map-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            filter: grayscale(100%) invert(92%) contrast(95%) brightness(95%);
+            opacity: 0.85;
+        }
+        
+        /* Ajustes responsivos */
+        @media (max-width: 960px) {
+            .reserva-layout-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .reserva-info-panel {
+                position: relative;
+                top: 0;
+                padding: 2rem;
+            }
+            .reserva-hero-section {
+                padding: 2rem 5% 4rem 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="reserva-nav">
+        <a href="/" class="nav-back-link">
+            <i class="fa-solid fa-arrow-left"></i> <span data-i18n="back-menu">← Volver</span>
+        </a>
+        <a href="/" class="reserva-logo">DELINEARTE</a>
+        
+        <!-- Language Switcher -->
+        <div class="lang-selector">
+            <button class="lang-btn active" data-lang="es" onclick="setLanguage('es')" style="padding: 0; display: inline-flex; align-items: center; border: none; background: transparent; cursor: pointer; transition: transform 0.2s;" title="Español">
+                <svg width="20" height="20" viewBox="0 0 30 30" style="border-radius: 50%; display: block; border: 1px solid rgba(255,255,255,0.15);">
+                    <rect width="10" height="30" fill="#006847"/>
+                    <rect x="10" width="10" height="30" fill="#FFFFFF"/>
+                    <rect x="20" width="10" height="30" fill="#C8102E"/>
+                    <circle cx="15" cy="15" r="2" fill="#B38F00"/>
+                </svg>
+            </button>
+            <span class="lang-separator" style="margin: 0 0.3rem; color: rgba(255,255,255,0.25);">|</span>
+            <button class="lang-btn" data-lang="en" onclick="setLanguage('en')" style="padding: 0; display: inline-flex; align-items: center; border: none; background: transparent; cursor: pointer; transition: transform 0.2s;" title="English">
+                <svg width="20" height="20" viewBox="0 0 30 30" style="border-radius: 50%; display: block; border: 1px solid rgba(255,255,255,0.15);">
+                    <rect width="30" height="30" fill="#B22234"/>
+                    <rect y="3" width="30" height="3" fill="#FFFFFF"/>
+                    <rect y="9" width="30" height="3" fill="#FFFFFF"/>
+                    <rect y="15" width="30" height="3" fill="#FFFFFF"/>
+                    <rect y="21" width="30" height="3" fill="#FFFFFF"/>
+                    <rect y="27" width="30" height="3" fill="#FFFFFF"/>
+                    <rect width="14" height="15" fill="#3C3B6E"/>
+                    <circle cx="3" cy="3" r="0.6" fill="#FFFFFF"/>
+                    <circle cx="7" cy="3" r="0.6" fill="#FFFFFF"/>
+                    <circle cx="11" cy="3" r="0.6" fill="#FFFFFF"/>
+                    <circle cx="5" cy="7" r="0.6" fill="#FFFFFF"/>
+                    <circle cx="9" cy="7" r="0.6" fill="#FFFFFF"/>
+                    <circle cx="3" cy="11" r="0.6" fill="#FFFFFF"/>
+                    <circle cx="7" cy="11" r="0.6" fill="#FFFFFF"/>
+                    <circle cx="11" cy="11" r="0.6" fill="#FFFFFF"/>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Sección de Reservas -->
+    <main class="reserva-hero-section">
+        <div class="section-header" style="text-align: center; margin-bottom: 2rem;">
+            <span class="section-subtitle" data-i18n="contact-subtitle">Reservas Directas</span>
+            <h2 class="section-title" data-i18n="contact-title-home">Agenda Tu Momento</h2>
+        </div>
+        
+        <div class="reserva-layout-grid">
+            
+            <!-- Panel Izquierdo: Info & Ubicación -->
+            <div class="reserva-info-panel">
+                <h3 class="reserva-info-title" data-i18n="contact-motto-title">La belleza de autor</h3>
+                <p class="reserva-info-desc" data-i18n="contact-motto-desc">Ofrecemos un santuario de cuidado clínico de la piel y perfeccionamiento estético. Rellena los datos a la derecha para coordinar tu cita personalizada de forma rápida y segura.</p>
+                
+                <div class="reserva-contact-details">
+                    <div class="reserva-contact-item">
+                        <div class="reserva-icon"><i class="fa-solid fa-location-dot"></i></div>
+                        <div class="reserva-text">
+                            <a href="https://maps.google.com/?q=Calle+Francia+140-B,+Col+Versalles,+Puerto+Vallarta,+Jalisco,+C.P.+48310" target="_blank" data-i18n="contact-address">Calle Francia 140-B, Col. Versalles, Puerto Vallarta, Jal.</a>
+                        </div>
+                    </div>
+                    <div class="reserva-contact-item">
+                        <div class="reserva-icon"><i class="fa-solid fa-phone"></i></div>
+                        <div class="reserva-text">
+                            <a href="https://wa.me/5213222629523" target="_blank">+52 1 322 262 9523</a>
+                        </div>
+                    </div>
+                    <div class="reserva-contact-item">
+                        <div class="reserva-icon"><i class="fa-solid fa-envelope"></i></div>
+                        <div class="reserva-text">
+                            <a href="mailto:contacto@delinearte.luxury">contacto@delinearte.luxury</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Google Maps dark theme -->
+                <div class="reserva-map-wrapper">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3733.3039601362947!2d-105.2289601!3d20.6368412!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8421456a0cf0c0ad%3A0xbd860beea0bbf4ad!2sCalle%20Francia%20140-B%2C%20Versalles%2C%2048310%20Puerto%20Vallarta%2C%20Jal.!5e0!3m2!1ses!2smx!4v1700000000000!5m2!1ses!2smx"
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+            
+            <!-- Panel Derecho: Formulario Glowing -->
+            <div class="booking-form-wrapper glass-panel">
+                <form id="luxury-booking-form">
+                    <div class="form-group-grid">
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="booking-name" data-i18n="label-name">Nombre Completo *</label>
+                            <input class="form-input" type="text" id="booking-name" required placeholder="Ej. Alejandra Silva" data-i18n="placeholder-name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="booking-phone" data-i18n="label-phone">WhatsApp / Teléfono *</label>
+                            <input class="form-input" type="tel" id="booking-phone" required placeholder="Ej. 5512345678" data-i18n="placeholder-phone">
+                        </div>
+                        
+                        <div class="form-group form-group-full">
+                            <label class="form-label" for="booking-service" data-i18n="label-service">Servicio Deseado *</label>
+                            <select class="form-select" id="booking-service" required>
+                                <option value="" disabled selected data-i18n="form-service-placeholder">Seleccione una Experiencia Elite</option>
+                                <optgroup label="Uñas Premium">
+                                    <option value="Uñas Esculturales (Aplicación)">Uñas Esculturales - Aplicación ($650)</option>
+                                    <option value="Uñas Esculturales (Mantenimiento)">Uñas Esculturales - Mantenimiento ($450)</option>
+                                    <option value="Poligel Premium (Aplicación)">Poligel Premium - Aplicación ($650)</option>
+                                    <option value="Soft Gel (Aplicación)">Soft Gel - Aplicación ($650)</option>
+                                    <option value="Ruber Base (Aplicación)">Ruber Base - Aplicación ($350)</option>
+                                    <option value="Gel Semipermanente">Gel Semipermanente ($250)</option>
+                                    <option value="Tratamiento Vitamina E">Tratamiento Vitamina E ($150)</option>
+                                </optgroup>
+                                <optgroup label="Faciales Clínicos">
+                                    <option value="Facial Limpieza Profunda">Facial Limpieza Profunda ($800)</option>
+                                    <option value="Facial Hidratante">Facial Hidratante ($1,200)</option>
+                                    <option value="Facial Despigmentante">Facial Despigmentante ($1,200)</option>
+                                    <option value="Facial Anti-Edad Premium">Facial Anti-Edad Premium ($1,300)</option>
+                                    <option value="Plasma Fibroblast">Plasma Fibroblast (Valoración Gratis)</option>
+                                </optgroup>
+                                <optgroup label="Diseño de Mirada" data-i18n-label="optgroup-mirada">
+                                    <option value="Diseño & Perfilado de Cejas">Diseño & Perfilado de Cejas ($250)</option>
+                                    <option value="Planchado de Cejas">Planchado de Cejas ($350)</option>
+                                    <option value="Laminación de Cejas">Laminación de Cejas ($350)</option>
+                                    <option value="Cejas HD">Cejas HD ($250)</option>
+                                    <option value="Lifting de Pestañas">Lifting de Pestañas ($450)</option>
+                                    <option value="Extensión de Pestañas Clásica">Extensión Pestañas Clásica ($650)</option>
+                                    <option value="Extensión de Pestañas Volumen Soft">Extensión Pestañas Volumen Soft ($750)</option>
+                                    <option value="Extensión de Pestañas Volumen Intense">Extensión Pestañas Volumen Intense ($850)</option>
+                                    <option value="Extensión de Pestañas Volumen Ruso">Extensión Pestañas Volumen Ruso ($800)</option>
+                                </optgroup>
+                                <optgroup label="Micropigmentación de Autor" data-i18n-label="optgroup-micropigmentacion">
+                                    <option value="Micropigmentación de Cejas">Valoración Micropigmentación Cejas (Gratis)</option>
+                                    <option value="Aquarela Lips">Valoración Aquarela Lips (Gratis)</option>
+                                    <option value="Full Lips">Valoración Full Lips (Gratis)</option>
+                                    <option value="Eyeliner">Valoración Eyeliner (Gratis)</option>
+                                </optgroup>
+                                <optgroup label="Pruebas de Sistema">
+                                    <option value="Prueba de Sistema">Prueba de Sistema ($10)</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="booking-date" data-i18n="label-date">Fecha Solicitada *</label>
+                            <input class="form-input" type="date" id="booking-date" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="booking-time" data-i18n="label-time">Hora Solicitada *</label>
+                            <input class="form-input" type="time" id="booking-time" required>
+                        </div>
+                        
+                        <div class="form-group form-group-full">
+                            <label class="form-label" for="booking-notes" data-i18n="label-notes">Notas Especiales / Preferencias</label>
+                            <textarea class="form-textarea" id="booking-notes" placeholder="Cuéntanos algún detalle o preferencia especial para tu sesión..." data-i18n="placeholder-notes"></textarea>
+                        </div>
+                        
+                        <div class="form-group form-group-full">
+                            <label class="form-label" for="booking-payment-method" data-i18n="label-payment">Método de Confirmación *</label>
+                            <select class="form-select" id="booking-payment-method" required>
+                                <option value="stripe" selected data-i18n="option-stripe">Pago Seguro en Línea (Tarjeta de Crédito/Débito) 💳 [Recomendado]</option>
+                                <option value="whatsapp" data-i18n="option-whatsapp">Solo Agendar (Anticipo / Pago en Sucursal) 👑</option>
+                            </select>
+                        </div>
+                        
+                    </div>
+                    
+                    <button class="submit-btn" type="submit" id="booking-submit-btn">
+                        <span data-i18n="btn-submit-stripe">Proceder al Pago Seguro</span> 💳
+                    </button>
+                </form>
+            </div>
+            
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="legal-footer" style="padding: 4rem 10% 3rem 10%; border-top: 1px solid rgba(255, 255, 255, 0.05); background: #050505; text-align: center;">
+        <div class="footer-logo">DELINEARTE</div>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; font-weight: 300; max-width: 600px; margin: 0 auto 1.5rem auto;" data-i18n="footer-desc-home">Boutique de estética clínica fina. Cejas, micropigmentación, faciales y uñas de alta costura.</p>
+        <p style="color: rgba(255, 255, 255, 0.15); font-size: 0.8rem; letter-spacing: 0.05em; font-weight: 300; text-transform: uppercase;">&copy; 2026 Delinearte. All rights reserved.</p>
+    </footer>
+
+    <!-- Lógica de Traducción y Formulario -->
+    <script src="translations.js?v=1.0" charset="UTF-8"></script>
+    <script>
+        // Configuración Global Reutilizada de Delinearte
+        const CONFIG = {
+            whatsappPhone: "5213222629523",
+            defaultReferral: "DIRECTO",
+            refStorageKey: "delinearte_ref_code"
+        };
+
+        // Utilidad de obtención de referido
+        function getActiveReferralCode() {
+            try {
+                return localStorage.getItem(CONFIG.refStorageKey) || CONFIG.defaultReferral;
+            } catch (e) {
+                return CONFIG.defaultReferral;
+            }
+        }
+
+        const bookingForm = document.getElementById('luxury-booking-form');
+        const paymentMethodSelect = document.getElementById('booking-payment-method');
+        const serviceSelect = document.getElementById('booking-service');
+        const submitBtn = document.getElementById('booking-submit-btn');
+
+        // Sincronizar texto de confirmación según idioma e inputs
+        function updateSubmitButtonText() {
+            const isEn = currentLanguage === 'en';
+            if (!paymentMethodSelect || !submitBtn) return;
+            
+            if (paymentMethodSelect.value === 'stripe') {
+                submitBtn.innerHTML = isEn ? '<span>Proceed to Secure Payment</span> 💳' : '<span>Proceder al Pago Seguro</span> 💳';
+            } else {
+                submitBtn.innerHTML = isEn ? '<span>Book via WhatsApp</span> 👑' : '<span>Reservar por WhatsApp</span> 👑';
+            }
+        }
+
+        if (paymentMethodSelect && submitBtn) {
+            paymentMethodSelect.addEventListener('change', updateSubmitButtonText);
+        }
+
+        // Bloquear pago con tarjeta para servicios de evaluación gratuita
+        if (serviceSelect && paymentMethodSelect) {
+            serviceSelect.addEventListener('change', () => {
+                const stripeOption = paymentMethodSelect.querySelector('option[value="stripe"]');
+                const freeServices = ['Micropigmentación de Cejas', 'Plasma Fibroblast', 'Aquarela Lips', 'Full Lips', 'Eyeliner'];
+                if (freeServices.includes(serviceSelect.value)) {
+                    paymentMethodSelect.value = 'whatsapp';
+                    if (stripeOption) stripeOption.disabled = true;
+                } else {
+                    if (stripeOption) stripeOption.disabled = false;
+                    paymentMethodSelect.value = 'stripe';
+                }
+                updateSubmitButtonText();
+            });
+        }
+
+        // Listener de idioma para sincronizar al vuelo
+        window.addEventListener('languageChanged', (e) => {
+            updateSubmitButtonText();
+        });
+
+        // Pre-seleccionar servicio según query parameter ?select=...
+        const urlParams = new URLSearchParams(window.location.search);
+        const selectService = urlParams.get('select');
+        if (selectService && serviceSelect) {
+            setTimeout(() => {
+                // Buscar coincidencia por valor o coincidencia parcial
+                let matchedValue = "";
+                for (const option of serviceSelect.options) {
+                    if (option.value.toLowerCase() === selectService.toLowerCase() || 
+                        option.value.toLowerCase().includes(selectService.toLowerCase())) {
+                        matchedValue = option.value;
+                        break;
+                    }
+                }
+                if (matchedValue) {
+                    serviceSelect.value = matchedValue;
+                    serviceSelect.dispatchEvent(new Event('change'));
+                }
+            }, 100);
+        }
+
+        // Manejador del Formulario
+        if (bookingForm) {
+            bookingForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const isEn = currentLanguage === 'en';
+                const name = document.getElementById('booking-name').value.trim();
+                const phone = document.getElementById('booking-phone').value.trim();
+                const service = serviceSelect.value;
+                const date = document.getElementById('booking-date').value;
+                const time = document.getElementById('booking-time').value;
+                const notes = document.getElementById('booking-notes').value.trim() || (isEn ? 'No additional notes' : 'Sin notas adicionales');
+                const paymentMethod = paymentMethodSelect ? paymentMethodSelect.value : 'stripe';
+                
+                if (!name || !phone || !service || !date || !time) {
+                    alert(isEn ? 'Please fill out all required fields for your reservation.' : 'Por favor, rellene todos los campos obligatorios para su reserva.');
+                    return;
+                }
+                
+                if (paymentMethod === 'stripe') {
+                    // Flujo Stripe Checkout
+                    if (submitBtn) {
+                        submitBtn.innerHTML = isEn ? '<span>Initiating Secure Payment...</span>' : '<span>Iniciando Pago Seguro...</span>';
+                        submitBtn.disabled = true;
+                        submitBtn.style.opacity = '0.7';
+                    }
+                    
+                    try {
+                        const response = await fetch('/api/create-checkout-session', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ name, phone, service, date, time, notes, origin: window.location.origin })
+                        });
+                        
+                        const data = await response.json();
+                        
+                        if (!response.ok) {
+                            throw new Error(data.error || 'Error al generar sesión de pago');
+                        }
+                        
+                        if (submitBtn) {
+                            submitBtn.innerHTML = isEn ? '<span>Redirecting to Stripe...</span> 🔒' : '<span>Redirigiendo a Stripe...</span> 🔒';
+                        }
+                        window.location.href = data.url;
+                    } catch (err) {
+                        console.error('[Stripe Redirect Error]', err);
+                        alert(isEn ? `Sorry, we could not process card payment: ${err.message}. Attempting to book via WhatsApp fallback.` : `Lo sentimos, no pudimos procesar el pago con tarjeta: ${err.message}. Intentando agendar por WhatsApp de respaldo.`);
+                        
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.style.opacity = '1';
+                            updateSubmitButtonText();
+                        }
+                    }
+                } else {
+                    // Flujo WhatsApp Directo
+                    const referralCode = getActiveReferralCode();
+                    const leadId = 'LL-' + Math.floor(1000 + Math.random() * 9000);
+                    
+                    let message = '';
+                    if (isEn) {
+                        message = `✨ *DELINEARTE - NEW BOOKING (BOUTIQUE)* ✨\n\n` +
+                                  `👑 *Client:* ${name}\n` +
+                                  `📞 *Phone:* ${phone}\n` +
+                                  `💅 *Service:* ${service}\n` +
+                                  `📅 *Date:* ${date}\n` +
+                                  `⏰ *Time:* ${time}\n` +
+                                  `📝 *Notes:* ${notes}\n\n` +
+                                  `---------------------------------\n` +
+                                  `🔗 *Lead Code:* ${leadId}\n` +
+                                  `🏷️ *Attribution:* REF-${referralCode}\n` +
+                                  `✨ _Appointment request for in-boutique payment_`;
+                    } else {
+                        message = `✨ *DELINEARTE - NUEVA RESERVA (SUCURSAL)* ✨\n\n` +
+                                  `👑 *Cliente:* ${name}\n` +
+                                  `📞 *Teléfono:* ${phone}\n` +
+                                  `💅 *Servicio:* ${service}\n` +
+                                  `📅 *Fecha:* ${date}\n` +
+                                  `⏰ *Hora:* ${time}\n` +
+                                  `📝 *Notas:* ${notes}\n\n` +
+                                  `---------------------------------\n` +
+                                  `🔗 *Código de Lead:* ${leadId}\n` +
+                                  `🏷️ *Atribución:* REF-${referralCode}\n` +
+                                  `✨ _Solicitud de cita para pago en boutique_`;
+                    }
+                    
+                    const encodedText = encodeURIComponent(message);
+                    const whatsappUrl = `https://wa.me/${CONFIG.whatsappPhone}?text=${encodedText}`;
+                    
+                    if (submitBtn) {
+                        const originalText = submitBtn.innerHTML;
+                        submitBtn.innerHTML = isEn ? '<span>Generating Link...</span>' : '<span>Generando Enlace...</span>';
+                        submitBtn.style.opacity = '0.7';
+                        
+                        setTimeout(() => {
+                            submitBtn.innerHTML = isEn ? '<span>Redirecting to WhatsApp!</span>' : '<span>¡Redirigiendo a WhatsApp!</span>';
+                            window.open(whatsappUrl, '_blank');
+                            
+                            setTimeout(() => {
+                                submitBtn.innerHTML = originalText;
+                                submitBtn.style.opacity = '1';
+                                bookingForm.reset();
+                                updateSubmitButtonText();
+                            }, 2000);
+                        }, 1000);
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

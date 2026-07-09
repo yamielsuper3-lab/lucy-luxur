@@ -595,6 +595,14 @@ app.get('/terminos-condiciones', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'terminos-condiciones.html'));
 });
 
+app.get('/reservar', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'reservar.html'));
+});
+
+app.get('/servicio', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'servicio.html'));
+});
+
 // 3c. Guardar un nuevo lead de consulta de IA
 app.post('/api/leads', async (req, res) => {
     try {
