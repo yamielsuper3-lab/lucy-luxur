@@ -192,29 +192,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Formatear mensaje para WhatsApp
                 let message = '';
                 if (isEn) {
-                    message = `\u2728 *DELINEARTE - NEW BOOKING (BOUTIQUE)* \u2728\n\n` +
-                              `\uD83D\uDC51 *Client:* ${name}\n` +
-                              `\uD83D\uDCDE *Phone:* ${phone}\n` +
-                              `\uD83D\uDC85 *Service:* ${service}\n` +
-                              `\uD83D\uDCC5 *Date:* ${date}\n` +
-                              `\u23F0 *Time:* ${time}\n` +
-                              `\uD83D\uDCDD *Notes:* ${notes}\n\n` +
+                    message = `*DELINEARTE - NEW BOOKING (BOUTIQUE)*\n\n` +
+                              `*Client:* ${name}\n` +
+                              `*Phone:* ${phone}\n` +
+                              `*Service:* ${service}\n` +
+                              `*Date:* ${date}\n` +
+                              `*Time:* ${time}\n` +
+                              `*Notes:* ${notes}\n\n` +
                               `---------------------------------\n` +
-                              `\uD83D\uDD17 *Lead Code:* ${leadId}\n` +
-                              `\uD83D\uDD16 *Attribution:* REF-${referralCode}\n` +
-                              `\u2728 _Appointment request for in-boutique payment_`;
+                              `*Lead Code:* ${leadId}\n` +
+                              `*Attribution:* REF-${referralCode}\n` +
+                              `_Appointment request for in-boutique payment_`;
                 } else {
-                    message = `\u2728 *DELINEARTE - NUEVA RESERVA (SUCURSAL)* \u2728\n\n` +
-                              `\uD83D\uDC51 *Cliente:* ${name}\n` +
-                              `\uD83D\uDCDE *Tel\u00E9fono:* ${phone}\n` +
-                              `\uD83D\uDC85 *Servicio:* ${service}\n` +
-                              `\uD83D\uDCC5 *Fecha:* ${date}\n` +
-                              `\u23F0 *Hora:* ${time}\n` +
-                              `\uD83D\uDCDD *Notas:* ${notes}\n\n` +
+                    message = `*DELINEARTE - NUEVA RESERVA (SUCURSAL)*\n\n` +
+                              `*Cliente:* ${name}\n` +
+                              `*Teléfono:* ${phone}\n` +
+                              `*Servicio:* ${service}\n` +
+                              `*Fecha:* ${date}\n` +
+                              `*Hora:* ${time}\n` +
+                              `*Notas:* ${notes}\n\n` +
                               `---------------------------------\n` +
-                              `\uD83D\uDD17 *C\u00F3digo de Lead:* ${leadId}\n` +
-                              `\uD83D\uDD16 *Atribuci\u00F3n:* REF-${referralCode}\n` +
-                              `\u2728 _Solicitud de cita para pago en boutique_`;
+                              `*Código de Lead:* ${leadId}\n` +
+                              `*Atribución:* REF-${referralCode}\n` +
+                              `_Solicitud de cita para pago en boutique_`;
                 }
                 
                 // Codificar el texto para URL

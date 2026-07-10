@@ -502,29 +502,29 @@
                     
                     let message = '';
                     if (isEn) {
-                        message = `✨ *DELINEARTE - NEW BOOKING (BOUTIQUE)* ✨\n\n` +
-                                  `👑 *Client:* ${name}\n` +
-                                  `📞 *Phone:* ${phone}\n` +
-                                  `💅 *Service:* ${service}\n` +
-                                  `📅 *Date:* ${date}\n` +
-                                  `⏰ *Time:* ${time}\n` +
-                                  `📝 *Notes:* ${notes}\n\n` +
+                        message = `*DELINEARTE - NEW BOOKING (BOUTIQUE)*\n\n` +
+                                  `*Client:* ${name}\n` +
+                                  `*Phone:* ${phone}\n` +
+                                  `*Service:* ${service}\n` +
+                                  `*Date:* ${date}\n` +
+                                  `*Time:* ${time}\n` +
+                                  `*Notes:* ${notes}\n\n` +
                                   `---------------------------------\n` +
-                                  `🔗 *Lead Code:* ${leadId}\n` +
-                                  `🏷️ *Attribution:* REF-${referralCode}\n` +
-                                  `✨ _Appointment request for in-boutique payment_`;
+                                  `*Lead Code:* ${leadId}\n` +
+                                  `*Attribution:* REF-${referralCode}\n` +
+                                  `_Appointment request for in-boutique payment_`;
                     } else {
-                        message = `✨ *DELINEARTE - NUEVA RESERVA (SUCURSAL)* ✨\n\n` +
-                                  `👑 *Cliente:* ${name}\n` +
-                                  `📞 *Teléfono:* ${phone}\n` +
-                                  `💅 *Servicio:* ${service}\n` +
-                                  `📅 *Fecha:* ${date}\n` +
-                                  `⏰ *Hora:* ${time}\n` +
-                                  `📝 *Notas:* ${notes}\n\n` +
+                        message = `*DELINEARTE - NUEVA RESERVA (SUCURSAL)*\n\n` +
+                                  `*Cliente:* ${name}\n` +
+                                  `*Teléfono:* ${phone}\n` +
+                                  `*Servicio:* ${service}\n` +
+                                  `*Fecha:* ${date}\n` +
+                                  `*Hora:* ${time}\n` +
+                                  `*Notas:* ${notes}\n\n` +
                                   `---------------------------------\n` +
-                                  `🔗 *Código de Lead:* ${leadId}\n` +
-                                  `🏷️ *Atribución:* REF-${referralCode}\n` +
-                                  `✨ _Solicitud de cita para pago en boutique_`;
+                                  `*Código de Lead:* ${leadId}\n` +
+                                  `*Atribución:* REF-${referralCode}\n` +
+                                  `_Solicitud de cita para pago en boutique_`;
                     }
                     
                     const encodedText = encodeURIComponent(message);

@@ -1378,12 +1378,12 @@
                     
                     let message = "";
                     if (isEn) {
-                        message = `✨ *DELINEARTE - DIRECT INQUIRY (WEB)* ✨\n\n` +
-                                  `🏷️ *Attribution:* REF-${refCode}\n\n` +
+                        message = `*DELINEARTE - DIRECT INQUIRY (WEB)*\n\n` +
+                                  `*Attribution:* REF-${refCode}\n\n` +
                                   `Hello, I would like to get more information about the boutique services and check availability to book an appointment.`;
                     } else {
-                        message = `✨ *DELINEARTE - CONSULTA DIRECTA (WEB)* ✨\n\n` +
-                                  `🏷️ *Atribución:* REF-${refCode}\n\n` +
+                        message = `*DELINEARTE - CONSULTA DIRECTA (WEB)*\n\n` +
+                                  `*Atribución:* REF-${refCode}\n\n` +
                                   `Hola, me gustaría obtener más información sobre los servicios de la boutique y consultar la disponibilidad para agendar una cita.`;
                     }
                     
@@ -1496,29 +1496,29 @@
                         const leadId = 'LL-' + Math.floor(1000 + Math.random() * 9000);
                         let message = '';
                         if (isEn) {
-                            message = `✨ *DELINEARTE - NEW BOOKING (BOUTIQUE)* ✨\n\n` +
-                                      `👑 *Client:* ${name}\n` +
-                                      `📞 *Phone:* ${phone}\n` +
-                                      `💅 *Service:* ${service}\n` +
-                                      `📅 *Date:* ${date}\n` +
-                                      `⏰ *Time:* ${time}\n` +
-                                      `📝 *Notes:* ${notes}\n\n` +
+                            message = `*DELINEARTE - NEW BOOKING (BOUTIQUE)*\n\n` +
+                                      `*Client:* ${name}\n` +
+                                      `*Phone:* ${phone}\n` +
+                                      `*Service:* ${service}\n` +
+                                      `*Date:* ${date}\n` +
+                                      `*Time:* ${time}\n` +
+                                      `*Notes:* ${notes}\n\n` +
                                       `---------------------------------\n` +
-                                      `🔗 *Lead Code:* ${leadId}\n` +
-                                      `🏷️ *Attribution:* REF-${referralCode}\n` +
-                                      `✨ _Appointment request for in-boutique payment_`;
+                                      `*Lead Code:* ${leadId}\n` +
+                                      `*Attribution:* REF-${referralCode}\n` +
+                                      `_Appointment request for in-boutique payment_`;
                         } else {
-                            message = `✨ *DELINEARTE - NUEVA RESERVA (SUCURSAL)* ✨\n\n` +
-                                      `👑 *Cliente:* ${name}\n` +
-                                      `📞 *Teléfono:* ${phone}\n` +
-                                      `💅 *Servicio:* ${service}\n` +
-                                      `📅 *Fecha:* ${date}\n` +
-                                      `⏰ *Hora:* ${time}\n` +
-                                      `📝 *Notas:* ${notes}\n\n` +
+                            message = `*DELINEARTE - NUEVA RESERVA (SUCURSAL)*\n\n` +
+                                      `*Cliente:* ${name}\n` +
+                                      `*Teléfono:* ${phone}\n` +
+                                      `*Servicio:* ${service}\n` +
+                                      `*Fecha:* ${date}\n` +
+                                      `*Hora:* ${time}\n` +
+                                      `*Notas:* ${notes}\n\n` +
                                       `---------------------------------\n` +
-                                      `🔗 *Código de Lead:* ${leadId}\n` +
-                                      `🏷️ *Atribución:* REF-${referralCode}\n` +
-                                      `✨ _Solicitud de cita para pago en boutique_`;
+                                      `*Código de Lead:* ${leadId}\n` +
+                                      `*Atribución:* REF-${referralCode}\n` +
+                                      `_Solicitud de cita para pago en boutique_`;
                         }
                         const encodedText = encodeURIComponent(message);
                         const whatsappUrl = `https://wa.me/${CONFIG.whatsappPhone}?text=${encodedText}`;
