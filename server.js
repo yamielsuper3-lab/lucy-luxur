@@ -624,6 +624,30 @@ app.post('/api/leads', async (req, res) => {
     }
 });
 
+// Incrementar contador de clics a WhatsApp
+app.post('/api/track-whatsapp-click', async (req, res) => {
+    try {
+        const db = await getDatabase();
+        await db.run("UPDATE metrics SET value = value + 1 WHERE name = 'whatsapp_clicks'");
+        res.json({ success: true });
+    } catch (error) {
+        console.error('[API Error] Error al registrar clic en WhatsApp:', error);
+        res.status(500).json({ error: 'Error al registrar el clic.' });
+    }
+});
+
+// Obtener métricas del sitio (Protegido - Admin)
+app.get('/api/metrics', basicAuth, async (req, res) => {
+    try {
+        const db = await getDatabase();
+        const row = await db.get("SELECT value FROM metrics WHERE name = 'whatsapp_clicks'");
+        res.json({ whatsapp_clicks: row ? row.value : 0 });
+    } catch (error) {
+        console.error('[API Error] Error al obtener métricas:', error);
+        res.status(500).json({ error: 'Error al obtener métricas.' });
+    }
+});
+
 // 3d. Obtener todos los leads (Protegido - Admin)
 app.get('/api/leads', basicAuth, async (req, res) => {
     try {
@@ -646,44 +670,6 @@ app.delete('/api/leads/:id', basicAuth, async (req, res) => {
     } catch (error) {
         console.error('[API Error] Error al eliminar lead:', error);
         res.status(500).json({ error: 'Error al eliminar la consulta.' });
-    }
-});
-
-// 3f. Registrar un clic de redirección a WhatsApp (Abierto)
-app.post('/api/track-whatsapp', async (req, res) => {
-    try {
-        const { service } = req.body;
-        const db = await getDatabase();
-        await db.run('INSERT INTO whatsapp_clicks (service_name) VALUES (?)', [service || 'Consulta General / Contacto']);
-        res.json({ success: true, message: 'Clic de WhatsApp registrado.' });
-    } catch (error) {
-        console.error('[API Error] Error al registrar clic de WhatsApp:', error);
-        res.status(500).json({ error: 'Error al registrar clic.' });
-    }
-});
-
-// 3g. Obtener estadísticas de WhatsApp (Protegido - Admin)
-app.get('/api/whatsapp-clicks', basicAuth, async (req, res) => {
-    try {
-        const db = await getDatabase();
-        const clicks = await db.all('SELECT * FROM whatsapp_clicks ORDER BY created_at DESC');
-        res.json(clicks);
-    } catch (error) {
-        console.error('[API Error] Error al obtener clics de WhatsApp:', error);
-        res.status(500).json({ error: 'Error al obtener estadísticas.' });
-    }
-});
-
-// 3h. Eliminar un registro de clic de WhatsApp por ID (Protegido - Admin)
-app.delete('/api/whatsapp-clicks/:id', basicAuth, async (req, res) => {
-    try {
-        const { id } = req.params;
-        const db = await getDatabase();
-        await db.run('DELETE FROM whatsapp_clicks WHERE id = ?', [id]);
-        res.json({ success: true, message: 'Registro de clic eliminado.' });
-    } catch (error) {
-        console.error('[API Error] Error al eliminar clic de WhatsApp:', error);
-        res.status(500).json({ error: 'Error al eliminar registro.' });
     }
 });
 

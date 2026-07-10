@@ -192,37 +192,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Formatear mensaje para WhatsApp
                 let message = '';
                 if (isEn) {
-                    message = `🏷️ *Reference Code:* REF-${referralCode} (ID: ${leadId})\n\n` +
-                              `Hello Lucy! I would like to make an appointment or ask about your boutique services. Could you please help me with some information?\n\n` +
-                              `*My Request Details:*\n` +
-                              `• Client: ${name}\n` +
-                              `• Phone: ${phone}\n` +
-                              `• Service: ${service}\n` +
-                              `• Requested Date: ${date}\n` +
-                              `• Requested Time: ${time}\n` +
-                              `• Notes: ${notes}`;
+                    message = `\u2728 *DELINEARTE - NEW BOOKING (BOUTIQUE)* \u2728\n\n` +
+                              `\uD83D\uDC51 *Client:* ${name}\n` +
+                              `\uD83D\uDCDE *Phone:* ${phone}\n` +
+                              `\uD83D\uDC85 *Service:* ${service}\n` +
+                              `\uD83D\uDCC5 *Date:* ${date}\n` +
+                              `\u23F0 *Time:* ${time}\n` +
+                              `\uD83D\uDCDD *Notes:* ${notes}\n\n` +
+                              `---------------------------------\n` +
+                              `\uD83D\uDD17 *Lead Code:* ${leadId}\n` +
+                              `\uD83D\uDD16 *Attribution:* REF-${referralCode}\n` +
+                              `\u2728 _Appointment request for in-boutique payment_`;
                 } else {
-                    message = `🏷️ *Código de Referencia:* REF-${referralCode} (ID: ${leadId})\n\n` +
-                              `¡Hola Lucy! Me gustaría hacer una reservación o preguntar por tus servicios de boutique. ¿Me podrías apoyar con información?\n\n` +
-                              `*Detalles de mi solicitud:*\n` +
-                              `• Cliente: ${name}\n` +
-                              `• Teléfono: ${phone}\n` +
-                              `• Servicio: ${service}\n` +
-                              `• Fecha solicitada: ${date}\n` +
-                              `• Hora solicitada: ${time}\n` +
-                              `• Notas: ${notes}`;
+                    message = `\u2728 *DELINEARTE - NUEVA RESERVA (SUCURSAL)* \u2728\n\n` +
+                              `\uD83D\uDC51 *Cliente:* ${name}\n` +
+                              `\uD83D\uDCDE *Tel\u00E9fono:* ${phone}\n` +
+                              `\uD83D\uDC85 *Servicio:* ${service}\n` +
+                              `\uD83D\uDCC5 *Fecha:* ${date}\n` +
+                              `\u23F0 *Hora:* ${time}\n` +
+                              `\uD83D\uDCDD *Notas:* ${notes}\n\n` +
+                              `---------------------------------\n` +
+                              `\uD83D\uDD17 *C\u00F3digo de Lead:* ${leadId}\n` +
+                              `\uD83D\uDD16 *Atribuci\u00F3n:* REF-${referralCode}\n` +
+                              `\u2728 _Solicitud de cita para pago en boutique_`;
                 }
                 
                 // Codificar el texto para URL
                 const encodedText = encodeURIComponent(message);
                 const whatsappUrl = `https://wa.me/${CONFIG.whatsappPhone}?text=${encodedText}`;
-                
-                // Registrar analítica de clic en WhatsApp
-                fetch('/api/track-whatsapp', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ service: `Reserva Form: ${service}` })
-                }).catch(err => console.error('[Track WhatsApp Error]', err));
                 
                 if (submitBtn) {
                     const originalText = submitBtn.innerHTML;
@@ -1451,25 +1448,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     const nameInput = document.getElementById('ai-name');
                     if (nameInput) nameInput.focus();
-        };
-
-        // Interceptar todos los clics a enlaces de WhatsApp para analíticas
-        document.addEventListener('click', (e) => {
-            const link = e.target.closest('a');
-            if (link && (link.href.includes('wa.me') || link.href.includes('whatsapp.com'))) {
-                let serviceName = 'Consulta General / Contacto';
-                const params = new URLSearchParams(window.location.search);
-                const sId = params.get('id');
-                if (sId) {
-                    serviceName = `Página de Servicio: ${sId}`;
-                }
-                fetch('/api/track-whatsapp', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ service: serviceName })
-                }).catch(err => console.error('[Track WhatsApp Error]', err));
+                }, 800);
             }
-        });
+        };
     }
 });
 

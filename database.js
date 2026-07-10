@@ -108,13 +108,24 @@ async function initDatabase() {
             recommended_service TEXT,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         );
+    `);
 
-        CREATE TABLE IF NOT EXISTS whatsapp_clicks (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            service_name TEXT NOT NULL,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    // Inicializar y sembrar tabla de métricas
+    await database.exec(`
+        CREATE TABLE IF NOT EXISTS metrics (
+            name TEXT PRIMARY KEY,
+            value INTEGER DEFAULT 0
         );
     `);
+    
+    try {
+        const clickMetric = await database.get("SELECT * FROM metrics WHERE name = 'whatsapp_clicks'");
+        if (!clickMetric) {
+            await database.run("INSERT INTO metrics (name, value) VALUES ('whatsapp_clicks', 0)");
+        }
+    } catch (err) {
+        console.error('[Database] Error al sembrar métrica de WhatsApp:', err);
+    }
     
     // 2. Semilla (Seeding) si la base de datos está vacía
     const countResult = await database.get('SELECT COUNT(*) as count FROM services');

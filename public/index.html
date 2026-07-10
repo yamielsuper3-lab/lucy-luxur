@@ -822,16 +822,47 @@
                 });
             }
 
-            // Interceptar clicks de botones de reserva en computadora
+            // Interceptar clicks de los botones de WhatsApp de cabecera y drawer
             document.body.addEventListener('click', (e) => {
                 const trigger = e.target.closest('.cta-button-nav, .mobile-cta-btn');
                 if (trigger) {
-                    const isMobile = window.innerWidth <= 768;
-                    if (!isMobile) {
-                        e.preventDefault();
-                        const href = trigger.getAttribute('href');
-                        openBookingModal(href);
+                    e.preventDefault();
+                    
+                    const CONFIG = {
+                        whatsappPhone: "5213222629523",
+                        defaultReferral: "DIRECTO",
+                        refStorageKey: "delinearte_ref_code"
+                    };
+                    
+                    let refCode = CONFIG.defaultReferral;
+                    try {
+                        refCode = localStorage.getItem(CONFIG.refStorageKey) || CONFIG.defaultReferral;
+                    } catch (err) {}
+                    
+                    const isEn = (typeof currentLanguage !== 'undefined' ? currentLanguage : (localStorage.getItem('lang') || 'es')) === 'en';
+                    
+                    let message = "";
+                    if (isEn) {
+                        message = `✨ *DELINEARTE - DIRECT INQUIRY (WEB)* ✨\n\n` +
+                                  `🏷️ *Attribution:* REF-${refCode}\n\n` +
+                                  `Hello, I would like to get more information about the boutique services and check availability to book an appointment.`;
+                    } else {
+                        message = `✨ *DELINEARTE - CONSULTA DIRECTA (WEB)* ✨\n\n` +
+                                  `🏷️ *Atribución:* REF-${refCode}\n\n` +
+                                  `Hola, me gustaría obtener más información sobre los servicios de la boutique y consultar la disponibilidad para agendar una cita.`;
                     }
+                    
+                    const encodedText = encodeURIComponent(message);
+                    const whatsappUrl = `https://wa.me/${CONFIG.whatsappPhone}?text=${encodedText}`;
+                    
+                    // Enviar ping para registrar el clic a WhatsApp
+                    try {
+                        fetch('/api/track-whatsapp-click', { method: 'POST' });
+                    } catch (err) {
+                        console.error(err);
+                    }
+                    
+                    window.open(whatsappUrl, '_blank');
                 }
             });
         });

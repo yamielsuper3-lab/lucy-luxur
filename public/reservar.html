@@ -502,36 +502,33 @@
                     
                     let message = '';
                     if (isEn) {
-                        message = `🏷️ *Reference Code:* REF-${referralCode} (ID: ${leadId})\n\n` +
-                                  `Hello Lucy! I would like to make an appointment or ask about your boutique services. Could you please help me with some information?\n\n` +
-                                  `*My Request Details:*\n` +
-                                  `• Client: ${name}\n` +
-                                  `• Phone: ${phone}\n` +
-                                  `• Service: ${service}\n` +
-                                  `• Requested Date: ${date}\n` +
-                                  `• Requested Time: ${time}\n` +
-                                  `• Notes: ${notes}`;
+                        message = `✨ *DELINEARTE - NEW BOOKING (BOUTIQUE)* ✨\n\n` +
+                                  `👑 *Client:* ${name}\n` +
+                                  `📞 *Phone:* ${phone}\n` +
+                                  `💅 *Service:* ${service}\n` +
+                                  `📅 *Date:* ${date}\n` +
+                                  `⏰ *Time:* ${time}\n` +
+                                  `📝 *Notes:* ${notes}\n\n` +
+                                  `---------------------------------\n` +
+                                  `🔗 *Lead Code:* ${leadId}\n` +
+                                  `🏷️ *Attribution:* REF-${referralCode}\n` +
+                                  `✨ _Appointment request for in-boutique payment_`;
                     } else {
-                        message = `🏷️ *Código de Referencia:* REF-${referralCode} (ID: ${leadId})\n\n` +
-                                  `¡Hola Lucy! Me gustaría hacer una reservación o preguntar por tus servicios de boutique. ¿Me podrías apoyar con información?\n\n` +
-                                  `*Detalles de mi solicitud:*\n` +
-                                  `• Cliente: ${name}\n` +
-                                  `• Teléfono: ${phone}\n` +
-                                  `• Servicio: ${service}\n` +
-                                  `• Fecha solicitada: ${date}\n` +
-                                  `• Hora solicitada: ${time}\n` +
-                                  `• Notas: ${notes}`;
+                        message = `✨ *DELINEARTE - NUEVA RESERVA (SUCURSAL)* ✨\n\n` +
+                                  `👑 *Cliente:* ${name}\n` +
+                                  `📞 *Teléfono:* ${phone}\n` +
+                                  `💅 *Servicio:* ${service}\n` +
+                                  `📅 *Fecha:* ${date}\n` +
+                                  `⏰ *Hora:* ${time}\n` +
+                                  `📝 *Notas:* ${notes}\n\n` +
+                                  `---------------------------------\n` +
+                                  `🔗 *Código de Lead:* ${leadId}\n` +
+                                  `🏷️ *Atribución:* REF-${referralCode}\n` +
+                                  `✨ _Solicitud de cita para pago en boutique_`;
                     }
                     
                     const encodedText = encodeURIComponent(message);
                     const whatsappUrl = `https://wa.me/${CONFIG.whatsappPhone}?text=${encodedText}`;
-                    
-                    // Registrar analítica de clic en WhatsApp
-                    fetch('/api/track-whatsapp', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ service: `Reserva Form: ${service}` })
-                    }).catch(err => console.error('[Track WhatsApp Error]', err));
                     
                     if (submitBtn) {
                         const originalText = submitBtn.innerHTML;
@@ -553,18 +550,6 @@
                 }
             });
         }
-
-        // Interceptar todos los clics a enlaces de WhatsApp para analíticas
-        document.addEventListener('click', (e) => {
-            const link = e.target.closest('a');
-            if (link && (link.href.includes('wa.me') || link.href.includes('whatsapp.com'))) {
-                fetch('/api/track-whatsapp', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ service: 'Consulta General / Contacto' })
-                }).catch(err => console.error('[Track WhatsApp Error]', err));
-            }
-        });
     </script>
 </body>
 </html>
