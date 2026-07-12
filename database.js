@@ -241,35 +241,35 @@ async function initDatabase() {
                     name: "Diseño Élite",
                     url: "https://assets.mixkit.co/videos/preview/mixkit-woman-showing-her-beautifully-manicured-nails-43018-large.mp4",
                     poster: "nails_luxury.png",
-                    instagram_link: ""
+                    instagram_link: "https://delineartebeauty.boutique/servicio.html?id=unas-esculturales"
                 },
                 {
                     tag: "Mirada",
                     name: "Cejas de Autor",
                     url: "https://assets.mixkit.co/videos/preview/mixkit-skin-care-massage-on-a-woman-face-41711-large.mp4",
                     poster: "brows_luxury.png",
-                    instagram_link: ""
+                    instagram_link: "https://delineartebeauty.boutique/servicio.html?id=ceja-hiperrealista"
                 },
                 {
                     tag: "Estética",
                     name: "Micropigmentación",
                     url: "https://assets.mixkit.co/videos/preview/mixkit-young-woman-touching-her-soft-skin-face-41714-large.mp4",
                     poster: "hotspots_bg.png",
-                    instagram_link: ""
+                    instagram_link: "https://delineartebeauty.boutique/servicio.html?id=ceja-hiperrealista"
                 },
                 {
                     tag: "Bienestar",
                     name: "Spa Corporal",
                     url: "https://assets.mixkit.co/videos/preview/mixkit-close-up-of-a-woman-getting-a-massage-on-her-shoulder-and-neck-41709-large.mp4",
                     poster: "skincare_luxury.png",
-                    instagram_link: ""
+                    instagram_link: "https://delineartebeauty.boutique/servicio.html?id=facial-hidratante"
                 },
                 {
                     tag: "Cosmética",
                     name: "Lucy Luxury",
                     url: "https://assets.mixkit.co/videos/preview/mixkit-cosmetic-oil-dropper-bottle-on-stone-surface-43026-large.mp4",
                     poster: "uploaded_1782233909633_573809370_18169437433328316_7310516336972803724_n.jpg",
-                    instagram_link: ""
+                    instagram_link: "https://delineartebeauty.boutique/trayectoria.html"
                 }
             ];
 
@@ -293,7 +293,7 @@ async function initDatabase() {
             await database.run(`
                 INSERT INTO videos (tag, name, url, poster, instagram_link)
                 VALUES (?, ?, ?, ?, ?)
-            `, ["Prensa", "The Telegraph", "whatsapp_video_2.mp4", "Captura de pantalla 2026-05-29 211828.png", ""]);
+            `, ["Prensa", "The Telegraph", "whatsapp_video_2.mp4", "Captura de pantalla 2026-05-29 211828.png", "https://delineartebeauty.boutique/trayectoria.html"]);
         } else if (!telegraph.url || telegraph.url === '') {
             await database.run(`
                 UPDATE videos 
@@ -308,7 +308,7 @@ async function initDatabase() {
             await database.run(`
                 INSERT INTO videos (tag, name, url, poster, instagram_link)
                 VALUES (?, ?, ?, ?, ?)
-            `, ["Facial", "Masaje de Autor", "diseno_cejas_visagismo.mp4", "Captura de pantalla 2026-05-29 212043.png", ""]);
+            `, ["Facial", "Masaje de Autor", "diseno_cejas_visagismo.mp4", "Captura de pantalla 2026-05-29 212043.png", "https://delineartebeauty.boutique/servicio.html?id=facial-hidratante"]);
         } else if (!masaje.url || masaje.url === '') {
             await database.run(`
                 UPDATE videos 
