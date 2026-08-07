@@ -239,7 +239,7 @@
                     <div class="reserva-contact-item">
                         <div class="reserva-icon"><i class="fa-solid fa-phone"></i></div>
                         <div class="reserva-text">
-                            <a href="https://wa.me/5213222629523" target="_blank">+52 1 322 262 9523</a>
+                            <a href="https://wa.me/message/LJV2GLCX5Y3PI1" target="_blank">+52 1 322 262 9523</a>
                         </div>
                     </div>
                     <div class="reserva-contact-item">
@@ -364,7 +364,7 @@
     <script>
         // Configuración Global Reutilizada de Delinearte
         const CONFIG = {
-            whatsappPhone: "5213222629523",
+            whatsappUrlBase: "https://wa.me/message/LJV2GLCX5Y3PI1",
             defaultReferral: "DIRECTO",
             refStorageKey: "delinearte_ref_code"
         };
@@ -528,7 +528,7 @@
                     }
                     
                     const encodedText = encodeURIComponent(message);
-                    const whatsappUrl = `https://wa.me/${CONFIG.whatsappPhone}?text=${encodedText}`;
+                    const whatsappUrl = `${CONFIG.whatsappUrlBase}?text=${encodedText}`;
                     
                     if (submitBtn) {
                         const originalText = submitBtn.innerHTML;

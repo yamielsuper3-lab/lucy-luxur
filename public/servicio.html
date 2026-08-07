@@ -1364,7 +1364,7 @@
                     e.preventDefault();
                     
                     const CONFIG = {
-                        whatsappPhone: "5213222629523",
+                        whatsappUrlBase: "https://wa.me/message/LJV2GLCX5Y3PI1",
                         defaultReferral: "DIRECTO",
                         refStorageKey: "delinearte_ref_code"
                     };
@@ -1388,7 +1388,7 @@
                     }
                     
                     const encodedText = encodeURIComponent(message);
-                    const whatsappUrl = `https://wa.me/${CONFIG.whatsappPhone}?text=${encodedText}`;
+                    const whatsappUrl = `${CONFIG.whatsappUrlBase}?text=${encodedText}`;
                     
                     // Enviar ping para registrar el clic a WhatsApp
                     try {
@@ -1403,7 +1403,7 @@
 
             // --- LÓGICA DE FORMULARIO DE RESERVAS (STRIPE Y WHATSAPP) ---
             const CONFIG = {
-                whatsappPhone: "5213222629523",
+                whatsappUrlBase: "https://wa.me/message/LJV2GLCX5Y3PI1",
                 defaultReferral: "DIRECTO",
                 refStorageKey: "delinearte_ref_code"
             };
@@ -1521,7 +1521,7 @@
                                       `_Solicitud de cita para pago en boutique_`;
                         }
                         const encodedText = encodeURIComponent(message);
-                        const whatsappUrl = `https://wa.me/${CONFIG.whatsappPhone}?text=${encodedText}`;
+                        const whatsappUrl = `${CONFIG.whatsappUrlBase}?text=${encodedText}`;
                         if (submitBtn) {
                             const originalText = submitBtn.innerHTML;
                             submitBtn.innerHTML = isEn ? '<span>Generating Link...</span>' : '<span>Generando Enlace...</span>';

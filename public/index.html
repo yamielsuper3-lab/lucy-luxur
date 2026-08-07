@@ -829,7 +829,7 @@
                     e.preventDefault();
                     
                     const CONFIG = {
-                        whatsappPhone: "5213222629523",
+                        whatsappUrlBase: "https://wa.me/message/LJV2GLCX5Y3PI1",
                         defaultReferral: "DIRECTO",
                         refStorageKey: "delinearte_ref_code"
                     };
@@ -853,7 +853,7 @@
                     }
                     
                     const encodedText = encodeURIComponent(message);
-                    const whatsappUrl = `https://wa.me/${CONFIG.whatsappPhone}?text=${encodedText}`;
+                    const whatsappUrl = `${CONFIG.whatsappUrlBase}?text=${encodedText}`;
                     
                     // Enviar ping para registrar el clic a WhatsApp
                     try {

@@ -5,7 +5,7 @@
 
 // CONFIGURACIÓN GLOBAL DE LA PLATAFORMA
 const CONFIG = {
-    whatsappPhone: '5213222629523', // Número de WhatsApp de la boutique (Delinearte por Lucy González)
+    whatsappUrlBase: 'https://wa.me/message/LJV2GLCX5Y3PI1', // Enlace de WhatsApp de la boutique
     defaultReferral: 'LUCY-DIRECT', // Código de referido por defecto
     refStorageKey: 'lucy_luxury_ref_code', // Clave para localStorage
 };
@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Codificar el texto para URL
                 const encodedText = encodeURIComponent(message);
-                const whatsappUrl = `https://wa.me/${CONFIG.whatsappPhone}?text=${encodedText}`;
+                const whatsappUrl = `${CONFIG.whatsappUrlBase}?text=${encodedText}`;
                 
                 if (submitBtn) {
                     const originalText = submitBtn.innerHTML;
@@ -1324,7 +1324,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     `✨ _Deseo agendar una sesión/valoración para este tratamiento._`;
                 
                 const whatsappBtn = document.getElementById('ai-whatsapp-btn');
-                whatsappBtn.href = `https://wa.me/${CONFIG.whatsappPhone}?text=${encodeURIComponent(whatsappMsg)}`;
+                whatsappBtn.href = `${CONFIG.whatsappUrlBase}?text=${encodeURIComponent(whatsappMsg)}`;
                 
                 // Ocultar carga y mostrar resultado
                 loadingBox.style.display = 'none';
